@@ -24,3 +24,49 @@ code[class*='language-'] {
 }
 
 /*Home Styles*/
+main {
+  display: flex;
+  flex-direction: column;
+}
+main > * {
+  padding: 0px 5rem 0px 5rem;
+}
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.headerBtnGroup {
+  display: flex;
+  gap: 1rem;
+}
+
+.landingSection {
+  display: flex;
+  padding: 4rem;
+  background-color: #492524;
+  color: #fff;
+}
+.landingSectionTextZone {
+  width: 60%;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.landingSectionTextZone * {
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+}
+.landingSectionImageZone {
+  width: 40%;
+}
