@@ -36,6 +36,8 @@ header {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  position: sticky;
+  top: 0;
 }
 header nav ul {
   list-style: none;
@@ -69,4 +71,48 @@ header nav ul {
 }
 .landingSectionImageZone {
   width: 40%;
+}
+
+.btnFilled {
+  padding: 0.6rem;
+  background-color: #492524;
+  border-radius: 30px;
+  width: 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btnFilled * {
+  color: #fff;
+  text-decoration: none;
+}
+
+.btnNotFilled {
+  padding: 0.6rem;
+  border: solid 1px #492524;
+  border-radius: 30px;
+  width: 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btnNotFilled * {
+  text-decoration: none;
+  color: #492524;
+}
+
+/* AboutSection */
+
+.aboutSection {
+  display: flex;
+  gap: 2rem;
+}
+
+.servicesSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.servicesSection:nth-child(1) {
+  grid-column: 1/3;
 }

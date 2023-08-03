@@ -13,8 +13,13 @@ const Header = () => {
         </ul>
       </nav>
       <div className='headerBtnGroup'>
-        <Link href=''>Se connecter</Link>
-        <Link href=''>S'inscrire</Link>
+        <span className='btnNotFilled'>
+          <Link href='/login'>Se connecter</Link>
+        </span>
+
+        <span className='btnFilled'>
+          <Link href='/register'>S'inscrire</Link>
+        </span>
       </div>
     </header>
   )

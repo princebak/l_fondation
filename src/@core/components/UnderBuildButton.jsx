@@ -36,14 +36,14 @@ const BuyNowButton = () => {
       className='upgrade-to-pro-button mui-fixed'
       sx={{ right: theme => theme.spacing(20), bottom: theme => theme.spacing(10), zIndex: 11, position: 'fixed' }}
     >
+      {/* onMouseEnter={handleOpen}
+      onMouseLeave={handleClose}
+      ref={e => setReferenceElement(e)}
+      href='https://themeselection.com/products/materio-mui-react-nextjs-admin-template/' */}
       <Button
         component='a'
         target='_blank'
         variant='contained'
-        onMouseEnter={handleOpen}
-        onMouseLeave={handleClose}
-        ref={e => setReferenceElement(e)}
-        href='https://themeselection.com/products/materio-mui-react-nextjs-admin-template/'
         sx={{
           backgroundColor: '#ff3e1d',
           boxShadow: '0 1px 20px 1px #ff3e1d',
@@ -53,7 +53,7 @@ const BuyNowButton = () => {
           }
         }}
       >
-        Upgrade To Pro
+        EN CONSTRUCTION
       </Button>
       <Fade in={open} timeout={700}>
         <Box

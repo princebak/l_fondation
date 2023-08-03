@@ -1,6 +1,7 @@
 // ** MUI Imports
 import { styled } from '@mui/material/styles'
 import Box from '@mui/material/Box'
+import UnderBuildButton from '../components/UnderBuildButton'
 
 // Styled component for Blank Layout component
 const BlankLayoutWrapper = styled(Box)(({ theme }) => ({
@@ -29,6 +30,7 @@ const BlankLayout = ({ children }) => {
     <BlankLayoutWrapper className='layout-wrapper'>
       <Box className='app-content' sx={{ minHeight: '100vh', overflowX: 'hidden', position: 'relative' }}>
         {children}
+        <UnderBuildButton />
       </Box>
     </BlankLayoutWrapper>
   )
