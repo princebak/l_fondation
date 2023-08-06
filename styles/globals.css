@@ -1,6 +1,7 @@
 :root {
   --main-color: #492524;
   --main-color-alt: #d0b0af;
+  --main-color-alt-light: #faf3f2;
   --second-color: #ffd500;
   --second-color-alt: #322a2a;
   --neutral: #555;
@@ -36,6 +37,8 @@ code[class*='language-'] {
 main {
   display: flex;
   flex-direction: column;
+  gap: 2rem;
+  background-color: var(--main-color-alt-light);
 }
 main > * {
   padding: 0px 5rem 0px 5rem;
@@ -164,6 +167,11 @@ header nav ul li a:hover {
   background-color: #fff;
 }
 
+.serviceElement:hover {
+  background-color: var(--main-color);
+  color: #fff;
+}
+
 .serviceElement h4 {
   margin-top: 4rem;
 }
@@ -203,6 +211,8 @@ header nav ul li a:hover {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding: 20px;
+  background-color: #fff;
 }
 
 .quote {
@@ -216,13 +226,14 @@ header nav ul li a:hover {
   font-size: large;
   font-weight: bold;
   width: 50%;
+  text-align: center;
 }
 
 .quote .quoteImg {
   width: 30%;
   height: 200px;
   border: solid 1px var(--main-color);
-  border-radius: 100%;
+  border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
