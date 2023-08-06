@@ -40,14 +40,13 @@ const LoginPage = () => {
 
   return (
     <main>
-      <Header/>
-      <LandingSection/>
-      <AboutSection/>
-      <ServicesSection/>
-      <SectionsSeparator/>
-      <TestimonialsSection/>
-      <PartnersSection/>
-      <Footer/>
+      <Header />
+      <LandingSection />
+      <ServicesSection />
+      <AboutSection />
+      <SectionsSeparator />
+      <TestimonialsSection />
+      <Footer />
     </main>
   )
 }

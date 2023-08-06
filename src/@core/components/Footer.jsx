@@ -2,7 +2,13 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <div>Footer</div>
+    <footer>
+      <p>email</p>
+      <p>phone</p>
+      <p>adresse line 1</p>
+      <p>address line 2</p>
+      <p>social network</p>
+    </footer>
   )
 }
 
