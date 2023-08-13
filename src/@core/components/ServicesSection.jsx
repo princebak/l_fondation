@@ -3,7 +3,7 @@ import ServiceElement from './ServiceElement'
 
 const ServicesSection = () => {
   return (
-    <div className='servicesSection'>
+    <div className='servicesSection' id='servicesSection'>
       <h2>Nos Services</h2>
       <div className='servicesSectionRow1'>
         <ServiceElement
@@ -24,9 +24,6 @@ const ServicesSection = () => {
           description='Le Compte Libota Avenir est conçu pour répondre aux besoins bancaires des enfants de 0 à 24 ans. Apprenez à vos enfants comment gérer l’argent à partir d’un bas âge c’est très capital'
           slug='compte_libota'
         />
-      </div>
-
-      <div className='servicesSectionRow2'>
         <ServiceElement
           logo='business-account.png'
           title='Credit D’affaire'

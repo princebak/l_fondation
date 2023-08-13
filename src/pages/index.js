@@ -35,7 +35,7 @@ import TestimonialsSection from 'src/@core/components/TestimonialsSection'
 import PartnersSection from 'src/@core/components/PartnersSection'
 import Footer from 'src/@core/components/Footer'
 
-const LoginPage = () => {
+const HomePage = () => {
   // ** State
 
   return (
@@ -50,6 +50,6 @@ const LoginPage = () => {
     </main>
   )
 }
-LoginPage.getLayout = page => <BlankLayout>{page}</BlankLayout>
+HomePage.getLayout = page => <BlankLayout>{page}</BlankLayout>
 
-export default LoginPage
+export default HomePage

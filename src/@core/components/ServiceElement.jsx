@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import ViewMore from './ViewMore'
 
 const ServiceElement = ({ logo, title, description, slug }) => {
   return (
@@ -9,7 +10,7 @@ const ServiceElement = ({ logo, title, description, slug }) => {
       </div>
       <h4>{title}</h4>
       <p>{description}</p>
-      <Link href={`/services/${slug}`}>Details</Link>
+      <ViewMore path={`/services/${slug}`} />
     </div>
   )
 }
