@@ -53,7 +53,7 @@ const Footer = () => {
         </ul>
       </div>
       <div className='footerElement'>
-        <h2>Regoigner nous</h2>
+        <h2>Rejoigniez nous</h2>
         <div className='footerBtnGroup'>
           <button className='btnFilled' onClick={() => goToRegister()}>
             S'inscrire

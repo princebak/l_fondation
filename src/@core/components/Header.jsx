@@ -15,23 +15,21 @@ const Header = () => {
 
       <div className='navZone'>
         <button onClick={() => setDisplayMobileMenu(!displayMobileMenu)}>
-          <hr />
-          <hr />
-          <hr />
+          <img src='/images/menu.png' alt='menu' width='100%' />
         </button>
         <nav className='pcMenu'>
           <ul>
             <li>
-              <Link href='#headerSection'>Acceuil</Link>
+              <Link href='/#headerSection'>Acceuil</Link>
             </li>
             <li>
-              <Link href='#servicesSection'>Services</Link>
+              <Link href='/#servicesSection'>Services</Link>
             </li>
             <li>
-              <Link href='#aboutSection'>A propos de nous</Link>
+              <Link href='/#aboutSection'>A propos de nous</Link>
             </li>
             <li>
-              <Link href='#footerSection'>Contact</Link>
+              <Link href='/#footerSection'>Contact</Link>
             </li>
           </ul>
         </nav>
@@ -39,16 +37,16 @@ const Header = () => {
           <nav className='mobileMenu'>
             <ul>
               <li>
-                <Link href='#headerSection'>Acceuil</Link>
+                <Link href='/#headerSection'>Acceuil</Link>
               </li>
               <li>
-                <Link href='#servicesSection'>Services</Link>
+                <Link href='/#servicesSection'>Services</Link>
               </li>
               <li>
-                <Link href='#aboutSection'>A propos de nous</Link>
+                <Link href='/#aboutSection'>A propos de nous</Link>
               </li>
               <li>
-                <Link href='#footerSection'>Contact</Link>
+                <Link href='/#footerSection'>Contact</Link>
               </li>
             </ul>
           </nav>

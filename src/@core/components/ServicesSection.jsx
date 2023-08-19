@@ -9,32 +9,20 @@ const ServicesSection = () => {
         <ServiceElement
           logo='investment.png'
           title='Épargne'
-          description='Très facile a ouvrir et facile à utiliser ! C’est un compte transactionnel adapté à vous donner un accès sans soucis à votre argent quand vous en avez besoin à chaque seconde '
+          description='Nos services d’épargne sont spécialement conçus pour vous permettre de réaliser votre rêve et atteindre vos objectifs financière, indépendamment de votre statut ou d’âge.'
           slug='epargne'
         />
         <ServiceElement
-          logo='website-locked.png'
-          title='Compte bloqué'
-          description='Le compte Bloqué Falanga facilite vos opérations quotidiennes avec beaucoup de simplicité Retraits et dépôts à toutes nos Agences et agent travers le pays Un taux de 5% d’intérêt l’année vous est versé sur le compte courant '
-          slug='compte_bloqué'
-        />
-        <ServiceElement
-          logo='child-safe.png'
-          title='Compte Libota'
-          description='Le Compte Libota Avenir est conçu pour répondre aux besoins bancaires des enfants de 0 à 24 ans. Apprenez à vos enfants comment gérer l’argent à partir d’un bas âge c’est très capital'
-          slug='compte_libota'
-        />
-        <ServiceElement
           logo='business-account.png'
-          title='Credit D’affaire'
-          description='Une installation à court et à moyen terme de crédit qui est spécialement conçu pour financer les opérations commerciales des petites et moyennes entreprises'
+          title='Credit'
+          description='Si vous êtes un propriétaire d’entreprise ou un entrepreneur d’affaires qui voudrait prendre votre entreprise à un autre niveau, vous pouvez être assuré que l’un de nos divers produits de prêt vous y rendre.'
           slug='credit_d_affaire'
         />
         <ServiceElement
-          logo='merchant-account.png'
-          title='Crédit au petit entreprise'
-          description='Prêts rapides pour booster votre business Crédit de petites Entreprises est facilement accessible, avec des taux d’intérêt très compétitifs et documentation minimale requise.'
-          slug='credit_petit_entreprise'
+          logo='child-safe.png'
+          title='Autres Services'
+          description='Carte visa virtuel, bureau de change, exchange cryptomonnaie, service de paie, l-fondation transfert.'
+          slug='autres_services'
         />
       </div>
     </div>
