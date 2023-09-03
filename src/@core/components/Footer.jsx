@@ -10,15 +10,15 @@ const Footer = () => {
           <ul>
             <li>
               <img src='/images/label-icons/link-w.png' alt='link' />
-              <Link href='#headerSection'>Acceuil</Link>
+              <Link href='/#headerSection'>Acceuil</Link>
             </li>
             <li>
               <img src='/images/label-icons/link-w.png' alt='link' />
-              <Link href='#servicesSection'>Services</Link>
+              <Link href='/#servicesSection'>Services</Link>
             </li>
             <li>
               <img src='/images/label-icons/link-w.png' alt='link' />
-              <Link href='#aboutSection'>A propos de nous</Link>
+              <Link href='/#aboutSection'>A propos de nous</Link>
             </li>
           </ul>
         </nav>
