@@ -415,7 +415,7 @@ footer ul li img {
   gap: 1.5rem;
 }
 
-.pageDetails .detail {
+/* .pageDetails .detail {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 50px 1fr;
@@ -452,6 +452,44 @@ footer ul li img {
 .detail .image img {
   width: 100%;
   border-radius: 20px;
+} */
+
+.subService {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.subService > div {
+  border-radius: 10px;
+  box-shadow: 0px 0px 4px gray;
+  width: 45%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top: solid 5px var(--second-color);
+}
+
+.subService div div {
+  padding: 1rem;
+}
+
+.subService div div ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.subService div div ul li {
+  list-style: url('/images/icons/ok.png');
+}
+
+.subService h2 {
+  margin: 0px;
+  padding: 1rem;
+  text-align: center;
+
+  border-bottom: solid 1px rgb(209, 207, 207);
 }
 
 .team {
@@ -531,6 +569,9 @@ footer ul li img {
 
 /* Tablet */
 @media only screen and (max-width: 800px) {
+  .subService > div {
+    width: 100%;
+  }
   .aboutSectionZ1 {
     display: none;
   }
@@ -656,5 +697,19 @@ footer ul li img {
   .detail div:last-child {
     grid-column: 1/2;
     grid-row: 3/4;
+  }
+}
+
+.rotate {
+  transform: rotateY(45deg);
+  animation: rotateAnimation 3s ease-in-out infinite;
+}
+
+@keyframes rotateAnimation {
+  from {
+    transform: rotateY(45deg);
+  }
+  to {
+    transform: rotateY(225deg);
   }
 }

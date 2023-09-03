@@ -16,7 +16,7 @@ const ServicesSection = () => {
           logo='business-account.png'
           title='Credit'
           description='Si vous êtes un propriétaire d’entreprise ou un entrepreneur d’affaires qui voudrait prendre votre entreprise à un autre niveau, vous pouvez être assuré que l’un de nos divers produits de prêt vous y rendre.'
-          slug='credit_d_affaire'
+          slug='credit'
         />
         <ServiceElement
           logo='child-safe.png'
