@@ -26,6 +26,7 @@ import 'react-perfect-scrollbar/dist/css/styles.css'
 
 // ** Global css styles
 import '../../styles/globals.css'
+import { SessionProvider } from 'next-auth/react'
 
 const clientSideEmotionCache = createEmotionCache()
 
@@ -44,31 +45,34 @@ if (themeConfig.routingLoader) {
 
 // ** Configure JSS & ClassName
 const App = props => {
-  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
+  const { Component, emotionCache = clientSideEmotionCache, pageProps, session } = props
 
   // Variables
   const getLayout = Component.getLayout ?? (page => <UserLayout>{page}</UserLayout>)
+  console.log('Session >> ', session)
 
   return (
-    <CacheProvider value={emotionCache}>
-      <Head>
-        <title>{`L-Fondation`}</title>
-        <meta
-          name='description'
-          content={`Lingomba fondation est une entreprise spécialisée dans les domaines de finance`}
-        />
-        <meta name='keywords' content='lingomba fondation finance microfinance' />
-        <meta name='viewport' content='initial-scale=1, width=device-width' />
-      </Head>
+    <SessionProvider session={session}>
+      <CacheProvider value={emotionCache}>
+        <Head>
+          <title>{`L-Fondation`}</title>
+          <meta
+            name='description'
+            content={`Lingomba fondation est une entreprise spécialisée dans les domaines de finance`}
+          />
+          <meta name='keywords' content='lingomba fondation finance microfinance' />
+          <meta name='viewport' content='initial-scale=1, width=device-width' />
+        </Head>
 
-      <SettingsProvider>
-        <SettingsConsumer>
-          {({ settings }) => {
-            return <ThemeComponent settings={settings}>{getLayout(<Component {...pageProps} />)}</ThemeComponent>
-          }}
-        </SettingsConsumer>
-      </SettingsProvider>
-    </CacheProvider>
+        <SettingsProvider>
+          <SettingsConsumer>
+            {({ settings }) => {
+              return <ThemeComponent settings={settings}>{getLayout(<Component {...pageProps} />)}</ThemeComponent>
+            }}
+          </SettingsConsumer>
+        </SettingsProvider>
+      </CacheProvider>
+    </SessionProvider>
   )
 }
 

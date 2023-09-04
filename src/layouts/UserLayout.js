@@ -15,6 +15,9 @@ import VerticalAppBarContent from './components/vertical/AppBarContent'
 
 // ** Hook Import
 import { useSettings } from 'src/@core/hooks/useSettings'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 const UserLayout = ({ children }) => {
   // ** Hooks
@@ -44,28 +47,45 @@ const UserLayout = ({ children }) => {
     )
   }
 
-  return (
-    <VerticalLayout
-      hidden={hidden}
-      settings={settings}
-      saveSettings={saveSettings}
-      verticalNavItems={VerticalNavItems()} // Navigation Items
-      afterVerticalNavMenuContent={UpgradeToProImg}
-      verticalAppBarContent={(
-        props // AppBar Content
-      ) => (
-        <VerticalAppBarContent
-          hidden={hidden}
-          settings={settings}
-          saveSettings={saveSettings}
-          toggleNavVisibility={props.toggleNavVisibility}
-        />
-      )}
-    >
-      {children}
-      <UnderBuildButton />
-    </VerticalLayout>
-  )
+  const router = useRouter()
+  const { data: session } = useSession()
+
+  useEffect(() => {
+    if (!session) {
+      router.push('/login')
+    }
+  }, [])
+
+  if (!session) {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <h1 style={{ color: 'red' }}>Not Authenticated</h1>
+      </div>
+    )
+  } else {
+    return (
+      <VerticalLayout
+        hidden={hidden}
+        settings={settings}
+        saveSettings={saveSettings}
+        verticalNavItems={VerticalNavItems()} // Navigation Items
+        // afterVerticalNavMenuContent={UpgradeToProImg}
+        verticalAppBarContent={(
+          props // AppBar Content
+        ) => (
+          <VerticalAppBarContent
+            hidden={hidden}
+            settings={settings}
+            saveSettings={saveSettings}
+            toggleNavVisibility={props.toggleNavVisibility}
+          />
+        )}
+      >
+        {children}
+        <UnderBuildButton />
+      </VerticalLayout>
+    )
+  }
 }
 
 export default UserLayout
