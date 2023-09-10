@@ -1,7 +1,18 @@
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React from 'react'
 
 const Footer = () => {
+  const router = useRouter()
+
+  const goToRegister = () => {
+    router.push('/register')
+  }
+
+  const goToLogin = () => {
+    router.push('/login')
+  }
+
   return (
     <footer>
       <div className='footerElement' id='footerSection'>
