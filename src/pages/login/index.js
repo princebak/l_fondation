@@ -106,8 +106,8 @@ const LoginPage = () => {
     <Box className='content-center'>
       <Card sx={{ zIndex: 1 }}>
         <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important` }}>
-          <Box sx={{ mb: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <img src='/images/logos/l_fondation_black.png' width='25%' height='25%' />
+          <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <img src='/images/logos/l_fondation_black.png' width='25%' height='25%' alt='logo' />
             <Typography
               variant='h6'
               sx={{
@@ -188,7 +188,7 @@ const LoginPage = () => {
                 Nouveau sur notre plateforme ?
               </Typography>
               <Typography variant='body2'>
-                <Link passHref href='#'>
+                <Link passHref href='/register'>
                   <LinkStyled>Créer un compte</LinkStyled>
                 </Link>
               </Typography>

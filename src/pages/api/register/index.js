@@ -8,7 +8,7 @@ const validateEmail = email => {
   return regExp.test(email)
 }
 
-const validatePassword = (password) => {
+const validatePassword = password => {
   return password.length >= 5
 }
 
@@ -18,8 +18,7 @@ const validateForm = async (email, password) => {
   }
   if (!validatePassword(password)) {
     return {
-      error:
-        "Le mot de pass est invalid. verifier qu'il plus de 5 caracteres."
+      error: "Le mot de pass est invalid. verifier qu'il plus de 5 caracteres."
     }
   }
 
@@ -40,8 +39,9 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'This API call only accepts POST method.' })
   }
   const data = req.body
-  const { email, password, dob } = data
-  const validateFormRes = await validateForm(email, password)
+  const { email, password } = data
+
+   const validateFormRes = await validateForm(email, password)
   if (validateFormRes) {
     return res.status(400).json(validateFormRes)
   }
@@ -50,12 +50,15 @@ export default async function handler(req, res) {
 
   const goodData = {
     ...data,
-    dob: new Date(dob),
     password: hashedPassword
   }
+
+  console.log('goodData >> ', goodData)
   const newUser = new User(goodData)
 
-  newUser
+  res.status(200).json({ msg: 'Inscription reussie.' })
+
+    newUser
     .save()
     .then(() => {
       res.status(200).json({ msg: 'Inscription reussie.' })
