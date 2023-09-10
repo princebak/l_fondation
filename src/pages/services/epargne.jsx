@@ -42,7 +42,7 @@ const Epargne = () => {
             <div>
               <ul>
                 <li>
-                  Le Compte Lobota Avenir” est conçu pour répondre aux besoins bancaires des enfants de 0 à 24 ans.
+                  Le Compte Libota Avenir” est conçu pour répondre aux besoins bancaires des enfants de 0 à 24 ans.
                   Apprenez à vos enfants comment gérer l’argent à partir d’un bas âge c’est très capital
                 </li>
                 <li>

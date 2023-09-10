@@ -22,6 +22,7 @@ export default NextAuth({
       async authorize(credentials, req) {
         console.log('******** credentials **********')
         console.log(credentials)
+
         await dbConnector()
 
         const user = await User.findOne({

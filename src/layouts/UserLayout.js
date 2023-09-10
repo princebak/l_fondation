@@ -18,6 +18,7 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import UnderBuildPage from 'src/pages/construction'
 
 const UserLayout = ({ children }) => {
   // ** Hooks
@@ -64,7 +65,11 @@ const UserLayout = ({ children }) => {
     )
   } else {
     return (
-      <VerticalLayout
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '3rem' }}>
+        <UnderBuildPage />
+      </div>
+
+      /*  <VerticalLayout
         hidden={hidden}
         settings={settings}
         saveSettings={saveSettings}
@@ -83,7 +88,7 @@ const UserLayout = ({ children }) => {
       >
         {children}
         <UnderBuildButton />
-      </VerticalLayout>
+      </VerticalLayout> */
     )
   }
 }
