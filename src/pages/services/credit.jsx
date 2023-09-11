@@ -153,10 +153,51 @@ const CreditDAffaire = () => {
               </ul>
             </div>
           </div>
+
+          <div>
+            <h2>Crédit E-Commerce</h2>
+            <div>
+              <ul>
+                <li>
+                  Obtenez un crédit pour vos achats en chine en toute sécurité et fiabilité , Notre crédit d’e-commerce
+                  pourra vous aider atteindre vos objectifs
+                </li>
+                <li>
+                  E-commerce définition :<br />
+                  Dans l'absolu, l'e-commerce, c'est-à-dire le commerce électronique, désigne simplement l'achat et la
+                  vente de produits et services sur Internet. Cependant, le terme est souvent utilisé pour décrire
+                  toutes les mesures et actions entreprises par un vendeur dans le but de vendre des produits
+                  directement aux consommateurs.
+                </li>
+
+                <li>
+                  <p>6 étapes pour démarrer dans le e-commerce avec succès :</p>
+                  <ul>
+                    <li>Effectuer une étude de marché ...</li>
+                    <li>Établir un business plan ...</li>
+                    <li>Bénéficier de conseil e-commerce pour créer sa structure ...</li>
+                    <li>Choisir son nom de domaine ...</li>
+                    <li>Rédiger un cahier des charges pour démarrer dans le e-commerce ...</li>
+                    <li>Rechercher les produits à vendre.</li>
+                  </ul>
+                </li>
+
+                <li>
+                  <p>Pourquoi demander le crédit E-commerce :</p>
+                  <ul>
+                    <li>La société vous garantie les produit de bonne qualité</li>
+                    <li>ÉPlans de remboursement flexible </li>
+                    <li>Taux d’intérêt concurrentiel </li>
+                    <li>Facilité de crédit pouvant allez jusqu’à 5000$</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
 
         <div className='rotate' style={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
-          <img src='/images/services/s2.jpeg' width='50%' height='50%' />
+          <img src='/images/services/s2.jpeg' width='50%' height='50%' alt='service crédit' />
         </div>
       </div>
       <Footer />
