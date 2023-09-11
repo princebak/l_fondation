@@ -30,7 +30,6 @@ const BlankLayout = ({ children }) => {
     <BlankLayoutWrapper className='layout-wrapper'>
       <Box className='app-content' sx={{ minHeight: '100vh', overflowX: 'hidden', position: 'relative' }}>
         {children}
-        <UnderBuildButton />
       </Box>
     </BlankLayoutWrapper>
   )
