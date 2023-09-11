@@ -105,7 +105,7 @@ const RegisterPage = () => {
     const userResponse = await response.json()
     console.log('User response >> ', userResponse)
 
-    router.push('/auth/login')
+    router.push('/login')
   }
 
   return (
@@ -134,7 +134,7 @@ const RegisterPage = () => {
             </Typography>
             <Typography variant='body2'>Creer votre compte et commencez l'aventure!</Typography>
           </Box>
-          <form noValidate autoComplete='off' onSubmit={e => handleSubmit(e)}>
+          <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
             <TextField
               autoFocus
               fullWidth
@@ -199,7 +199,7 @@ const RegisterPage = () => {
               type='submit'
               variant='contained'
               sx={{ marginBottom: 7 }}
-              onClick={() => router.push('/login')}
+              onClick={e => handleSubmit(e)}
             >
               S'inscrire
             </Button>
