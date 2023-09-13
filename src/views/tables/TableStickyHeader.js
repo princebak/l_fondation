@@ -25,37 +25,40 @@ const TableStickyHeader = ({ clients }) => {
     setPage(0)
   }
 
-  return (
-    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label='sticky table'>
-          <TableHead>
-            <TableRow>
-              <TableCell key={'fullName'} sx={{ minWidth: '170' }}>
-                {'Fullname'}
-              </TableCell>
-              <TableCell key={'email'} sx={{ minWidth: '170' }}>
-                {'E-mail'}
-              </TableCell>
-              <TableCell key={'phone'} sx={{ minWidth: '170' }}>
-                {'Telephone'}
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {clients.map(client => {
-              return (
-                <TableRow hover role='checkbox' tabIndex={-1} key={client._id}>
-                  <TableCell key={client.fullName}>{client.fullName}</TableCell>
-                  <TableCell key={client.email}>{client.email}</TableCell>
-                  <TableCell key={client.phone}>{client.phone}</TableCell>
-                </TableRow>
-              )
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      {/* <TablePagination
+  if (!clients) {
+    return <h1>No data</h1>
+  } else {
+    return (
+      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+        <TableContainer sx={{ maxHeight: 440 }}>
+          <Table stickyHeader aria-label='sticky table'>
+            <TableHead>
+              <TableRow>
+                <TableCell key={'fullName'} sx={{ minWidth: '170' }}>
+                  {'Fullname'}
+                </TableCell>
+                <TableCell key={'email'} sx={{ minWidth: '170' }}>
+                  {'E-mail'}
+                </TableCell>
+                <TableCell key={'phone'} sx={{ minWidth: '170' }}>
+                  {'Telephone'}
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {clients.map(client => {
+                return (
+                  <TableRow hover role='checkbox' tabIndex={-1} key={client._id}>
+                    <TableCell key={client.fullName}>{client.fullName}</TableCell>
+                    <TableCell key={client.email}>{client.email}</TableCell>
+                    <TableCell key={client.phone}>{client.phone}</TableCell>
+                  </TableRow>
+                )
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        {/* <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component='div'
         count={rows.length}
@@ -64,9 +67,10 @@ const TableStickyHeader = ({ clients }) => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       /> */}
-      <h1>Total : {clients.length}</h1>
-    </Paper>
-  )
+        <h1>Total : {clients.length}</h1>
+      </Paper>
+    )
+  }
 }
 
 export default TableStickyHeader
