@@ -97,7 +97,8 @@ const LoginPage = () => {
     const res = await signIn('credentials', loginForm)
     console.log('Login Request : ', loginForm)
     console.log('Login Response : ', res)
-    res.error ? console.log(res.error) : router.push('/dashboard')
+
+    res.error ? console.log(res.error) : router.push('/construction')
 
     setLoading(false)
   }

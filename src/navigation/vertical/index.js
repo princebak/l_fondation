@@ -16,8 +16,9 @@ const navigation = () => {
       title: 'Retour Sur le Site',
       icon: HomeOutline,
       path: '/'
-    },
-    {
+    }
+
+    /* {
       title: 'Account Settings',
       icon: AccountCogOutline,
       path: '/account-settings'
@@ -70,7 +71,7 @@ const navigation = () => {
       icon: CubeOutline,
       title: 'Form Layouts',
       path: '/form-layouts'
-    }
+    } */
   ]
 }
 

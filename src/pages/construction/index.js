@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -67,51 +67,59 @@ const UnderBuildPage = () => {
     router.push(url)
   }
 
-  return (
-    <Box className='content-center'>
-      <Card sx={{ zIndex: 1 }}>
-        <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important` }}>
-          <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <img src='/images/logos/l_fondation_black.png' width='25%' height='25%' alt='logo' />
-            <Typography
-              variant='h6'
-              sx={{
-                ml: 3,
-                lineHeight: 1,
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                fontSize: '1.5rem !important'
-              }}
-            >
-              {themeConfig.templateName}
-            </Typography>
-          </Box>
-          <Box sx={{ mb: 0 }}>
-            <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
-              <h1>{session?.user?.fullName}</h1>
-              Bienvenue à {themeConfig.templateName}! 👋🏻
-            </Typography>
-            <Typography variant='body2'>Vous etes belle et bien inscri et connectE sur notre plateforme</Typography>
-          </Box>
-          <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-            <h2 style={{ color: 'green' }}>
-              Notre Plateforme est en construction, vous serez capable de faire plus bientot
-            </h2>
+  useEffect(() => {
+    if (session?.user?.type === 'super admin') {
+      router.push('/clients')
+    }
+  })
 
-            <Button
-              fullWidth
-              size='large'
-              variant='contained'
-              sx={{ marginBottom: 7 }}
-              onClick={() => handleDropdownClose('/login')}
-            >
-              Se deconnecter
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-      {/* <FooterIllustrationsV1 /> */}
-    </Box>
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '3rem' }}>
+      <Box className='content-center'>
+        <Card sx={{ zIndex: 1 }}>
+          <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important` }}>
+            <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <img src='/images/logos/l_fondation_black.png' width='25%' height='25%' alt='logo' />
+              <Typography
+                variant='h6'
+                sx={{
+                  ml: 3,
+                  lineHeight: 1,
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  fontSize: '1.5rem !important'
+                }}
+              >
+                {themeConfig.templateName}
+              </Typography>
+            </Box>
+            <Box sx={{ mb: 0 }}>
+              <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
+                <h1>{session?.user?.fullName}</h1>
+                Bienvenue à {themeConfig.templateName}! 👋🏻
+              </Typography>
+              <Typography variant='body2'>Vous etes belle et bien inscri et connectE sur notre plateforme</Typography>
+            </Box>
+            <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
+              <h2 style={{ color: 'green' }}>
+                Notre Plateforme est en construction, vous serez capable de faire plus bientot
+              </h2>
+
+              <Button
+                fullWidth
+                size='large'
+                variant='contained'
+                sx={{ marginBottom: 7 }}
+                onClick={() => handleDropdownClose('/login')}
+              >
+                Se deconnecter
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+        {/* <FooterIllustrationsV1 /> */}
+      </Box>
+    </div>
   )
 }
 UnderBuildPage.getLayout = page => <BlankLayout>{page}</BlankLayout>

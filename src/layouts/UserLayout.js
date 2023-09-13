@@ -52,45 +52,34 @@ const UserLayout = ({ children }) => {
   const { data: session } = useSession()
 
   useEffect(() => {
+    console.log('This session >> ', session)
     if (!session) {
       router.push('/login')
     }
-  }, [])
+  })
 
-  if (!session) {
-    return (
-      <div style={{ textAlign: 'center' }}>
-        <h1 style={{ color: 'red' }}>Not Authenticated</h1>
-      </div>
-    )
-  } else {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '3rem' }}>
-        <UnderBuildPage />
-      </div>
-
-      /*  <VerticalLayout
-        hidden={hidden}
-        settings={settings}
-        saveSettings={saveSettings}
-        verticalNavItems={VerticalNavItems()} // Navigation Items
-        // afterVerticalNavMenuContent={UpgradeToProImg}
-        verticalAppBarContent={(
-          props // AppBar Content
-        ) => (
-          <VerticalAppBarContent
-            hidden={hidden}
-            settings={settings}
-            saveSettings={saveSettings}
-            toggleNavVisibility={props.toggleNavVisibility}
-          />
-        )}
-      >
-        {children}
-        <UnderBuildButton />
-      </VerticalLayout> */
-    )
-  }
+  return (
+    <VerticalLayout
+      hidden={hidden}
+      settings={settings}
+      saveSettings={saveSettings}
+      verticalNavItems={VerticalNavItems()} // Navigation Items
+      // afterVerticalNavMenuContent={UpgradeToProImg}
+      verticalAppBarContent={(
+        props // AppBar Content
+      ) => (
+        <VerticalAppBarContent
+          hidden={hidden}
+          settings={settings}
+          saveSettings={saveSettings}
+          toggleNavVisibility={props.toggleNavVisibility}
+        />
+      )}
+    >
+      {children}
+      <UnderBuildButton />
+    </VerticalLayout>
+  )
 }
 
 export default UserLayout
