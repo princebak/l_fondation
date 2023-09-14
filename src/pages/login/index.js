@@ -114,19 +114,30 @@ const LoginPage = () => {
       <Card sx={{ zIndex: 1 }}>
         <CardContent sx={{ padding: theme => `${theme.spacing(12, 9, 7)} !important` }}>
           <Box sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <img src='/images/logos/l_fondation_black.png' width='25%' height='25%' alt='logo' />
-            <Typography
-              variant='h6'
-              sx={{
-                ml: 3,
-                lineHeight: 1,
-                fontWeight: 600,
-                textTransform: 'uppercase',
-                fontSize: '1.5rem !important'
-              }}
-            >
-              {themeConfig.templateName}
-            </Typography>
+            <Link href='/' passHref>
+              <img
+                style={{ cursor: 'pointer' }}
+                src='/images/logos/l_fondation_black.png'
+                width='25%'
+                height='25%'
+                alt='logo'
+              />
+            </Link>
+            <Link href='/' passHref>
+              <Typography
+                style={{ cursor: 'pointer' }}
+                variant='h6'
+                sx={{
+                  ml: 3,
+                  lineHeight: 1,
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  fontSize: '1.5rem !important'
+                }}
+              >
+                {themeConfig.templateName}
+              </Typography>
+            </Link>
           </Box>
           <Box sx={{ mb: 6 }}>
             <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
