@@ -18,7 +18,7 @@ const validateForm = async (email, password) => {
   }
   if (!validatePassword(password)) {
     return {
-      error: "Le mot de pass est invalid. verifier qu'il plus de 5 caracteres."
+      error: "Le mot de passe est invalid. verifier qu'il aie au moins 5 caractères."
     }
   }
 
@@ -27,7 +27,7 @@ const validateForm = async (email, password) => {
 
   if (userByEmail) {
     return {
-      error: "ChangE d'e-mail svp, il y a deja un utilisateur avec cet'e-mail."
+      error: 'Changer d’e-mail s’il vous plaît, il y a déjà un utilisateur avec cet e-mail.'
     }
   }
 
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
   const data = req.body
   const { email, password } = data
 
-   const validateFormRes = await validateForm(email, password)
+  const validateFormRes = await validateForm(email, password)
   if (validateFormRes) {
     return res.status(400).json(validateFormRes)
   }
@@ -58,10 +58,10 @@ export default async function handler(req, res) {
 
   res.status(200).json({ msg: 'Inscription reussie.' })
 
-    newUser
+  newUser
     .save()
     .then(() => {
       res.status(200).json({ msg: 'Inscription reussie.' })
     })
-    .catch(err => res.status(500).json({ error: "Error on '/api/register' : " + err }))
+    .catch(err => res.status(500).json({ error: err }))
 }

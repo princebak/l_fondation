@@ -69,6 +69,8 @@ const RegisterPage = () => {
     showPassword: false
   })
 
+  const [error, setError] = useState(null)
+
   // ** Hook
   const theme = useTheme()
   const router = useRouter()
@@ -102,10 +104,10 @@ const RegisterPage = () => {
       },
       body: JSON.stringify(data)
     })
-    const userResponse = await response.json()
-    console.log('User response >> ', userResponse)
+    const res = await response.json()
+    console.log('User response >> ', res)
 
-    router.push('/login')
+    res.error ? setError(res.error) : router.push('/login')
   }
 
   return (
@@ -134,6 +136,8 @@ const RegisterPage = () => {
             </Typography>
             <Typography variant='body2'>Creer votre compte et commencez l'aventure!</Typography>
           </Box>
+          {error ? <p style={{ color: 'red' }}>{error}</p> : ''}
+
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
             <TextField
               autoFocus
