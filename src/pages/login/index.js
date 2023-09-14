@@ -70,6 +70,7 @@ const LoginPage = () => {
   const theme = useTheme()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value })
@@ -81,6 +82,11 @@ const LoginPage = () => {
 
   const handleMouseDownPassword = event => {
     event.preventDefault()
+  }
+
+  const loginMsg = {
+    'Email is not registered': 'L’adresse e-mail n’est pas enregistrée',
+    'Password is incorrect': 'Le mot de passe est incorrect'
   }
 
   const handleSubmit = async e => {
@@ -98,7 +104,7 @@ const LoginPage = () => {
     console.log('Login Request : ', loginForm)
     console.log('Login Response : ', res)
 
-    res.error ? console.log(res.error) : router.push('/construction')
+    res.error ? setError(loginMsg[res.error]) : router.push('/construction')
 
     setLoading(false)
   }
@@ -128,6 +134,7 @@ const LoginPage = () => {
             </Typography>
             <Typography variant='body2'>Connectez-vous à votre compte et commencez l'aventure</Typography>
           </Box>
+          {error ? <p style={{ color: 'red' }}>{error}</p> : ''}
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
             <TextField
               autoFocus
