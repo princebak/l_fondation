@@ -63,12 +63,10 @@ export default async function handler(req, res) {
 
   const newUser = new User(goodData)
 
-  res.status(200).json({ msg: 'Inscription reussie.' })
-
   newUser
     .save()
     .then(() => {
-      res.status(200).json({ msg: 'Inscription reussie.' })
+      res.status(200).json(goodData)
     })
     .catch(err => res.status(500).json({ error: err }))
 }

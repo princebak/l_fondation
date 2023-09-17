@@ -109,11 +109,11 @@ export function AddAgentModal({ reset }) {
     })
     const res = await response.json()
     console.log('User response >> ', res)
-    reset()
+    reset(res)
   }
 
   const handleClose = () => {
-    reset()
+    reset(null)
     setOpen(false)
   }
 

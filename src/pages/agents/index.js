@@ -8,8 +8,11 @@ const Agents = () => {
   const [openModal, setOpenModal] = useState(false)
   const [shouldReset, setShouldReset] = useState(false)
 
-  const reset = () => {
-    setShouldReset(true)
+  const reset = res => {
+    setOpenModal(false)
+    if (res !== null) {
+      setAgents([...agents, res])
+    }
   }
 
   const loadAgents = async () => {
@@ -25,7 +28,7 @@ const Agents = () => {
     setAgents(agents)
   }
 
-  useEffect(() => {
+  /*  useEffect(() => {
     const fetchData = async () => {
       await loadAgents()
     }
@@ -34,7 +37,7 @@ const Agents = () => {
       fetchData()
       setShouldReset(false)
     }
-  }, [shouldReset])
+  }, [shouldReset]) */
 
   useEffect(() => {
     const fetchData = async () => {
