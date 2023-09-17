@@ -36,7 +36,7 @@ const TableStickyHeader = ({ columns, rows }) => {
               <TableRow>
                 {columns.map(col => (
                   <TableCell key={col.key} sx={{ minWidth: col.size }}>
-                    {col.value}
+                    {col.label}
                   </TableCell>
                 ))}
               </TableRow>
@@ -45,6 +45,7 @@ const TableStickyHeader = ({ columns, rows }) => {
               {rows.map(client => {
                 return (
                   <TableRow hover role='checkbox' tabIndex={-1} key={client._id}>
+                    <TableCell key={client.code}>{client.code}</TableCell>
                     <TableCell key={client.fullName}>{client.fullName}</TableCell>
                     <TableCell key={client.email}>{client.email}</TableCell>
                     <TableCell key={client.phone}>{client.phone}</TableCell>

@@ -26,6 +26,7 @@ const Clients = () => {
   }, [])
 
   const columns = [
+    { key: 'code', label: 'Code', size: '170' },
     { key: 'fullName', label: 'Nom complet', size: '170' },
     { key: 'email', label: 'E-mail', size: '170' },
     { key: 'phone', label: 'Téléphone', size: '170' }
