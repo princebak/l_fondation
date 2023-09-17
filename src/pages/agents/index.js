@@ -6,10 +6,10 @@ import TableStickyHeader from 'src/views/tables/TableStickyHeader'
 const Agents = () => {
   const [agents, setAgents] = useState([])
   const [openModal, setOpenModal] = useState(false)
+  const [shouldReset, setShouldReset] = useState(false)
 
-  const reset = async () => {
-    setOpenModal(false)
-    await loadAgents()
+  const reset = () => {
+    setShouldReset(true)
   }
 
   const loadAgents = async () => {
@@ -24,6 +24,17 @@ const Agents = () => {
 
     setAgents(agents)
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await loadAgents()
+    }
+    if (shouldReset) {
+      setOpenModal(false)
+      fetchData()
+      setShouldReset(false)
+    }
+  }, [shouldReset])
 
   useEffect(() => {
     const fetchData = async () => {
