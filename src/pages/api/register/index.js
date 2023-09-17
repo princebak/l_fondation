@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt'
 import User from 'src/models/User'
+import { generateUserCode } from 'src/utils/codeGenerator'
 import { dbConnector } from 'src/utils/dbConnector'
 
 const validateEmail = email => {
@@ -39,6 +40,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'This API call only accepts POST method.' })
   }
   const data = req.body
+
   const { email, password } = data
 
   const validateFormRes = await validateForm(email, password)
@@ -48,12 +50,17 @@ export default async function handler(req, res) {
 
   const hashedPassword = await bcrypt.hash(password, 12)
 
+  const codePrefix = data.type === 'client' ? 'CL' : 'AG'
+  const generatedCode = await generateUserCode(codePrefix)
+
   const goodData = {
     ...data,
+    code: generatedCode,
     password: hashedPassword
   }
 
   console.log('goodData >> ', goodData)
+
   const newUser = new User(goodData)
 
   res.status(200).json({ msg: 'Inscription reussie.' })

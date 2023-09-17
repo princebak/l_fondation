@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     await dbConnector()
 
     try {
-      const users = await User.find()
+      const users = await User.find({ type: 'client' })
       res.status(200).json(users)
     } catch (error) {
       res.status(500).json({ error: error })

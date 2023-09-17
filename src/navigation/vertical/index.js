@@ -16,6 +16,16 @@ const navigation = () => {
       title: 'Retour Sur le Site',
       icon: HomeOutline,
       path: '/'
+    },
+    {
+      title: 'Clients',
+      icon: AccountCogOutline,
+      path: '/clients'
+    },
+    {
+      title: 'Agents',
+      icon: AccountCogOutline,
+      path: '/agents'
     }
 
     /* {

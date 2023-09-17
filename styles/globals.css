@@ -531,10 +531,19 @@ footer ul li img {
   gap: 5px;
   justify-content: center;
   align-items: center;
+  padding-top: 8px;
 }
 
 .teamMember div:last-child span:first-child {
   font-weight: bold;
+}
+
+.teamMember button {
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: var(--main-color);
+  color: #fff;
+  padding: 4px;
 }
 
 /* Small Pc */
@@ -698,6 +707,11 @@ footer ul li img {
   .detail div:last-child {
     grid-column: 1/2;
     grid-row: 3/4;
+  }
+
+  #quoteReverse {
+    display: flex;
+    flex-direction: column-reverse;
   }
 }
 

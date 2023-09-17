@@ -1,6 +1,6 @@
 import React from 'react'
 
-const TeamMember = ({ imgUrl, name, title }) => {
+const TeamMember = ({ imgUrl, name, title, showBiography }) => {
   return (
     <div className='teamMember'>
       <div>
@@ -9,6 +9,9 @@ const TeamMember = ({ imgUrl, name, title }) => {
       <div>
         <span>{name}</span>
         <span>{title}</span>
+        <button id={name} onClick={showBiography}>
+          Biographie
+        </button>
       </div>
     </div>
   )

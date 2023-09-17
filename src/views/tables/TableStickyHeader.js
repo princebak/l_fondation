@@ -11,7 +11,7 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 
-const TableStickyHeader = ({ clients }) => {
+const TableStickyHeader = ({ columns, rows }) => {
   // ** States
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -25,28 +25,24 @@ const TableStickyHeader = ({ clients }) => {
     setPage(0)
   }
 
-  if (!clients) {
+  if (!rows) {
     return <h1>No data</h1>
   } else {
     return (
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label='sticky table'>
+          <Table stickyHeader aria-label='Clients'>
             <TableHead>
               <TableRow>
-                <TableCell key={'fullName'} sx={{ minWidth: '170' }}>
-                  {'Fullname'}
-                </TableCell>
-                <TableCell key={'email'} sx={{ minWidth: '170' }}>
-                  {'E-mail'}
-                </TableCell>
-                <TableCell key={'phone'} sx={{ minWidth: '170' }}>
-                  {'Telephone'}
-                </TableCell>
+                {columns.map(col => (
+                  <TableCell key={col.key} sx={{ minWidth: col.size }}>
+                    {col.value}
+                  </TableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
-              {clients.map(client => {
+              {rows.map(client => {
                 return (
                   <TableRow hover role='checkbox' tabIndex={-1} key={client._id}>
                     <TableCell key={client.fullName}>{client.fullName}</TableCell>
@@ -67,7 +63,7 @@ const TableStickyHeader = ({ clients }) => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       /> */}
-        <h1>Total : {clients.length}</h1>
+        <h1>Total : {rows.length}</h1>
       </Paper>
     )
   }

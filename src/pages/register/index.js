@@ -94,6 +94,7 @@ const RegisterPage = () => {
       fullName: values.fullName,
       email: values.email,
       phone: values.phone,
+      type: 'client',
       password: values.password
     }
 
