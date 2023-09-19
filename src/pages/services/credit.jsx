@@ -1,4 +1,5 @@
 import React from 'react'
+import Accordion from 'src/@core/components/Accordion'
 import Breadcrumb from 'src/@core/components/Breadcrumb'
 import Footer from 'src/@core/components/Footer'
 import Header from 'src/@core/components/Header'
@@ -8,7 +9,7 @@ const CreditDAffaire = () => {
   return (
     <main>
       <Header />
-      <Breadcrumb pageTitle='Services' pageSubTitle='Epargne' />
+      <Breadcrumb pageTitle='Services' pageSubTitle='Crédit' />
       <div style={{ backgroundColor: '#fff', display: 'flex', flexDirection: 'column' }}>
         <p>
           <em>Il y’a quatre types de crédit :</em>
@@ -17,181 +18,192 @@ const CreditDAffaire = () => {
           <div>
             <h2>Crédit d’affaire</h2>
             <div>
-              <ul>
-                <li>
-                  Une installation à court et à moyen terme de crédit qui est spécialement conçu pour financer les
-                  opérations commerciales des petites et moyennes entreprises
-                </li>
-                <li>
-                  Amenez votre entreprise à un niveau supérieur Une installation à court et à moyen terme de crédit qui
-                  est spécialement conçu pour financer les opérations commerciales des petites et moyennes entreprises.
-                </li>
-                <li>
-                  <p>Pourquoi demander ce crédit ?</p>
-                  <ul>
-                    <li>Facilite la performance des entreprises et la croissance</li>
-                    <li>Plans de remboursement à long terme de prêt flexible</li>
-                    <li>Montant du prêt dépend de la performance des entreprises</li>
-                    <li>Charge donc la lumière sur le client</li>
-                    <li>Taux d’intérêt concurrentiel</li>
-                    <li></li>
-                  </ul>
-                </li>
-                <li>
-                  <p>Eligibilité pour ce crédit : </p>
-                  <ul>
-                    <li>Les personnes ou entreprises avec des activités opérationnelles</li>
-                    <li>Le candidat doit être âgé de 18 ans et plus</li>
-                    <li>Au moins 6 mois d’existence et d’activité d’affaires</li>
-                    <li>La possession d’une licence de commerce Garant</li>
-                  </ul>
-                </li>
-                <li>
-                  <p>Accordé avec des avantages exceptionnels : </p>
-                  <ul>
-                    <li>Facilité de crédit pouvant aller jusqu’à 20.000 US $</li>
-                    <li>Conditions et les périodes de remboursement souples 3 – 12 Mois</li>
-                    <li>Exigences de garanties flexibles</li>
-                    <li>Un traitement plus rapide de prêt (dans les 7 jours)</li>
-                  </ul>
-                </li>
-              </ul>
+              <Accordion
+                description={
+                  'Une installation à court et à moyen terme de crédit qui est spécialement conçu pour financer les opérations commerciales des petites et moyennes entreprises'
+                }
+              >
+                <ul>
+                  <li>
+                    Amenez votre entreprise à un niveau supérieur Une installation à court et à moyen terme de crédit
+                    qui est spécialement conçu pour financer les opérations commerciales des petites et moyennes
+                    entreprises.
+                  </li>
+                  <li>
+                    <p>Pourquoi demander ce crédit ?</p>
+                    <ul>
+                      <li>Facilite la performance des entreprises et la croissance</li>
+                      <li>Plans de remboursement à long terme de prêt flexible</li>
+                      <li>Montant du prêt dépend de la performance des entreprises</li>
+                      <li>Charge donc la lumière sur le client</li>
+                      <li>Taux d’intérêt concurrentiel</li>
+                      <li></li>
+                    </ul>
+                  </li>
+                  <li>
+                    <p>Eligibilité pour ce crédit : </p>
+                    <ul>
+                      <li>Les personnes ou entreprises avec des activités opérationnelles</li>
+                      <li>Le candidat doit être âgé de 18 ans et plus</li>
+                      <li>Au moins 6 mois d’existence et d’activité d’affaires</li>
+                      <li>La possession d’une licence de commerce Garant</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <p>Accordé avec des avantages exceptionnels : </p>
+                    <ul>
+                      <li>Facilité de crédit pouvant aller jusqu’à 20.000 US $</li>
+                      <li>Conditions et les périodes de remboursement souples 3 – 12 Mois</li>
+                      <li>Exigences de garanties flexibles</li>
+                      <li>Un traitement plus rapide de prêt (dans les 7 jours)</li>
+                    </ul>
+                  </li>
+                </ul>
+              </Accordion>
             </div>
           </div>
 
           <div>
             <h2>Crédit au petit entreprise</h2>
             <div>
-              <ul>
-                <li>
-                  Prêts rapides pour booster votre business Crédit de petites Entreprises est facilement accessible,
-                  avec des taux d’intérêt très compétitifs et documentation minimale requise.
-                </li>
-                <li>
-                  <p>Avantages</p>
-                  <ul>
-                    <li>Taux d’intérêt concurrentiels avec des frais minimes</li>
-                    <li>Temps de traitement de prêt rapide</li>
-                    <li>Un service personnalisé</li>
-                    <li>Caractéristiques supplémentaires</li>
-                    <li>Contant du prêt varie de $ 50 usd à $ 30,000 usd</li>
-                  </ul>
-                </li>
-                <li>
-                  Flexibilité sur la sécurité engagée (fonds de commerce, les véhicules automobiles, les biens meubles)
-                  le crédit de petites et moyennes entreprises est adapté pour des entrepreneurs de petite et moyenne
-                  échelle qui ont besoin d’injection de capitaux pour faire croître leur entreprise ou d’acquérir les
-                  actifs de l’entreprise.
-                </li>
-                <li>
-                  <p>Exigences :</p>
-                  <ul>
-                    <li>Nécessité de posséder une entreprise</li>
-                    <li>Etre âgés de 21 ans et plus</li>
-                    <li>Doit être résident congolais</li>
-                  </ul>
-                </li>
+              <Accordion
+                description={
+                  'Prêts rapides pour booster votre business Crédit de petites Entreprises est facilement accessible, avec des taux d’intérêt très compétitifs et documentation minimale requise.'
+                }
+              >
+                <ul>
+                  <li>
+                    <p>Avantages</p>
+                    <ul>
+                      <li>Taux d’intérêt concurrentiels avec des frais minimes</li>
+                      <li>Temps de traitement de prêt rapide</li>
+                      <li>Un service personnalisé</li>
+                      <li>Caractéristiques supplémentaires</li>
+                      <li>Contant du prêt varie de $ 50 usd à $ 30,000 usd</li>
+                    </ul>
+                  </li>
+                  <li>
+                    Flexibilité sur la sécurité engagée (fonds de commerce, les véhicules automobiles, les biens
+                    meubles) le crédit de petites et moyennes entreprises est adapté pour des entrepreneurs de petite et
+                    moyenne échelle qui ont besoin d’injection de capitaux pour faire croître leur entreprise ou
+                    d’acquérir les actifs de l’entreprise.
+                  </li>
+                  <li>
+                    <p>Exigences :</p>
+                    <ul>
+                      <li>Nécessité de posséder une entreprise</li>
+                      <li>Etre âgés de 21 ans et plus</li>
+                      <li>Doit être résident congolais</li>
+                    </ul>
+                  </li>
 
-                <li>
-                  <p>Termes et Conditions :</p>
-                  <ul>
-                    <li>Au moins 1 année d’exploitation d’une entreprise</li>
-                    <li> Au moins 1 an dans un endroit d’affaire actuel</li>
-                    <li> Au moins 1 an dans le lieu de résidence actuelle</li>
-                  </ul>
-                </li>
-              </ul>
+                  <li>
+                    <p>Termes et Conditions :</p>
+                    <ul>
+                      <li>Au moins 1 année d’exploitation d’une entreprise</li>
+                      <li> Au moins 1 an dans un endroit d’affaire actuel</li>
+                      <li> Au moins 1 an dans le lieu de résidence actuelle</li>
+                    </ul>
+                  </li>
+                </ul>
+              </Accordion>
             </div>
           </div>
 
           <div>
             <h2>Crédit scolaire</h2>
             <div>
-              <ul>
-                <li>
-                  L’avenir se prépare aujourd’hui !<br />
-                  Souscrivez au crédit Scolaire plus et préparez calmement la rentrée scolaire de vos enfants.
-                </li>
-                <li>Délai de remboursement: 13 mois maximum.</li>
-                <li>
-                  <p>
-                    Ne vous tracassez plus, ci-dessous les documents à fournir pour bénéficier du crédit scolaire en
-                    toute simplicité :
-                  </p>
-                  <ul>
-                    <li>Une demande manuscrite</li>
-                    <li>Une photocopie de votre CNI</li>
-                    <li>Un contrat de travail (pour les salariés)</li>
-                    <li>Une garantie (pour les non-salariés)</li>
-                  </ul>
-                </li>
-              </ul>
+              <Accordion
+                description={
+                  'L’avenir se prépare aujourd’hui, souscrivez au crédit Scolaire plus et préparez calmement la rentrée scolaire de vos enfants.'
+                }
+              >
+                <ul>
+                  <li>Délai de remboursement: 13 mois maximum.</li>
+                  <li>
+                    <p>
+                      Ne vous tracassez plus, ci-dessous les documents à fournir pour bénéficier du crédit scolaire en
+                      toute simplicité :
+                    </p>
+                    <ul>
+                      <li>Une demande manuscrite</li>
+                      <li>Une photocopie de votre CNI</li>
+                      <li>Un contrat de travail (pour les salariés)</li>
+                      <li>Une garantie (pour les non-salariés)</li>
+                    </ul>
+                  </li>
+                </ul>
+              </Accordion>
             </div>
           </div>
 
           <div>
             <h2>Crédit universitaire</h2>
             <div>
-              <ul>
-                <li>
-                  Des soucis pour la rentrée universitaire de vos nouveaux étudiants ? <br />
-                  L-fondation la solution!
-                </li>
-                <li>Avec L-fondation vous pouvez obtenir un crédit pour tout et nous ne blaguons pas !</li>
-                <li>
-                  <p>
-                    Ne vous tracassez plus, ci-dessous les documents à fournir pour bénéficier du crédit universitaire
-                    en toute simplicité :
-                  </p>
-                  <ul>
-                    <li>Une demande manuscrite</li>
-                    <li>Une photocopie de votre CNI</li>
-                    <li>Un contrat de travail (pour les salariés)</li>
-                    <li>Une garantie (pour les non-salariés)</li>
-                  </ul>
-                </li>
-              </ul>
+              <Accordion
+                description={
+                  'Des soucis pour la rentrée universitaire de vos nouveaux étudiants ? L-fondation la solution!'
+                }
+              >
+                <ul>
+                  <li>Avec L-fondation vous pouvez obtenir un crédit pour tout et nous ne blaguons pas !</li>
+                  <li>
+                    <p>
+                      Ne vous tracassez plus, ci-dessous les documents à fournir pour bénéficier du crédit universitaire
+                      en toute simplicité :
+                    </p>
+                    <ul>
+                      <li>Une demande manuscrite</li>
+                      <li>Une photocopie de votre CNI</li>
+                      <li>Un contrat de travail (pour les salariés)</li>
+                      <li>Une garantie (pour les non-salariés)</li>
+                    </ul>
+                  </li>
+                </ul>
+              </Accordion>
             </div>
           </div>
 
           <div>
             <h2>Crédit E-Commerce</h2>
             <div>
-              <ul>
-                <li>
-                  Obtenez un crédit pour vos achats en chine en toute sécurité et fiabilité , Notre crédit d’e-commerce
-                  pourra vous aider atteindre vos objectifs
-                </li>
-                <li>
-                  E-commerce définition :<br />
-                  Dans l'absolu, l'e-commerce, c'est-à-dire le commerce électronique, désigne simplement l'achat et la
-                  vente de produits et services sur Internet. Cependant, le terme est souvent utilisé pour décrire
-                  toutes les mesures et actions entreprises par un vendeur dans le but de vendre des produits
-                  directement aux consommateurs.
-                </li>
+              <Accordion
+                description={
+                  'Obtenez un crédit pour vos achats en chine en toute sécurité et fiabilité , Notre crédit d’e-commerce pourra vous aider atteindre vos objectifs'
+                }
+              >
+                <ul>
+                  <li>
+                    E-commerce définition :<br />
+                    Dans l'absolu, l'e-commerce, c'est-à-dire le commerce électronique, désigne simplement l'achat et la
+                    vente de produits et services sur Internet. Cependant, le terme est souvent utilisé pour décrire
+                    toutes les mesures et actions entreprises par un vendeur dans le but de vendre des produits
+                    directement aux consommateurs.
+                  </li>
 
-                <li>
-                  <p>6 étapes pour démarrer dans le e-commerce avec succès :</p>
-                  <ul>
-                    <li>Effectuer une étude de marché ...</li>
-                    <li>Établir un business plan ...</li>
-                    <li>Bénéficier de conseil e-commerce pour créer sa structure ...</li>
-                    <li>Choisir son nom de domaine ...</li>
-                    <li>Rédiger un cahier des charges pour démarrer dans le e-commerce ...</li>
-                    <li>Rechercher les produits à vendre.</li>
-                  </ul>
-                </li>
+                  <li>
+                    <p>6 étapes pour démarrer dans le e-commerce avec succès :</p>
+                    <ul>
+                      <li>Effectuer une étude de marché ...</li>
+                      <li>Établir un business plan ...</li>
+                      <li>Bénéficier de conseil e-commerce pour créer sa structure ...</li>
+                      <li>Choisir son nom de domaine ...</li>
+                      <li>Rédiger un cahier des charges pour démarrer dans le e-commerce ...</li>
+                      <li>Rechercher les produits à vendre.</li>
+                    </ul>
+                  </li>
 
-                <li>
-                  <p>Pourquoi demander le crédit E-commerce :</p>
-                  <ul>
-                    <li>La société vous garantie les produit de bonne qualité</li>
-                    <li>ÉPlans de remboursement flexible </li>
-                    <li>Taux d’intérêt concurrentiel </li>
-                    <li>Facilité de crédit pouvant allez jusqu’à 5000$</li>
-                  </ul>
-                </li>
-              </ul>
+                  <li>
+                    <p>Pourquoi demander le crédit E-commerce :</p>
+                    <ul>
+                      <li>La société vous garantie les produit de bonne qualité</li>
+                      <li>ÉPlans de remboursement flexible </li>
+                      <li>Taux d’intérêt concurrentiel </li>
+                      <li>Facilité de crédit pouvant allez jusqu’à 5000$</li>
+                    </ul>
+                  </li>
+                </ul>
+              </Accordion>
             </div>
           </div>
         </div>
