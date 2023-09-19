@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Breadcrumb from 'src/@core/components/Breadcrumb'
 import Footer from 'src/@core/components/Footer'
 import Header from 'src/@core/components/Header'
@@ -16,7 +16,7 @@ const Epargne = () => {
         <div className='subService'>
           <div>
             <h2>Compte sauvetages</h2>
-            <div>
+            <div id='1'>
               <ul>
                 <li>
                   Un compte rentable et flexible qui permet l’utilisateur d’accumuler des économies grâce à
@@ -39,7 +39,7 @@ const Epargne = () => {
 
           <div>
             <h2>Compte Libota</h2>
-            <div>
+            <div id='2'>
               <ul>
                 <li>
                   Le Compte Libota Avenir” est conçu pour répondre aux besoins bancaires des enfants de 0 à 24 ans.
@@ -85,7 +85,7 @@ const Epargne = () => {
         </div>
 
         <div className='rotate' style={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
-          <img src='/images/services/s1.jpeg' width='50%' height='50%' />
+          <img src='/images/services/s1.jpeg' width='50%' height='50%' alt='epargne' />
         </div>
       </div>
       <Footer />

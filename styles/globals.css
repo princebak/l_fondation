@@ -230,6 +230,7 @@ header nav ul li a:hover {
   align-items: center;
   cursor: pointer;
   width: fit-content;
+  padding: 4px;
 }
 .serviceElementVMore:hover {
   box-shadow: 0px 2px 2px var(--second-color);
@@ -487,10 +488,19 @@ footer ul li img {
 
 .subService h2 {
   margin: 0px;
-  padding: 1rem;
+  padding: 0.5rem;
   text-align: center;
 
   border-bottom: solid 1px rgb(209, 207, 207);
+}
+
+.subService > div > p {
+  margin: 0px;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
+
+  border-top: solid 1px rgb(209, 207, 207);
 }
 
 .team {
