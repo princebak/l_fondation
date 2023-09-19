@@ -1,8 +1,9 @@
 import mongoose from 'mongoose'
+import { CREDIT_D_AFFAIRE } from 'src/utils/constant'
 
 const Schema = mongoose.Schema
 
-const movementSchema = new Schema(
+const creditRequestSchema = new Schema(
   {
     code: {
       type: String,
@@ -10,7 +11,8 @@ const movementSchema = new Schema(
     },
     type: {
       type: String,
-      required: true
+      required: true,
+      default: `${CREDIT_D_AFFAIRE}`
     },
     amount: {
       type: Number,
@@ -22,13 +24,9 @@ const movementSchema = new Schema(
       required: true,
       default: 'USD'
     },
-    sourceAccount: {
+    owner: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Account'
-    },
-    destinationAccount: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Account'
+      ref: 'User'
     },
     status: {
       type: String,
@@ -38,6 +36,6 @@ const movementSchema = new Schema(
   { timestamps: true }
 )
 
-const Movement = mongoose.models.Movement || mongoose.model('Movement', movementSchema)
+const CreditRequest = mongoose.models.CreditRequest || mongoose.model('CreditRequest', creditRequestSchema)
 
-export default Movement
+export default CreditRequest

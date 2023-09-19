@@ -13,7 +13,11 @@ const AboutUs = () => {
       imgUrl: '/images/teams/steve.jpeg',
       name: 'Steve Balifa',
       title: 'CEO & Founder',
-      biographies: ['presidents, chef patron, courageux']
+      biographies: [
+        'Steve Balifa née le 15/02 à Lokutu, Dans le secteur de Lokombe, territoire de Isangi, la province de Tshopo.',
+        'Steve balifa est un ingénieur en BTP a commencé en tant que trader forex sur le marché financier numérique et est devenu entrepreneur  et Coach pendant plus de 5 ans.',
+        `Steve balifa a également été reconnu comme l'un des 100 meilleurs entrepreneurs congolais et formateur en 2021. Au cours de ce mandat, il a également activement investi dans de nombreux projets comme shopping bio market , ndaku , best fast-food , l-f élevage ,  et a été impliqué de manière proactive dans les stratégies de trading forex et d'investissement crypto et e-commerce.`
+      ]
     },
     {
       imgUrl: '/images/teams/presdel.jpeg',

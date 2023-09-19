@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { CREDIT_D_AFFAIRE, EPARGNE } from 'src/utils/accountType'
+import { COMPTE_COURANT } from 'src/utils/constant'
 
 const Schema = mongoose.Schema
 
@@ -21,12 +21,7 @@ const accountSchema = new Schema(
     type: {
       type: String,
       required: true,
-      default: `${EPARGNE}`
-    },
-    subType: {
-      type: String,
-      required: true,
-      default: `${CREDIT_D_AFFAIRE}`
+      default: `${COMPTE_COURANT}`
     },
     emergencyContacts: {
       type: String

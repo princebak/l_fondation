@@ -1,14 +1,14 @@
 // Account Type
-export const EPARGNE = 'Epargne'
 
-export const CREDIT = 'Crédit'
+export const COMPTE_EPARGNE_SAUVETAGES = 'Compte sauvetages'
 
-// Account SubType
-export const COMPTE_SAUVETAGES = 'Compte sauvetages'
+export const COMPTE_EPARGNE_LIBOTA = 'Compte Libota'
 
-export const COMPTE_LIBOTA = 'Compte Libota'
+export const COMPTE_EPARGNE_BLOQUE = 'Compte bloqué'
 
-export const COMPTE_BLOQUE = 'Compte bloqué'
+export const COMPTE_COURANT = 'Compte Crourant'
+
+// Credit Type
 
 export const CREDIT_D_AFFAIRE = 'Crédit d’affaire'
 
