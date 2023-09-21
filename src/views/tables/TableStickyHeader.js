@@ -11,7 +11,7 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 
-const TableStickyHeader = ({ columns, rows }) => {
+const TableStickyHeader = ({ tableName, columns, rows }) => {
   // ** States
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -42,16 +42,28 @@ const TableStickyHeader = ({ columns, rows }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map(client => {
-                return (
-                  <TableRow hover role='checkbox' tabIndex={-1} key={client._id}>
-                    <TableCell key={client.code}>{client.code}</TableCell>
-                    <TableCell key={client.fullName}>{client.fullName}</TableCell>
-                    <TableCell key={client.email}>{client.email}</TableCell>
-                    <TableCell key={client.phone}>{client.phone}</TableCell>
-                  </TableRow>
-                )
-              })}
+              {tableName === 'accounts'
+                ? rows.map(account => {
+                    return (
+                      <TableRow hover role='checkbox' tabIndex={-1} key={account._id}>
+                        <TableCell key={account.code}>{account.code}</TableCell>
+                        <TableCell key={account.owner}>{account.owner?.fullName}</TableCell>
+                        <TableCell key={account.balance}>{account.balance}</TableCell>
+                        <TableCell key={account.type}>{account.type}</TableCell>
+                        <TableCell key={account.status}>{account.status}</TableCell>
+                      </TableRow>
+                    )
+                  })
+                : rows.map(client => {
+                    return (
+                      <TableRow hover role='checkbox' tabIndex={-1} key={client._id}>
+                        <TableCell key={client.code}>{client.code}</TableCell>
+                        <TableCell key={client.fullName}>{client.fullName}</TableCell>
+                        <TableCell key={client.email}>{client.email}</TableCell>
+                        <TableCell key={client.phone}>{client.phone}</TableCell>
+                      </TableRow>
+                    )
+                  })}
             </TableBody>
           </Table>
         </TableContainer>

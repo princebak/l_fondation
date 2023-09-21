@@ -36,9 +36,7 @@ const Clients = () => {
     <Grid container spacing={6} style={{ backgroundColor: 'rgb(253, 253, 253)' }}>
       <Grid item xs={12}>
         <Typography variant='h5'>
-          <Link href='https://mui.com/components/tables/' target='_blank'>
-            Liste des Clients
-          </Link>
+          <Link href='#'>Liste des Clients</Link>
         </Typography>
         <Typography variant='body2'>Tous les clients inscrits</Typography>
       </Grid>

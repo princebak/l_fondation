@@ -7,7 +7,8 @@ const creditRequestSchema = new Schema(
   {
     code: {
       type: String,
-      required: true
+      required: true,
+      unique: true
     },
     type: {
       type: String,

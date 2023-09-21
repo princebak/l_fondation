@@ -28,17 +28,6 @@ const Agents = () => {
     setAgents(agents)
   }
 
-  /*  useEffect(() => {
-    const fetchData = async () => {
-      await loadAgents()
-    }
-    if (shouldReset) {
-      setOpenModal(false)
-      fetchData()
-      setShouldReset(false)
-    }
-  }, [shouldReset]) */
-
   useEffect(() => {
     const fetchData = async () => {
       await loadAgents()
@@ -57,7 +46,7 @@ const Agents = () => {
     <Grid container spacing={6} style={{ backgroundColor: 'rgb(253, 253, 253)' }}>
       <Grid item xs={12}>
         <Typography variant='h5'>
-          <Link href='#' target='_blank'>
+          <Link href='#'>
             Liste des Agents
           </Link>
         </Typography>

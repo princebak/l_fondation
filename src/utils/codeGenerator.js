@@ -1,3 +1,4 @@
+import Account from 'src/models/Account'
 import User from 'src/models/User'
 
 export const generateUserCode = async prefix => {
@@ -6,13 +7,31 @@ export const generateUserCode = async prefix => {
     while (generatedCode == '') {
       console.log('Prefix >> ', prefix)
       generatedCode = generate(prefix)
-      let existingCode = await User.findOne({ code: generatedCode }, { code })
+      let existingCode = await User.findOne({ code: generatedCode })
       if (existingCode) {
         generatedCode = ''
       }
     }
   } catch (error) {
-    console.log('generateCode error >> ' + error)
+    console.log('generateUserCode error >> ' + error)
+  }
+
+  return generatedCode
+}
+
+export const generateAccountCode = async prefix => {
+  let generatedCode = ''
+  try {
+    while (generatedCode == '') {
+      console.log('Prefix >> ', prefix)
+      generatedCode = generate(prefix)
+      let existingCode = await Account.findOne({ code: generatedCode })
+      if (existingCode) {
+        generatedCode = ''
+      }
+    }
+  } catch (error) {
+    console.log('generateAccountCode error >> ' + error)
   }
 
   return generatedCode

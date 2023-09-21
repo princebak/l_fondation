@@ -7,7 +7,8 @@ const accountSchema = new Schema(
   {
     code: {
       type: String,
-      required: true
+      required: true,
+      unique:true
     },
     balance: {
       type: Number,
