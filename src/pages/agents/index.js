@@ -10,7 +10,7 @@ const Agents = () => {
 
   const reset = res => {
     setOpenModal(false)
-    if (res !== null) {
+    if (res !== null && !res.error) {
       setAgents([...agents, res])
     }
   }

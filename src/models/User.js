@@ -1,3 +1,4 @@
+import { TruckRemove } from 'mdi-material-ui'
 import mongoose from 'mongoose'
 
 const Schema = mongoose.Schema
@@ -11,16 +12,19 @@ const userSchema = new Schema(
     fullName: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
+      maxLength: 150
     },
     email: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
+      maxLength: 200
     },
     phone: {
       type: String,
-      required: true
+      required: true,
+      maxLength: 15
     },
     gender: {
       type: String
@@ -45,7 +49,7 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
-      minlength: 5,
+      minLength: 5,
       select: false
     }
   },

@@ -6,17 +6,26 @@ import { dbConnector } from 'src/utils/dbConnector'
 const validateEmail = email => {
   const regExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 
-  return regExp.test(email)
+  return regExp.test(email) && email.length <= 150
+}
+
+const validateFullName = fullName => {
+  return fullName.length <= 150
 }
 
 const validatePassword = password => {
   return password.length >= 5
 }
 
-const validateForm = async (email, password) => {
+const validateForm = async (fullName, email, password) => {
+  if (!validateFullName(fullName)) {
+    return { error: 'Le nom complet est invalid' }
+  }
+
   if (!validateEmail(email)) {
     return { error: "L'e-mail est invalid" }
   }
+
   if (!validatePassword(password)) {
     return {
       error: "Le mot de passe est invalid. verifier qu'il aie au moins 5 caractères."
@@ -41,9 +50,9 @@ export default async function handler(req, res) {
   }
   const data = req.body
 
-  const { email, password } = data
+  const { fullName, email, password } = data
 
-  const validateFormRes = await validateForm(email, password)
+  const validateFormRes = await validateForm(fullName, email, password)
   if (validateFormRes) {
     return res.status(400).json(validateFormRes)
   }

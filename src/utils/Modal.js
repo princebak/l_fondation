@@ -108,8 +108,10 @@ export function AddAgentModal({ reset }) {
       body: JSON.stringify(data)
     })
     const res = await response.json()
+    console.log('User request body >> ', data)
     console.log('User response >> ', res)
-    reset(res)
+
+    res.error ? setError(res.error) : reset(res)
   }
 
   const handleClose = () => {
