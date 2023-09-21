@@ -1,4 +1,4 @@
-import Account from 'src/models/Account'
+import Movement from 'src/models/Movement'
 import { dbConnector } from 'src/utils/dbConnector'
 
 export default async function handler(req, res) {
@@ -8,9 +8,12 @@ export default async function handler(req, res) {
     await dbConnector()
 
     try {
-      const accounts = await Account.find().populate('owner')
+      const movements = await Movement.find().populate([
+        { path: 'sourceAccount', populate: { path: 'owner' } },
+        { path: 'destinationAccount', populate: { path: 'owner' } }
+      ])
 
-      res.status(200).json(accounts)
+      res.status(200).json(movements)
     } catch (error) {
       res.status(500).json({ error: error })
     }
