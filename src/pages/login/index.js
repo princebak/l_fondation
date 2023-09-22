@@ -39,6 +39,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
+import Loader from 'src/@core/components/Loader'
 
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -189,7 +190,7 @@ const LoginPage = () => {
               </Link>
             </Box>
             {loading ? (
-              'Chargement...'
+              <Loader />
             ) : (
               <Button
                 fullWidth

@@ -57,27 +57,28 @@ const TableStickyHeader = ({ tableName, columns, rows }) => {
                 : tableName === 'movements'
                 ? rows.map(movement => {
                     return (
-                      <TableRow hover role='checkbox' tabIndex={-1} key={client._id}>
+                      <TableRow hover role='checkbox' tabIndex={-1} key={movement._id}>
                         <TableCell key={movement.code}>{movement.code}</TableCell>
-                        <TableCell key={movement.type}>{movement.fullName}</TableCell>
-                        <TableCell key={movement.amount}>{movement.email}</TableCell>
-                        <TableCell key={movement.currency}>{movement.phone}</TableCell>
+                        <TableCell key={movement.type}>{movement.type}</TableCell>
+                        <TableCell key={movement.amount}>{movement.amount}</TableCell>
+                        <TableCell key={movement.currency}>{movement.currency}</TableCell>
                         <TableCell key={movement.sourceAccount._id}>{movement.sourceAccount.code}</TableCell>
-                        <TableCell key={movement.sender._id}>{movement.sender.fullName}</TableCell>
-                        <TableCell key={movement.destinationAccount._id}>{movement.destinationAccount.code}</TableCell>
-                        <TableCell key={movement.receiver._id}>{movement.receiver.fullName}</TableCell>
+                        <TableCell key={movement.sourceAccount.owner._id}>
+                          {movement.sourceAccount.owner.fullName}
+                        </TableCell>
+                        <TableCell key={movement.type}>{movement.type === 'Recharge' ? 'Agents' : 'Clients'}</TableCell>
                         <TableCell key={movement.status}>{movement.status}</TableCell>
                       </TableRow>
                     )
                   })
-                : rows.map(account => {
+                : rows.map(client => {
                     return (
-                      <TableRow hover role='checkbox' tabIndex={-1} key={account._id}>
-                        <TableCell key={account.code}>{account.code}</TableCell>
-                        <TableCell key={account.owner}>{account.owner?.fullName}</TableCell>
-                        <TableCell key={account.balance}>{account.balance}</TableCell>
-                        <TableCell key={account.type}>{account.type}</TableCell>
-                        <TableCell key={account.status}>{account.status}</TableCell>
+                      <TableRow hover role='checkbox' tabIndex={-1} key={client._id}>
+                        <TableCell key={client.code}>{client.code}</TableCell>
+                        <TableCell key={client.fullName}>{client.fullName}</TableCell>
+                        <TableCell key={client.email}>{client.email}</TableCell>
+                        <TableCell key={client.phone}>{client.phone}</TableCell>
+                        <TableCell key={client.status}>{client.status}</TableCell>
                       </TableRow>
                     )
                   })}

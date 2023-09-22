@@ -10,6 +10,8 @@ import CloseIcon from '@mui/icons-material/Close'
 import Typography from '@mui/material/Typography'
 import { FormControl, FormControlLabel, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material'
 import { EyeOffOutline, EyeOutline } from 'mdi-material-ui'
+import Loader from 'src/@core/components/Loader'
+import { useState } from 'react'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -66,10 +68,11 @@ export default function MyModal({ currentMember, updateOpenModal }) {
 }
 
 export function AddAgentModal({ reset }) {
-  const [open, setOpen] = React.useState(true)
-  const [error, setError] = React.useState(false)
+  const [open, setOpen] = useState(true)
+  const [error, setError] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const [values, setValues] = React.useState({
+  const [values, setValues] = useState({
     fullName: '',
     email: '',
     phone: '',
@@ -91,6 +94,7 @@ export function AddAgentModal({ reset }) {
 
   const handleSubmit = async e => {
     e.preventDefault()
+    setLoading(true)
 
     const data = {
       fullName: values.fullName,
@@ -108,8 +112,8 @@ export function AddAgentModal({ reset }) {
       body: JSON.stringify(data)
     })
     const res = await response.json()
-    console.log('User request body >> ', data)
-    console.log('User response >> ', res)
+
+    setLoading(false)
 
     res.error ? setError(res.error) : reset(res)
   }
@@ -191,17 +195,21 @@ export function AddAgentModal({ reset }) {
           </form>
         </DialogContent>
         <DialogActions>
-          <Button
-            autoFocus
-            fullWidth
-            size='large'
-            type='submit'
-            variant='contained'
-            sx={{ marginBottom: 7 }}
-            onClick={e => handleSubmit(e)}
-          >
-            Enregistrer
-          </Button>
+          {loading ? (
+            <Loader />
+          ) : (
+            <Button
+              autoFocus
+              fullWidth
+              size='large'
+              type='submit'
+              variant='contained'
+              sx={{ marginBottom: 7 }}
+              onClick={e => handleSubmit(e)}
+            >
+              Enregistrer
+            </Button>
+          )}
         </DialogActions>
       </BootstrapDialog>
     </div>

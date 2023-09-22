@@ -8,12 +8,17 @@ const accountSchema = new Schema(
     code: {
       type: String,
       required: true,
-      unique:true
+      unique: true
     },
     balance: {
       type: Number,
       required: true,
       default: 0.0
+    },
+    currency: {
+      type: String,
+      required: true,
+      default: 'USD'
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,

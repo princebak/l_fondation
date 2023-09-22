@@ -1,4 +1,5 @@
 import Account from 'src/models/Account'
+import Movement from 'src/models/Movement'
 import User from 'src/models/User'
 
 export const generateUserCode = async prefix => {
@@ -26,6 +27,24 @@ export const generateAccountCode = async prefix => {
       console.log('Prefix >> ', prefix)
       generatedCode = generate(prefix)
       let existingCode = await Account.findOne({ code: generatedCode })
+      if (existingCode) {
+        generatedCode = ''
+      }
+    }
+  } catch (error) {
+    console.log('generateAccountCode error >> ' + error)
+  }
+
+  return generatedCode
+}
+
+export const generateMovementCode = async prefix => {
+  let generatedCode = ''
+  try {
+    while (generatedCode == '') {
+      console.log('Prefix >> ', prefix)
+      generatedCode = generate(prefix)
+      let existingCode = await Movement.findOne({ code: generatedCode })
       if (existingCode) {
         generatedCode = ''
       }

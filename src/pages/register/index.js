@@ -38,6 +38,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
 import { useRouter } from 'next/router'
+import Loader from 'src/@core/components/Loader'
 
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -70,6 +71,7 @@ const RegisterPage = () => {
   })
 
   const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   // ** Hook
   const theme = useTheme()
@@ -89,6 +91,7 @@ const RegisterPage = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
+    setLoading(true)
 
     const data = {
       fullName: values.fullName,
@@ -107,6 +110,8 @@ const RegisterPage = () => {
     })
     const res = await response.json()
     console.log('User response >> ', res)
+
+    setLoading(false)
 
     res.error ? setError(res.error) : router.push('/login')
   }
@@ -208,16 +213,21 @@ const RegisterPage = () => {
                 </Fragment>
               }
             />
-            <Button
-              fullWidth
-              size='large'
-              type='submit'
-              variant='contained'
-              sx={{ marginBottom: 7 }}
-              onClick={e => handleSubmit(e)}
-            >
-              S'inscrire
-            </Button>
+            {loading ? (
+              <Loader />
+            ) : (
+              <Button
+                fullWidth
+                size='large'
+                type='submit'
+                variant='contained'
+                sx={{ marginBottom: 7 }}
+                onClick={e => handleSubmit(e)}
+              >
+                S'inscrire
+              </Button>
+            )}
+
             <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
               <Typography variant='body2' sx={{ marginRight: 2 }}>
                 Avez vous deja un compte ?

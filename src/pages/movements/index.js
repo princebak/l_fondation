@@ -32,8 +32,7 @@ const Movements = () => {
     { key: 'currency', label: 'Monaie', size: '170' },
     { key: 'sourceAccount', label: 'Compte Expéditeur', size: '170' },
     { key: 'sender', label: 'Expéditeur', size: '170' },
-    { key: 'destinationAccount', label: 'Compte de bénéficiaire', size: '170' },
-    { key: 'receiver', label: 'Bénéficiaire', size: '170' },
+    { key: 'receivers', label: 'Bénéficiaire(s)', size: '170' },
     { key: 'status', label: 'Téléphone', size: '170' }
   ]
 

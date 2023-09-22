@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt'
+import Account from 'src/models/Account'
 import User from 'src/models/User'
-import { generateUserCode } from 'src/utils/codeGenerator'
+import { generateAccountCode, generateUserCode } from 'src/utils/codeGenerator'
 import { dbConnector } from 'src/utils/dbConnector'
 
 const validateEmail = email => {
@@ -72,10 +73,22 @@ export default async function handler(req, res) {
 
   const newUser = new User(goodData)
 
-  newUser
-    .save()
-    .then(() => {
-      res.status(200).json(goodData)
+  try {
+    const savedUser = await newUser.save()
+
+    const account = new Account({
+      code: await generateAccountCode('CC'),
+      owner: savedUser._id
     })
-    .catch(err => res.status(500).json({ error: err }))
+
+    const savedAccount = await account.save()
+
+    console.log('savedUser >> ', savedUser)
+    console.log('savedAccount >> ', savedAccount)
+
+    res.status(200).json(savedUser)
+  } catch (error) {
+    console.log('Error >> ', error)
+    res.status(500).json({ error: error })
+  }
 }

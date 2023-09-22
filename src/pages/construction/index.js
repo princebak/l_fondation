@@ -95,15 +95,16 @@ const UnderBuildPage = () => {
             </Box>
             <Box sx={{ mb: 0 }}>
               <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
-                <h1>{session?.user?.fullName}</h1>
+                <h2>{session?.user?.fullName}</h2>
+                <h2>Code : {session?.user?.code}</h2>
                 Bienvenue à {themeConfig.templateName}! 👋🏻
               </Typography>
               <Typography variant='body2'>Vous etes belle et bien inscri et connectE sur notre plateforme</Typography>
             </Box>
             <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-              <h2 style={{ color: 'green' }}>
+              <h3 style={{ color: 'green' }}>
                 Notre Plateforme est en construction, vous serez capable de faire plus bientot
-              </h2>
+              </h3>
 
               <Button
                 fullWidth
