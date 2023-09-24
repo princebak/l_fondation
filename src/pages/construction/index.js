@@ -71,6 +71,9 @@ const UnderBuildPage = () => {
     if (session?.user?.type === 'super admin') {
       router.push('/clients')
     }
+    if (session?.user?.type === 'agent interne') {
+      router.push('/accounts')
+    }
   })
 
   return (

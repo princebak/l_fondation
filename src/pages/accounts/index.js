@@ -60,24 +60,25 @@ const Accounts = () => {
   }
 
   const loadAccounts = async () => {
-    const response = await fetch('/api/accounts', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    const loadedAccounts = await response.json()
-    console.log('Accounts response >> ', loadedAccounts)
-
-    setAccounts(loadedAccounts)
-    setAllAccounts(loadedAccounts)
-
     if (session) {
       const currentSender = session.user
+
+      const path = currentSender.type === 'agent interne' ? '/clients' : ''
+
+      const response = await fetch('/api/accounts' + path, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const loadedAccounts = await response.json()
+      console.log('Accounts response >> ', loadedAccounts)
+
+      setAccounts(loadedAccounts)
+      setAllAccounts(loadedAccounts)
+
       setSender(currentSender)
-      console.log('Sender >> ', currentSender)
       const senderCode = loadedAccounts.filter(account => account.owner.code == currentSender.code)[0]?.code
-      console.log('senderCode >> ', senderCode)
       setSenderAccountCode(senderCode)
       setMovementType(sender?.type === 'super admin' ? 'Recharge' : 'Depot')
     }
