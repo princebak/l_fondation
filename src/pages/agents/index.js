@@ -6,7 +6,6 @@ import TableStickyHeader from 'src/views/tables/TableStickyHeader'
 const Agents = () => {
   const [agents, setAgents] = useState([])
   const [openModal, setOpenModal] = useState(false)
-  const [shouldReset, setShouldReset] = useState(false)
 
   const reset = res => {
     setOpenModal(false)

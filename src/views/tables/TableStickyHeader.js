@@ -11,7 +11,7 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 
-const TableStickyHeader = ({ tableName, columns, rows }) => {
+const TableStickyHeader = ({ tableName, columns, rows, addReceiverAccount }) => {
   // ** States
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -41,11 +41,19 @@ const TableStickyHeader = ({ tableName, columns, rows }) => {
                 ))}
               </TableRow>
             </TableHead>
-            <TableBody>
+            <TableBody id='accountsTable'>
               {tableName === 'accounts'
                 ? rows.map(account => {
                     return (
                       <TableRow hover role='checkbox' tabIndex={-1} key={account._id}>
+                        <TableCell key={account._id}>
+                          <input
+                            className='checkbox'
+                            type='checkbox'
+                            id={account.code}
+                            onClick={e => addReceiverAccount(account.code, e.target.checked)}
+                          />
+                        </TableCell>
                         <TableCell key={account.code}>{account.code}</TableCell>
                         <TableCell key={account.owner}>{account.owner?.fullName}</TableCell>
                         <TableCell key={account.balance}>{account.balance}</TableCell>

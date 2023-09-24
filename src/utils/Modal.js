@@ -215,3 +215,118 @@ export function AddAgentModal({ reset }) {
     </div>
   )
 }
+
+export function RechargeModal({ reset, senderAccountCode, receiverAccounts, movementType }) {
+  const [open, setOpen] = useState(true)
+  const [error, setError] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const receiverAccountCodes = receiverAccounts.map(account => account.code)
+
+  const [movement, setMovement] = useState({
+    senderAccountCode: senderAccountCode,
+    receiverAccountCodes: receiverAccountCodes,
+    amount: 0,
+    movementType: movementType
+  })
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    setLoading(true)
+
+    console.log('movement >> ', movement)
+
+    const response = await fetch('/api/movements', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(movement)
+    })
+    const res = await response.json()
+
+    setLoading(false)
+
+    res.error ? setError(res.error) : reset('done')
+  }
+
+  const handleClose = () => {
+    reset('cancel')
+    setOpen(false)
+  }
+
+  return (
+    <div>
+      <BootstrapDialog onClose={handleClose} aria-labelledby='customized-dialog-title' open={open}>
+        <DialogTitle sx={{ m: 0, p: 2, marginRight: '100px' }} id='customized-dialog-title'>
+          {'Rechargement des comptes'}
+        </DialogTitle>
+        <IconButton
+          aria-label='close'
+          onClick={handleClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: theme => theme.palette.grey[500]
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+        <DialogContent dividers>
+          {error ? <p style={{ color: 'red' }}>{error}</p> : ''}
+
+          <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
+            {receiverAccounts.length < 1 ? (
+              <h3>Aucun compte Selectioné</h3>
+            ) : (
+              <table className='myTable'>
+                <thead>
+                  <tr>
+                    <th>Code du compte</th>
+                    <th>Solde actuel(USD)</th>
+                    <th>Propriétaire</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {receiverAccounts.map(account => (
+                    <tr key={account.code}>
+                      <td>{account.code}</td>
+                      <td>{account.balance}</td>
+                      <td>{account.owner.fullName}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+
+            <TextField
+              fullWidth
+              type='number'
+              label='Montant'
+              sx={{ marginBottom: 4, marginTop: 4 }}
+              value={movement.amount}
+              onChange={e => setMovement({ ...movement, amount: Number.parseFloat(e.target.value) })}
+            />
+          </form>
+        </DialogContent>
+        <DialogActions>
+          {loading ? (
+            <Loader />
+          ) : (
+            <Button
+              autoFocus
+              fullWidth
+              size='large'
+              type='submit'
+              variant='contained'
+              sx={{ marginBottom: 7 }}
+              onClick={e => handleSubmit(e)}
+            >
+              Recharger
+            </Button>
+          )}
+        </DialogActions>
+      </BootstrapDialog>
+    </div>
+  )
+}

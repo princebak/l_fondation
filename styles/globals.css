@@ -558,6 +558,11 @@ footer ul li img {
   padding: 4px;
 }
 
+.myTable tr td,
+th {
+  border-bottom: solid 1px rgb(202, 201, 201);
+}
+
 /* Small Pc */
 @media only screen and (max-width: 950px) {
   main > * {

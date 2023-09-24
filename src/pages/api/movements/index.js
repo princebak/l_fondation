@@ -54,7 +54,7 @@ export default async function handler(req, res) {
 
       receiverAccountCodes.map(async receiverAccountCode => {
         const receiverAccount = await Account.findOne({ code: receiverAccountCode }, 'balance')
-        const newBalance = receiverAccount.balance + amount
+        const newBalance = Number.parseFloat(receiverAccount.balance) + amount
         await Account.findOneAndUpdate({ code: receiverAccountCode }, { balance: newBalance })
       })
       const destinationAccountsIds = await Account.find({ code: { $in: receiverAccountCodes } }, '_id')
