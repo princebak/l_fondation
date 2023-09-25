@@ -1,5 +1,6 @@
 import { Button, Card, CardHeader, Grid, Link, Typography } from '@mui/material'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { RechargeModal } from 'src/utils/Modal'
 import TableStickyHeader from 'src/views/tables/TableStickyHeader'
@@ -15,8 +16,10 @@ const Accounts = () => {
   const { data: session } = useSession()
   const [senderAccountCode, setSenderAccountCode] = useState('')
   const [movementType, setMovementType] = useState(null)
-  const [sender, setSender] = useState({ code: 'AG0000005', fullName: 'Prince Bak', type: 'super admin' })
+  const [sender, setSender] = useState(null)
   const [selectAll, setSelectAll] = useState(false)
+
+  const router = useRouter()
 
   const addReceiverAccount = (accountCode, isChecked) => {
     const receiverAccount = accounts.find(account => account.code == accountCode && account.code != senderAccountCode)
@@ -37,10 +40,13 @@ const Accounts = () => {
     }
   }
 
-  const reset = res => {
+  const reset = async res => {
     setOpenModal(false)
     if (res === 'done') {
       setReceiverAccounts([])
+      setFilterKey('')
+      setFilterValue('')
+      await loadAccounts()
     }
   }
 

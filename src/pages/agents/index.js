@@ -7,10 +7,10 @@ const Agents = () => {
   const [agents, setAgents] = useState([])
   const [openModal, setOpenModal] = useState(false)
 
-  const reset = res => {
+  const reset = async res => {
     setOpenModal(false)
     if (res !== null && !res.error) {
-      setAgents([...agents, res])
+      await loadAgents()
     }
   }
 
@@ -45,9 +45,7 @@ const Agents = () => {
     <Grid container spacing={6} style={{ backgroundColor: 'rgb(253, 253, 253)' }}>
       <Grid item xs={12}>
         <Typography variant='h5'>
-          <Link href='#'>
-            Liste des Agents
-          </Link>
+          <Link href='#'>Liste des Agents</Link>
         </Typography>
         <Typography variant='body2'>Tous les agents enregistrés</Typography>
       </Grid>
