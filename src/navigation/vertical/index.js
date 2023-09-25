@@ -10,13 +10,21 @@ import AccountPlusOutline from 'mdi-material-ui/AccountPlusOutline'
 import AlertCircleOutline from 'mdi-material-ui/AlertCircleOutline'
 import GoogleCirclesExtended from 'mdi-material-ui/GoogleCirclesExtended'
 
-const navigation = () => {
-  return [
+const navigation = userType => {
+  const mainMenuLinks = [
     {
       title: 'Retour Sur le Site',
       icon: HomeOutline,
       path: '/'
     },
+    {
+      title: 'Comptes',
+      icon: CreditCardOutline,
+      path: '/accounts'
+    }
+  ]
+
+  const moreMenuLinks = [
     {
       title: 'Clients',
       icon: AccountCogOutline,
@@ -27,14 +35,10 @@ const navigation = () => {
       icon: AccountCogOutline,
       path: '/agents'
     },
-    {
-      title: 'Comptes',
-      icon: AccountCogOutline,
-      path: '/accounts'
-    },
+
     {
       title: 'Mouvements',
-      icon: AccountCogOutline,
+      icon: Table,
       path: '/movements'
     }
 
@@ -93,6 +97,12 @@ const navigation = () => {
       path: '/form-layouts'
     } */
   ]
+
+  if (userType === 'admin' || userType === 'super admin') {
+    mainMenuLinks = [...mainMenuLinks, ...moreMenuLinks]
+  }
+
+  return mainMenuLinks
 }
 
 export default navigation
