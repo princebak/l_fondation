@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -73,6 +73,10 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
+  const { query } = useRouter()
+  const registration = query['registration']
+  const [success, setSuccess] = useState(false)
+
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value })
   }
@@ -109,6 +113,13 @@ const LoginPage = () => {
 
     setLoading(false)
   }
+
+  useEffect(() => {
+    if (registration === 'succeeded') {
+      setSuccess(true)
+      setTimeout(() => setSuccess(false), 3000)
+    }
+  }, [registration])
 
   return (
     <Box className='content-center'>
@@ -147,6 +158,8 @@ const LoginPage = () => {
             <Typography variant='body2'>Connectez-vous à votre compte et commencez l'aventure</Typography>
           </Box>
           {error ? <p style={{ color: 'red' }}>{error}</p> : ''}
+          {success ? <div className='successMsg'>Inscription reusie, vous pouvez vous connecter maintenant. </div> : ''}
+
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
             <TextField
               autoFocus

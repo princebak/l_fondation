@@ -563,6 +563,15 @@ th {
   border-bottom: solid 1px rgb(202, 201, 201);
 }
 
+.successMsg {
+  padding: 1rem;
+  background-color: rgb(193, 250, 193);
+  color: rgb(0, 32, 0);
+  width: 100%;
+  text-align: center;
+  margin: 10px 0px;
+}
+
 /* Small Pc */
 @media only screen and (max-width: 950px) {
   main > * {

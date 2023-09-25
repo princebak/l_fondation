@@ -18,6 +18,7 @@ const Accounts = () => {
   const [movementType, setMovementType] = useState(null)
   const [sender, setSender] = useState(null)
   const [selectAll, setSelectAll] = useState(false)
+  const [success, setSuccess] = useState(false)
 
   const router = useRouter()
 
@@ -47,6 +48,8 @@ const Accounts = () => {
       setFilterKey('')
       setFilterValue('')
       await loadAccounts()
+      setSuccess(true)
+      setTimeout(() => setSuccess(false), 3000)
     }
   }
 
@@ -163,6 +166,7 @@ const Accounts = () => {
 
         <Typography variant='body2'>Tous les comptes</Typography>
       </Grid>
+      {success ? <div className='successMsg'>Rechargement reusie. </div> : ''}
 
       <Grid item xs={12}>
         <Card>

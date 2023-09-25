@@ -6,11 +6,14 @@ import TableStickyHeader from 'src/views/tables/TableStickyHeader'
 const Agents = () => {
   const [agents, setAgents] = useState([])
   const [openModal, setOpenModal] = useState(false)
+  const [success, setSuccess] = useState(false)
 
   const reset = async res => {
     setOpenModal(false)
     if (res !== null && !res.error) {
       await loadAgents()
+      setSuccess(true)
+      setTimeout(() => setSuccess(false), 3000)
     }
   }
 
@@ -49,7 +52,7 @@ const Agents = () => {
         </Typography>
         <Typography variant='body2'>Tous les agents enregistrés</Typography>
       </Grid>
-
+      {success ? <div className='successMsg'>Enregistrement reusie.</div> : ''}
       <Grid item xs={12}>
         <Card>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignContent: 'center' }}>

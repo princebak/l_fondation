@@ -113,7 +113,7 @@ const RegisterPage = () => {
 
     setLoading(false)
 
-    res.error ? setError(res.error) : router.push('/login')
+    res.error ? setError(res.error) : router.push('/login?registration=succeeded')
   }
 
   return (
