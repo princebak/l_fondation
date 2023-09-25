@@ -22,6 +22,11 @@ export default async function handler(req, res) {
     }
   } else if (req.method == 'POST') {
     const { senderAccountCode, receiverAccountCodes, amount, movementType } = req.body
+
+    if (receiverAccountCodes.length < 1) {
+      res.status(404).json({ error: 'Vous devez selectionnez au moins un comptes bénéficiaire.' })
+    }
+
     await dbConnector()
 
     const totalAmount = receiverAccountCodes.length * amount
@@ -58,7 +63,6 @@ export default async function handler(req, res) {
         await Account.findOneAndUpdate({ code: receiverAccountCode }, { balance: newBalance })
       })
       const destinationAccountsIds = await Account.find({ code: { $in: receiverAccountCodes } }, '_id')
-      console.log('destinationAccountsIds >>', destinationAccountsIds)
 
       const movement = new Movement({
         code: await generateMovementCode(movementType.substring(0, 3).toUpperCase()),
@@ -66,7 +70,7 @@ export default async function handler(req, res) {
         amount: totalAmount,
         sourceAccount: senderAccount._id,
         destinationAccounts: destinationAccountsIds,
-        note: `${amount} ${senderAccount.currency} par compte beneficiaire`
+        note: `${amount} ${senderAccount.currency} par compte bénéficiaire`
       })
 
       const savedMovement = await movement.save()
