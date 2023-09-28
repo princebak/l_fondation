@@ -31,6 +31,6 @@ export default async function handler(req, res) {
       })
       .catch(err => res.status(500).json({ error: "Error on '/api/register' : " + err }))
   } else {
-    return res.status(400).json({ error: 'This API call only accepts GET method.' })
+    return res.status(400).json({ error: 'This API call only accepts GET and PUT methods.' })
   }
 }

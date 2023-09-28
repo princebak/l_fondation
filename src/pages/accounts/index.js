@@ -89,7 +89,8 @@ const Accounts = () => {
       setSender(currentSender)
       const senderCode = loadedAccounts.filter(account => account.owner.code == currentSender.code)[0]?.code
       setSenderAccountCode(senderCode)
-      setMovementType(sender?.type === 'super admin' ? 'Recharge' : 'Depot')
+
+      setMovementType(sender?.type === 'super admin' || sender?.type === 'admin' ? 'Recharge' : 'Dépôt')
     }
 
     /*  const senderCode = accounts.filter(account => account?.owner?.code == sender?.code)[0]?.code
@@ -174,7 +175,7 @@ const Accounts = () => {
             <CardHeader title='Comptes' titleTypographyProps={{ variant: 'h6' }} />
 
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', alignItems: 'center' }}>
-              <labe>Filtrer par</labe>
+              <label>Filtrer par</label>
               <select
                 style={{ height: 'fit-content', flex: 1, padding: '4px', marginRight: '5px' }}
                 onChange={e => setFilterKey(e.target.value)}

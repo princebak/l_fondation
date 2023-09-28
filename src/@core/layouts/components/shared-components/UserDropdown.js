@@ -46,8 +46,12 @@ const UserDropdown = () => {
   }
 
   const handleDropdownClose = url => {
-    signOut()
-    router.push(url)
+    if (url === '/login') {
+      signOut()
+    }
+    if (url) {
+      router.push(url)
+    }
     setAnchorEl(null)
   }
 
@@ -103,6 +107,7 @@ const UserDropdown = () => {
               <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
                 {session?.user?.type}
               </Typography>
+              <Typography sx={{ fontWeight: 600 }}>{session?.user?.code}</Typography>
             </Box>
           </Box>
         </Box>
@@ -144,7 +149,14 @@ const UserDropdown = () => {
             FAQ
           </Box>
         </MenuItem> */}
+        {/* <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/profile')}>
+          <Box sx={styles}>
+            <CogOutline sx={{ marginRight: 2 }} />
+            Profile
+          </Box>
+        </MenuItem>
         <Divider />
+        */}
         <MenuItem sx={{ py: 2 }} onClick={() => handleDropdownClose('/login')}>
           <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} />
           Logout

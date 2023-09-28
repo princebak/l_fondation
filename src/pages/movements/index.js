@@ -40,9 +40,9 @@ const Movements = () => {
     <Grid container spacing={6} style={{ backgroundColor: 'rgb(253, 253, 253)' }}>
       <Grid item xs={12}>
         <Typography variant='h5'>
-          <Link href='#'>Liste des Movements</Link>
+          <Link href='#'>Liste des Mouvements</Link>
         </Typography>
-        <Typography variant='body2'>Tous les movements inscrits</Typography>
+        <Typography variant='body2'>Tous les mouvements inscrits</Typography>
       </Grid>
 
       <Grid item xs={12}>

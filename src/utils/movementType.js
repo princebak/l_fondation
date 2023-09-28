@@ -1,6 +1,13 @@
 // Movement Type
-export const DEPOT = 'dépôt'
 
-export const RETRAIT = 'retrait'
+// Admin / Super Admin to agent
+export const RECHARGE = 'Recharge'
 
-export const TRANSFERT = 'Transfert'
+// Agent to Client
+export const DEPOSIT = 'Dépôt'
+
+// Client to himself
+export const WITHDRAW = 'Retrait'
+
+// Client to an other Client
+export const TRANSFER = 'Transfert'

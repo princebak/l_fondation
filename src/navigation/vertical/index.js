@@ -9,20 +9,27 @@ import CreditCardOutline from 'mdi-material-ui/CreditCardOutline'
 import AccountPlusOutline from 'mdi-material-ui/AccountPlusOutline'
 import AlertCircleOutline from 'mdi-material-ui/AlertCircleOutline'
 import GoogleCirclesExtended from 'mdi-material-ui/GoogleCirclesExtended'
+import { LinkBoxOutline } from 'mdi-material-ui'
 
 const navigation = userType => {
   const mainMenuLinks = [
     {
       title: 'Retour Sur le Site',
-      icon: HomeOutline,
+      icon: LinkBoxOutline,
       path: '/'
     },
     {
-      title: 'Comptes',
-      icon: CreditCardOutline,
-      path: '/accounts'
+      title: 'Tableau de bord',
+      icon: HomeOutline,
+      path: '/dashboard'
     }
   ]
+
+  const accountMenu = {
+    title: 'Comptes',
+    icon: CreditCardOutline,
+    path: '/accounts'
+  }
 
   const moreMenuLinks = [
     {
@@ -99,7 +106,10 @@ const navigation = userType => {
   ]
 
   if (userType === 'admin' || userType === 'super admin') {
-    mainMenuLinks = [...mainMenuLinks, ...moreMenuLinks]
+    mainMenuLinks = [...mainMenuLinks, accountMenu, ...moreMenuLinks]
+  }
+  if (userType?.includes('agent')) {
+    mainMenuLinks = [...mainMenuLinks, accountMenu]
   }
 
   return mainMenuLinks

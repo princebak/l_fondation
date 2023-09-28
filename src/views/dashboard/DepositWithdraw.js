@@ -6,6 +6,10 @@ import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import MuiDivider from '@mui/material/Divider'
+import { Avatar } from '@mui/material'
+
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 const depositData = [
   {
@@ -104,50 +108,68 @@ const Divider = styled(MuiDivider)(({ theme }) => ({
   }
 }))
 
-const DepositWithdraw = () => {
+const DepositWithdraw = ({ deposits, withdraws }) => {
   return (
     <Card sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: ['column', 'column', 'row'] }}>
       <Box sx={{ width: '100%' }}>
         <CardHeader
-          title='Deposit'
+          title='7 Derniers Dépôts'
           sx={{ pt: 5.5, alignItems: 'center', '& .MuiCardHeader-action': { mt: 0.6 } }}
-          action={<Typography variant='caption'>View All</Typography>}
+
+          /*  action={<Typography variant='caption'>View All</Typography>}
           titleTypographyProps={{
             variant: 'h6',
             sx: { lineHeight: '1.6 !important', letterSpacing: '0.15px !important' }
-          }}
+          }} */
         />
         <CardContent sx={{ pb: theme => `${theme.spacing(5.5)} !important` }}>
-          {depositData.map((item, index) => {
-            return (
-              <Box
-                key={item.title}
-                sx={{ display: 'flex', alignItems: 'center', mb: index !== depositData.length - 1 ? 6 : 0 }}
-              >
-                <Box sx={{ minWidth: 38, display: 'flex', justifyContent: 'center' }}>
-                  <img src={item.logo} alt={item.title} width={item.logoWidth} height={item.logoHeight} />
-                </Box>
+          {deposits?.length > 0 ? (
+            deposits.map((deposit, index) => {
+              return (
                 <Box
-                  sx={{
-                    ml: 4,
-                    width: '100%',
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                  }}
+                  key={deposit._id}
+                  sx={{ display: 'flex', alignItems: 'center', mb: index !== depositData.length - 1 ? 6 : 0 }}
                 >
-                  <Box sx={{ marginRight: 2, display: 'flex', flexDirection: 'column' }}>
-                    <Typography sx={{ fontWeight: 600, fontSize: '0.875rem' }}>{item.title}</Typography>
-                    <Typography variant='caption'>{item.subtitle}</Typography>
-                  </Box>
-                  <Typography variant='subtitle2' sx={{ fontWeight: 600, color: 'success.main' }}>
-                    {item.amount}
-                  </Typography>
+                  <div style={{ display: 'flex', width: '100%' }}>
+                    <Avatar
+                      sx={{
+                        width: 38,
+                        height: 38,
+                        marginRight: 3,
+                        fontSize: '1rem',
+                        color: 'common.white',
+                        backgroundColor: deposit.category === 'IN' ? `success.main` : `error.main`
+                      }}
+                    >
+                      {deposit.category === 'IN' ? <ArrowBackIcon /> : <ArrowForwardIcon />}
+                    </Avatar>
+                    <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Typography
+                          sx={{ mr: 0.5, fontWeight: 600, letterSpacing: '0.25px' }}
+                        >{`$${deposit.amount}`}</Typography>
+                        <Typography
+                          variant='caption'
+                          sx={{
+                            fontWeight: 600,
+                            lineHeight: 1.5,
+                            color: deposit.category === 'IN' ? 'success.main' : 'error.main'
+                          }}
+                        >
+                          {deposit.code}
+                        </Typography>
+                      </div>
+                      <div>
+                        <span style={{ fontSize: '15px' }}> {new Date(deposit.createdAt).toLocaleString()}</span>
+                      </div>
+                    </div>
+                  </div>
                 </Box>
-              </Box>
-            )
-          })}
+              )
+            })
+          ) : (
+            <h3>Il n'y as encore des dépôts.</h3>
+          )}
         </CardContent>
       </Box>
 
@@ -155,45 +177,63 @@ const DepositWithdraw = () => {
 
       <Box sx={{ width: '100%' }}>
         <CardHeader
-          title='Withdraw'
+          title='7 Derniers retraits'
           sx={{ pt: 5.5, alignItems: 'center', '& .MuiCardHeader-action': { mt: 0.6 } }}
-          action={<Typography variant='caption'>View All</Typography>}
+
+          /* action={<Typography variant='caption'>View All</Typography>}
           titleTypographyProps={{
             variant: 'h6',
             sx: { lineHeight: '1.6 !important', letterSpacing: '0.15px !important' }
-          }}
+          }} */
         />
         <CardContent sx={{ pb: theme => `${theme.spacing(5.5)} !important` }}>
-          {withdrawData.map((item, index) => {
-            return (
-              <Box
-                key={item.title}
-                sx={{ display: 'flex', alignItems: 'center', mb: index !== depositData.length - 1 ? 6 : 0 }}
-              >
-                <Box sx={{ minWidth: 36, display: 'flex', justifyContent: 'center' }}>
-                  <img src={item.logo} alt={item.title} width={item.logoWidth} height={item.logoHeight} />
-                </Box>
+          {withdraws?.length > 0 ? (
+            withdraws.map((withdraw, index) => {
+              return (
                 <Box
-                  sx={{
-                    ml: 4,
-                    width: '100%',
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    alignItems: 'center',
-                    justifyContent: 'space-between'
-                  }}
+                  key={item.title}
+                  sx={{ display: 'flex', alignItems: 'center', mb: index !== depositData.length - 1 ? 6 : 0 }}
                 >
-                  <Box sx={{ marginRight: 2, display: 'flex', flexDirection: 'column' }}>
-                    <Typography sx={{ fontWeight: 600, fontSize: '0.875rem' }}>{item.title}</Typography>
-                    <Typography variant='caption'>{item.subtitle}</Typography>
-                  </Box>
-                  <Typography variant='subtitle2' sx={{ fontWeight: 600, color: 'error.main' }}>
-                    {item.amount}
-                  </Typography>
+                  <div style={{ display: 'flex', width: '100%' }}>
+                    <Avatar
+                      sx={{
+                        width: 38,
+                        height: 38,
+                        marginRight: 3,
+                        fontSize: '1rem',
+                        color: 'common.white',
+                        backgroundColor: withdraw.category === 'IN' ? `success.main` : `error.main`
+                      }}
+                    >
+                      {withdraw.category === 'IN' ? <ArrowBackIcon /> : <ArrowForwardIcon />}
+                    </Avatar>
+                    <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Typography
+                          sx={{ mr: 0.5, fontWeight: 600, letterSpacing: '0.25px' }}
+                        >{`$${withdraw.amount}`}</Typography>
+                        <Typography
+                          variant='caption'
+                          sx={{
+                            fontWeight: 600,
+                            lineHeight: 1.5,
+                            color: withdraw.category === 'IN' ? 'success.main' : 'error.main'
+                          }}
+                        >
+                          {withdraw.code}
+                        </Typography>
+                      </div>
+                      <div>
+                        <span style={{ fontSize: '15px' }}> {new Date(withdraw.createdAt).toLocaleString()}</span>
+                      </div>
+                    </div>
+                  </div>
                 </Box>
-              </Box>
-            )
-          })}
+              )
+            })
+          ) : (
+            <h3>Il n'y as encore des retraits.</h3>
+          )}
         </CardContent>
       </Box>
     </Card>

@@ -22,12 +22,91 @@ import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
 import DepositWithdraw from 'src/views/dashboard/DepositWithdraw'
 import SalesByCountries from 'src/views/dashboard/SalesByCountries'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
+import { Button, Card, CardHeader } from '@mui/material'
 
 const Dashboard = () => {
+  const { data: session } = useSession()
+
+  const [dashboardData, setDashboardData] = useState({
+    balance: 0,
+    totalSent: 0,
+    totalReceived: 0,
+    sevenLastRecharges: [],
+    sevenLastDeposits: [],
+    sevenLastWithdraws: [],
+    sevenLastTransfers: []
+  })
+
+  const loadDashboardData = async () => {
+    const response = await fetch('/api/dashboard?userId=' + session?.user?._id, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const dashboardData = await response.json()
+    console.log('dashboardData response >> ', dashboardData)
+
+    setDashboardData(dashboardData)
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await loadDashboardData()
+    }
+    fetchData()
+  }, [])
+
   return (
     <ApexChartWrapper>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <label style={{ display: 'flex', gap: '10px' }}>
+          {'Code du compte >> '} <strong>{dashboardData.accountCode}</strong>
+        </label>
+        <Button
+          size='large'
+          variant='contained'
+          sx={{ height: 'fit-content', marginTop: '10px', marginRight: '10px' }}
+          onClick={() => loadDashboardData()}
+        >
+          Actualiser
+        </Button>
+      </div>
+
+      <Grid container spacing={6}>
+        <Grid item xs={12} md={4}>
+          <Trophy title={'Solde'} subTitle={'Total de votre solde'} amount={dashboardData?.balance} />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Trophy title={'Montant envoyé'} subTitle={'Montant total envoyé'} amount={dashboardData?.totalSent} />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Trophy title={'Montant reçu'} subTitle={'Montant total reçu'} amount={dashboardData?.totalReceived} />
+        </Grid>
+
+        <Grid item xs={12} md={6} lg={4}>
+          <SalesByCountries recharges={dashboardData?.sevenLastRecharges} />
+        </Grid>
+        <Grid item xs={12} md={12} lg={8}>
+          <DepositWithdraw deposits={dashboardData?.sevenLastDeposits} withdraws={dashboardData?.sevenLastWithdraws} />
+        </Grid>
+        {/*   <Grid item xs={12}>
+          <Card>
+            <CardHeader title='7 Derniers transferts' titleTypographyProps={{ variant: 'h6' }} />
+            <Table transfers={dashboardData?.sevenLastTransfers} />
+          </Card>
+        </Grid> */}
+      </Grid>
+    </ApexChartWrapper>
+  )
+}
+
+export default Dashboard
+
+{
+  /* <ApexChartWrapper>
       <Grid container spacing={6}>
         <Grid item xs={12} md={4}>
           <Trophy />
@@ -97,8 +176,5 @@ const Dashboard = () => {
           <Table />
         </Grid>
       </Grid>
-    </ApexChartWrapper>
-  )
+    </ApexChartWrapper> */
 }
-
-export default Dashboard

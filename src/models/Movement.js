@@ -3,7 +3,6 @@ import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const movementSchema = new Schema(
-  
   {
     code: {
       type: String,
@@ -31,10 +30,12 @@ const movementSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Account'
     },
-    destinationAccounts: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: 'Account'
-    },
+    destinationAccounts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Account'
+      }
+    ],
     note: {
       type: String
     },
