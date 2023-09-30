@@ -29,3 +29,7 @@ export const DEPOT = 'Depot'
 export const RETRAIT = 'Retrait'
 
 export const TRANSFERT = 'Transfert'
+
+// Others
+
+export const SENDGRID_USER_KEY = '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'

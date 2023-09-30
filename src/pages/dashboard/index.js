@@ -25,6 +25,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { Button, Card, CardHeader } from '@mui/material'
+import Loader from 'src/@core/components/Loader'
 
 const Dashboard = () => {
   const { data: session } = useSession()
@@ -62,9 +63,9 @@ const Dashboard = () => {
   return (
     <ApexChartWrapper>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-        <label style={{ display: 'flex', gap: '10px' }}>
-          {'Code du compte >> '} <strong>{dashboardData.accountCode}</strong>
-        </label>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          {'Code du compte >> '} {dashboardData.accountCode ? <strong>{dashboardData.accountCode}</strong> : <Loader />}
+        </div>
         <Button
           size='large'
           variant='contained'

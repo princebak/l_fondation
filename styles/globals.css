@@ -563,6 +563,10 @@ th {
   border-bottom: solid 1px rgb(202, 201, 201);
 }
 
+.myTable td {
+  text-align: center;
+}
+
 .successMsg {
   padding: 1rem;
   background-color: rgb(193, 250, 193);

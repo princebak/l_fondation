@@ -7,7 +7,7 @@ export const generateUserCode = async prefix => {
   try {
     while (generatedCode == '') {
       console.log('Prefix >> ', prefix)
-      generatedCode = generate(prefix)
+      generatedCode = generateCode(prefix)
       let existingCode = await User.findOne({ code: generatedCode })
       if (existingCode) {
         generatedCode = ''
@@ -25,7 +25,7 @@ export const generateAccountCode = async prefix => {
   try {
     while (generatedCode == '') {
       console.log('Prefix >> ', prefix)
-      generatedCode = generate(prefix)
+      generatedCode = generateCode(prefix)
       let existingCode = await Account.findOne({ code: generatedCode })
       if (existingCode) {
         generatedCode = ''
@@ -43,7 +43,7 @@ export const generateMovementCode = async prefix => {
   try {
     while (generatedCode == '') {
       console.log('Prefix >> ', prefix)
-      generatedCode = generate(prefix)
+      generatedCode = generateCode(prefix)
       let existingCode = await Movement.findOne({ code: generatedCode })
       if (existingCode) {
         generatedCode = ''
@@ -56,7 +56,7 @@ export const generateMovementCode = async prefix => {
   return generatedCode
 }
 
-function generate(prefix) {
+function generateCode(prefix) {
   let generatedCode = prefix
   let letters = 'ABCDEFGHIJKLMNPQRSTUVWXYZABCDEFGHIJKLMNPQRSTUVWXYZABCDEFGHIJKLMNPQRSTUVWXYZ'
   let numbers = '012345678901234567890123456789'

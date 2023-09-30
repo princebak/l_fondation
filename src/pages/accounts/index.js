@@ -15,6 +15,7 @@ const Accounts = () => {
   const [receiverAccounts, setReceiverAccounts] = useState([])
   const { data: session } = useSession()
   const [senderAccountCode, setSenderAccountCode] = useState('')
+  const [senderAccountBalance, setSenderAccountBalance] = useState(0)
   const [movementType, setMovementType] = useState(null)
   const [sender, setSender] = useState(null)
   const [selectAll, setSelectAll] = useState(false)
@@ -87,8 +88,9 @@ const Accounts = () => {
       setAllAccounts(loadedAccounts)
 
       setSender(currentSender)
-      const senderCode = loadedAccounts.filter(account => account.owner.code == currentSender.code)[0]?.code
-      setSenderAccountCode(senderCode)
+      const senderAccount = loadedAccounts.filter(account => account?.owner?.code == currentSender?.code)[0]
+      setSenderAccountCode(senderAccount?.code)
+      setSenderAccountBalance(senderAccount?.balance)
 
       setMovementType(sender?.type === 'super admin' || sender?.type === 'admin' ? 'Recharge' : 'Dépôt')
     }
@@ -207,6 +209,7 @@ const Accounts = () => {
             movementType={movementType}
             senderAccountCode={senderAccountCode}
             receiverAccounts={receiverAccounts}
+            senderAccountBalance={senderAccountBalance}
           />
         ) : (
           ''

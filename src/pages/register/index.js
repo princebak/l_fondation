@@ -111,9 +111,13 @@ const RegisterPage = () => {
     const res = await response.json()
     console.log('User response >> ', res)
 
-    setLoading(false)
+    if (res.error) {
+      setError(res.error)
+    } else {
+      setLoading(false)
 
-    res.error ? setError(res.error) : router.push('/login?registration=succeeded')
+      router.push('/login?registration=succeeded')
+    }
   }
 
   return (
@@ -241,7 +245,6 @@ const RegisterPage = () => {
           </form>
         </CardContent>
       </Card>
-      <FooterIllustrationsV1 />
     </Box>
   )
 }

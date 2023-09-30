@@ -216,7 +216,7 @@ export function AddAgentModal({ reset }) {
   )
 }
 
-export function RechargeModal({ reset, senderAccountCode, receiverAccounts, movementType }) {
+export function RechargeModal({ reset, senderAccountCode, senderAccountBalance, receiverAccounts, movementType }) {
   const [open, setOpen] = useState(true)
   const [error, setError] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -276,6 +276,10 @@ export function RechargeModal({ reset, senderAccountCode, receiverAccounts, move
           {error ? <p style={{ color: 'red' }}>{error}</p> : ''}
 
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
+            <label>
+              Votre solde : <strong> ${senderAccountBalance}</strong>
+              <hr />
+            </label>
             {receiverAccounts.length < 1 ? (
               <h3>Aucun compte Selectioné</h3>
             ) : (
@@ -302,7 +306,7 @@ export function RechargeModal({ reset, senderAccountCode, receiverAccounts, move
             <TextField
               fullWidth
               type='number'
-              label='Montant'
+              label='$Montant'
               sx={{ marginBottom: 4, marginTop: 4 }}
               value={movement.amount}
               onChange={e => setMovement({ ...movement, amount: Number.parseFloat(e.target.value) })}
