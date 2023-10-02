@@ -231,6 +231,11 @@ export function RechargeModal({ reset, senderAccountCode, senderAccountBalance, 
 
   const handleSubmit = async e => {
     e.preventDefault()
+    if (movement.amount < 1) {
+      setError('Le montant ne peut être inférieur à 1.')
+
+      return
+    }
     setLoading(true)
 
     console.log('movement >> ', movement)
@@ -296,7 +301,7 @@ export function RechargeModal({ reset, senderAccountCode, senderAccountBalance, 
                     <tr key={account.code}>
                       <td>{account.code}</td>
                       <td>{account.balance}</td>
-                      <td>{account.owner.fullName}</td>
+                      <td>{account?.owner?.fullName}</td>
                     </tr>
                   ))}
                 </tbody>
