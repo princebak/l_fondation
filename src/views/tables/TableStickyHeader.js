@@ -10,8 +10,9 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
+import Link from 'next/link'
 
-const TableStickyHeader = ({ tableName, columns, rows, addReceiverAccount }) => {
+const TableStickyHeader = ({ tableName, columns, rows, addReceiverAccount, handleDeleteUser }) => {
   // ** States
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -70,23 +71,28 @@ const TableStickyHeader = ({ tableName, columns, rows, addReceiverAccount }) => 
                         <TableCell key={movement.type}>{movement.type}</TableCell>
                         <TableCell key={movement.amount}>{movement.amount}</TableCell>
                         <TableCell key={movement.currency}>{movement.currency}</TableCell>
-                        <TableCell key={movement.sourceAccount._id}>{movement.sourceAccount.code}</TableCell>
-                        <TableCell key={movement.sourceAccount.owner._id}>
-                          {movement.sourceAccount.owner.fullName}
+                        <TableCell key={movement.sourceAccount?._id}>{movement?.sourceAccount?.code}</TableCell>
+                        <TableCell key={movement.sourceAccount?.owner?._id}>
+                          {movement.sourceAccount?.owner?.fullName}
                         </TableCell>
                         <TableCell key={movement.type}>{movement.type === 'Recharge' ? 'Agents' : 'Clients'}</TableCell>
                         <TableCell key={movement.status}>{movement.status}</TableCell>
                       </TableRow>
                     )
                   })
-                : rows.map(client => {
+                : rows.map(user => {
                     return (
-                      <TableRow hover role='checkbox' tabIndex={-1} key={client._id}>
-                        <TableCell key={client.code}>{client.code}</TableCell>
-                        <TableCell key={client.fullName}>{client.fullName}</TableCell>
-                        <TableCell key={client.email}>{client.email}</TableCell>
-                        <TableCell key={client.phone}>{client.phone}</TableCell>
-                        <TableCell key={client.status}>{client.status}</TableCell>
+                      <TableRow hover role='checkbox' tabIndex={-1} key={user._id}>
+                        <TableCell key={user.code}>{user.code}</TableCell>
+                        <TableCell key={user.fullName}>{user.fullName}</TableCell>
+                        <TableCell key={user.email}>{user.email}</TableCell>
+                        <TableCell key={user.phone}>{user.phone}</TableCell>
+                        <TableCell key={user.status}>{user.status}</TableCell>
+                        {/* <TableCell key={'actions'}>
+                          <Link href={'#'} passHref onClick={async () => await handleDeleteUser(user._id)}>
+                            <span style={{ color: 'red' }}>Suprimer</span>
+                          </Link>
+                        </TableCell> */}
                       </TableRow>
                     )
                   })}

@@ -87,8 +87,8 @@ export default async function handler(req, res) {
     })
 
     const savedAccount = await account.save()
-    
-/*
+
+    /*
     const msg = {
       to: email,
       from: 'bakengailunga@gmail.com',
@@ -103,7 +103,7 @@ export default async function handler(req, res) {
     console.log('savedUser >> ', savedUser)
     console.log('savedAccount >> ', savedAccount)
 
-    res.status(200).json(savedUser)
+    res.status(200).json({ ...savedUser._doc, msg: 'Enregistrement reusie.' })
   } catch (error) {
     console.log('Error >> ', error)
     res.status(500).json({ error: error })

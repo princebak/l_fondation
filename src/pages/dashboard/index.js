@@ -29,6 +29,7 @@ import Loader from 'src/@core/components/Loader'
 
 const Dashboard = () => {
   const { data: session } = useSession()
+  const router = useRouter()
 
   const [dashboardData, setDashboardData] = useState({
     balance: 0,
@@ -39,6 +40,14 @@ const Dashboard = () => {
     sevenLastWithdraws: [],
     sevenLastTransfers: []
   })
+
+  /*  useEffect(() => {
+    console.log('User State >> ', session?.user?.status)
+    if (!session?.user?.status || session?.user?.status === 'created') {
+      router.push('/verify_email')
+    } else {
+    }
+  }, []) */
 
   const loadDashboardData = async () => {
     const response = await fetch('/api/dashboard?userId=' + session?.user?._id, {

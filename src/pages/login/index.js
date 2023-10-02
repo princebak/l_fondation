@@ -109,8 +109,11 @@ const LoginPage = () => {
     console.log('Login Request : ', loginForm)
     console.log('Login Response : ', res)
 
-    res.error ? setError(loginMsg[res.error]) : router.push('/dashboard')
-
+    if (res.error) {
+      setError(loginMsg[res.error])
+    } else {
+      router.push('/dashboard')
+    }
     setLoading(false)
   }
 

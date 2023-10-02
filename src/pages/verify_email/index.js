@@ -1,8 +1,10 @@
 // ** React Imports
-import { useState, Fragment } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
@@ -10,8 +12,8 @@ import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
 import InputLabel from '@mui/material/InputLabel'
+import Typography from '@mui/material/Typography'
 import IconButton from '@mui/material/IconButton'
 import CardContent from '@mui/material/CardContent'
 import FormControl from '@mui/material/FormControl'
@@ -37,7 +39,6 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
-import { useRouter } from 'next/router'
 import Loader from 'src/@core/components/Loader'
 
 // ** Styled Components
@@ -52,72 +53,52 @@ const LinkStyled = styled('a')(({ theme }) => ({
 }))
 
 const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
-  marginTop: theme.spacing(1.5),
-  marginBottom: theme.spacing(4),
   '& .MuiFormControlLabel-label': {
     fontSize: '0.875rem',
     color: theme.palette.text.secondary
   }
 }))
 
-const RegisterPage = () => {
-  // ** States
-  const [values, setValues] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    password: '',
-    showPassword: false
-  })
-
-  const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(false)
+const VerifyEmailPage = () => {
+  // ** State
+  const [code, setCode] = useState('')
 
   // ** Hook
   const theme = useTheme()
   const router = useRouter()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const { data: session } = useSession()
 
-  const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value })
-  }
-
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword })
-  }
-
-  const handleMouseDownPassword = event => {
-    event.preventDefault()
+  const loginMsg = {
+    invalidCode: 'Le code entrez est invalid.'
   }
 
   const handleSubmit = async e => {
     e.preventDefault()
     setLoading(true)
 
-    const data = {
-      fullName: values.fullName.trim(),
-      email: values.email.trim(),
-      phone: values.phone.trim(),
-      type: 'client',
-      password: values.password.trim()
+    const validateForm = {
+      email: session?.user?.email,
+      code: code
+
+      // callbackUrl: `${window.location.origin}`,
     }
 
-    const response = await fetch('/api/register', {
+    const response = await fetch('/api/validate_code', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(validateForm)
     })
+
     const res = await response.json()
     console.log('User response >> ', res)
 
-    if (res.error) {
-      setError(res.error)
-    } else {
-      setLoading(false)
+    res.error ? setError(res.error) : router.push('/dashboard')
 
-      router.push('/login?registration=succeeded')
-    }
+    setLoading(false)
   }
 
   return (
@@ -152,9 +133,9 @@ const RegisterPage = () => {
           </Box>
           <Box sx={{ mb: 6 }}>
             <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
-              L'aventure commence ici 🚀
+              Bienvenue à {themeConfig.templateName}! 👋🏻
             </Typography>
-            <Typography variant='body2'>Creer votre compte et commencez l'aventure!</Typography>
+            <Typography variant='body2'>Entrez le code de verification, envoye dans votre e-mail</Typography>
           </Box>
           {error ? <p style={{ color: 'red' }}>{error}</p> : ''}
 
@@ -162,92 +143,36 @@ const RegisterPage = () => {
             <TextField
               autoFocus
               fullWidth
-              id='username'
-              label='Nom complet'
+              id='code'
+              label='Code'
               sx={{ marginBottom: 4 }}
-              value={values.fullName}
-              onChange={handleChange('fullName')}
+              value={code}
+              onChange={e => setCode(e.target.value)}
+              required
             />
-            <TextField
-              fullWidth
-              type='email'
-              label='Email'
-              sx={{ marginBottom: 4 }}
-              value={values.email}
-              onChange={handleChange('email')}
-            />
-            <TextField
-              fullWidth
-              type='tel'
-              label='Telephone'
-              sx={{ marginBottom: 4 }}
-              value={values.phone}
-              onChange={handleChange('phone')}
-            />
-            <FormControl fullWidth>
-              <InputLabel htmlFor='auth-register-password'>Mot de passe</InputLabel>
-              <OutlinedInput
-                label='Password'
-                value={values.password}
-                id='auth-register-password'
-                onChange={handleChange('password')}
-                type={values.showPassword ? 'text' : 'password'}
-                endAdornment={
-                  <InputAdornment position='end'>
-                    <IconButton
-                      edge='end'
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      aria-label='toggle password visibility'
-                    >
-                      {values.showPassword ? <EyeOutline fontSize='small' /> : <EyeOffOutline fontSize='small' />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-            <FormControlLabel
-              control={<Checkbox />}
-              label={
-                <Fragment>
-                  <span>I agree to </span>
-                  <Link href='#' passHref>
-                    <LinkStyled onClick={e => e.preventDefault()}>privacy policy & terms</LinkStyled>
-                  </Link>
-                </Fragment>
-              }
-            />
+            <Box
+              sx={{ mb: 4, display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' }}
+            ></Box>
             {loading ? (
               <Loader />
             ) : (
               <Button
                 fullWidth
                 size='large'
-                type='submit'
                 variant='contained'
                 sx={{ marginBottom: 7 }}
                 onClick={e => handleSubmit(e)}
               >
-                S'inscrire
+                Valider
               </Button>
             )}
-
-            <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <Typography variant='body2' sx={{ marginRight: 2 }}>
-                Avez vous deja un compte ?
-              </Typography>
-              <Typography variant='body2'>
-                <Link passHref href='/login'>
-                  <LinkStyled>Connecter vous</LinkStyled>
-                </Link>
-              </Typography>
-            </Box>
           </form>
         </CardContent>
       </Card>
+      {/* <FooterIllustrationsV1 /> */}
     </Box>
   )
 }
-RegisterPage.getLayout = page => <BlankLayout>{page}</BlankLayout>
+VerifyEmailPage.getLayout = page => <BlankLayout>{page}</BlankLayout>
 
-export default RegisterPage
+export default VerifyEmailPage

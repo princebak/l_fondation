@@ -52,6 +52,11 @@ const userSchema = new Schema(
       required: true,
       minLength: 5,
       select: false
+    },
+    status: {
+      type: String,
+      required: true,
+      default: 'created'
     }
   },
   { timestamps: true }

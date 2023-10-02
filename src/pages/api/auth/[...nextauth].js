@@ -29,6 +29,8 @@ export default NextAuth({
           email: credentials.email
         }).select('+password')
 
+        console.log('User >> ', user)
+
         if (!user) {
           throw new Error('Email is not registered')
         }

@@ -7,12 +7,14 @@ const Agents = () => {
   const [agents, setAgents] = useState([])
   const [openModal, setOpenModal] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [successMsg, setSuccessMsg] = useState(false)
 
   const reset = async res => {
     setOpenModal(false)
     if (res !== null && !res.error) {
       await loadAgents()
       setSuccess(true)
+      setSuccessMsg(res.msg)
       setTimeout(() => setSuccess(false), 3000)
     }
   }
@@ -30,6 +32,21 @@ const Agents = () => {
     setAgents(agents)
   }
 
+  const handleDeleteUser = async userId => {
+    const response = await fetch(`/api/delete/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    const deleteRes = await response.json()
+    console.log('Delete response >> ', deleteRes)
+    await loadAgents()
+    setSuccess(true)
+    setSuccessMsg(deleteRes.msg)
+    setTimeout(() => setSuccess(false), 3000)
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       await loadAgents()
@@ -42,6 +59,9 @@ const Agents = () => {
     { key: 'fullName', label: 'Nom complet', size: '170' },
     { key: 'email', label: 'E-mail', size: '170' },
     { key: 'phone', label: 'Téléphone', size: '170' }
+
+    /*     { key: 'actions', label: 'Actions', size: '170' }
+     */
   ]
 
   return (
@@ -52,7 +72,7 @@ const Agents = () => {
         </Typography>
         <Typography variant='body2'>Tous les agents enregistrés</Typography>
       </Grid>
-      {success ? <div className='successMsg'>Enregistrement reusie.</div> : ''}
+      {success ? <div className='successMsg'>{successMsg}</div> : ''}
       <Grid item xs={12}>
         <Card>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignContent: 'center' }}>
@@ -66,7 +86,7 @@ const Agents = () => {
               Ajouter
             </Button>
           </div>
-          <TableStickyHeader columns={columns} rows={agents} />
+          <TableStickyHeader columns={columns} rows={agents} handleDeleteUser={handleDeleteUser} />
         </Card>
       </Grid>
       {openModal ? <AddAgentModal reset={reset} /> : ''}
