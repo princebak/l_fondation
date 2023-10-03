@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     try {
       const accounts = await Account.find().populate('owner')
 
-      const clientsAccounts = accounts.filter(account => account.owner.type === 'client')
+      const clientsAccounts = accounts.filter(account => account.owner?.type === 'client')
 
       res.status(200).json(clientsAccounts)
     } catch (error) {

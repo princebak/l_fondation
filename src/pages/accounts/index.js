@@ -75,6 +75,9 @@ const Accounts = () => {
 
       const path = currentSender.type === 'agent interne' ? '/clients' : ''
 
+      console.log('currentSender >> ', currentSender)
+      console.log('path >> ', path)
+
       const response = await fetch('/api/accounts' + path, {
         method: 'GET',
         headers: {
