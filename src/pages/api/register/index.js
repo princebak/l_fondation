@@ -2,10 +2,10 @@ import bcrypt from 'bcrypt'
 import Account from 'src/models/Account'
 import User from 'src/models/User'
 import { generateAccountCode, generateUserCode } from 'src/utils/codeGenerator'
-import { SENDGRID_USER_KEY } from 'src/utils/constant'
+
+
 import { dbConnector } from 'src/utils/dbConnector'
 import { generateUserPin } from 'src/utils/pinGenerator'
-import * as sgMail from '@sendgrid/mail'
 
 const validateEmail = email => {
   const regExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
@@ -87,21 +87,6 @@ export default async function handler(req, res) {
     })
 
     const savedAccount = await account.save()
-
-    /*
-    const msg = {
-      to: email,
-      from: 'bakengailunga@gmail.com',
-      subject: "L-Fondation validation de l'E-mail",
-      text: 'Bienvenue chez Lingomba Fondation',
-      html: 'Bienvenue chez Lingomba Fondation, validez vorte email avec ce code : ' + userPin
-    }
-
-    sgMail.setApiKey('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')
-    sgMail.send(msg) */
-
-    console.log('savedUser >> ', savedUser)
-    console.log('savedAccount >> ', savedAccount)
 
     res.status(200).json({ ...savedUser._doc, msg: 'Enregistrement reusie.' })
   } catch (error) {

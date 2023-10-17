@@ -26,6 +26,7 @@ import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { Button, Card, CardHeader } from '@mui/material'
 import Loader from 'src/@core/components/Loader'
+import { CREATED } from 'src/utils/constant'
 
 const Dashboard = () => {
   const { data: session } = useSession()
@@ -63,17 +64,35 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    const fetchData = async () => {
-      await loadDashboardData()
+    console.log('User Session >> ', session)
+
+    if (!session?.user?.status) {
+      router.push('/login')
     }
-    fetchData()
+
+    if (session?.user?.status === CREATED) {
+      router.push('/verify_email')
+    } else {
+      const fetchData = async () => {
+        await loadDashboardData()
+      }
+      fetchData()
+    }
   }, [])
 
   return (
     <ApexChartWrapper>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-        <div style={{ display: 'flex', gap: '10px' }}>
-          {'Code du compte >> '} {dashboardData.accountCode ? <strong>{dashboardData.accountCode}</strong> : <Loader />}
+        <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+          <span style={{ color: '#9155FD', fontSize: '20px' }}>{'Code du compte : '}</span>
+          <span>
+            {' '}
+            {dashboardData.accountCode ? (
+              <strong style={{ color: '#9155FD', fontSize: '20px' }}>{dashboardData.accountCode}</strong>
+            ) : (
+              <Loader />
+            )}
+          </span>
         </div>
         <Button
           size='large'

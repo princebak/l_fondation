@@ -21,6 +21,9 @@ import DatePicker from 'react-datepicker'
 
 // ** Styled Components
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import { useSession } from 'next-auth/react'
+import Loader from 'src/@core/components/Loader'
+import { EMAIL_VALIDATED } from 'src/utils/constant'
 
 const CustomInput = forwardRef((props, ref) => {
   return <TextField inputRef={ref} label='Birth Date' fullWidth {...props} />
@@ -28,23 +31,160 @@ const CustomInput = forwardRef((props, ref) => {
 
 const TabInfo = () => {
   // ** State
-  const [date, setDate] = useState(null)
+  const [ppFile, setPpFile] = useState([])
+  const [icFile, setIcFile] = useState([])
+
+  const [error, setError] = useState(null)
+  const [success, setSuccess] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  const { data: session, update } = useSession()
+  const [user, setUser] = useState(session?.user)
+
+  const [ppfileLink, setPpFileLink] = useState(user?.passportPicUrl)
+  const [icfileLink, setIcFileLink] = useState(user?.identityCardUrl)
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    setLoading(true)
+    const ppFileToUpload = ppFile[0]
+    const icFileToUpload = icFile[0]
+
+    if(user?.status === EMAIL_VALIDATED){
+      setError("Veuillez d'abord compléter les informations de votre profil avant le Téléchargement des document.")
+    }
+
+    if (ppFileToUpload.size > 2000000 || icFileToUpload.size > 2000000) {
+      // 2 Mb
+      setError("La taille maximum d'un fichier est de 2 Mb.")
+
+      return
+    }
+
+    if (!ppFileToUpload || !icFileToUpload) {
+      setError('Vous devez envoyer les deux fichiers.')
+
+      return
+    }
+
+    console.log('ppFileToUpload >> ', ppFileToUpload)
+    console.log('icFileToUpload >> ', icFileToUpload)
+    const formDataPP = new FormData()
+    const formDataIC = new FormData()
+
+    formDataPP.append('file', ppFileToUpload)
+    formDataPP.append('upload_preset', 'l_fondation')
+
+    formDataIC.append('file', icFileToUpload)
+    formDataIC.append('upload_preset', 'l_fondation')
+
+    const ppUploadResponse = await fetch('https://api.cloudinary.com/v1_1/pribakil/image/upload', {
+      method: 'POST',
+      body: formDataPP
+    })
+
+    const icUploadResponse = await fetch('https://api.cloudinary.com/v1_1/pribakil/image/upload', {
+      method: 'POST',
+      body: formDataIC
+    })
+
+    const ppResponse = await ppUploadResponse.json()
+    const icResponse = await icUploadResponse.json()
+
+    /* setFileLink(ppResponse.secure_url)
+    setFileName(ppResponse.original_filename)
+    setFileExtension(ppResponse.format) */
+
+    const updatingUser = {
+      ...user,
+      passportPicUrl: ppResponse.secure_url,
+      identityCardUrl: icResponse.secure_url
+    }
+    setPpFileLink(ppResponse.secure_url)
+    setIcFileLink(icResponse.secure_url)
+
+    await updateUser(updatingUser)
+
+    setSuccess(true)
+
+    setPpFile([])
+    setIcFile([])
+    setLoading(false)
+
+    setTimeout(() => {
+      setSuccess(false)
+    }, 3000)
+    console.log('Upload Responses >> ', { ppResponse, icResponse })
+  }
+
+  const updateUser = async user => {
+    const ppResponse = await fetch('/api/users', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(user)
+    })
+    const res = await ppResponse.json()
+    console.log('User ppResponse >> ', res)
+
+    if (res.error) {
+      setError(res.error)
+    } else {
+      await update({
+        ...session,
+        user: {
+          ...user
+        }
+      })
+    }
+  }
 
   return (
     <CardContent>
       <form>
+        {error ? <p style={{ color: 'red' }}>{error}</p> : ''}
+        {success ? <p style={{ color: 'green' }}>{'Téléchargement des documents fait avec success.'}</p> : ''}
+
         <Grid container spacing={7}>
-          <Grid item xs={12} sx={{ marginTop: 4.8 }}>
-            <TextField
-              fullWidth
-              multiline
-              label='Bio'
-              minRows={2}
-              placeholder='Bio'
-              defaultValue='The name’s John Deo. I am a tireless seeker of knowledge, occasional purveyor of wisdom and also, coincidentally, a graphic designer. Algolia helps businesses across industries quickly create relevant 😎, scalable 😀, and lightning 😍 fast search and discovery experiences.'
-            />
+          <Grid item xs={12} md={6} sx={{ marginTop: 4.8 }}>
+            <label>Photo passport</label>
+            <br />
+            {user?.passportPicUrl ? (
+              <span>Vous avez déjà téléchargé un photo passport.</span>
+            ) : (
+              <TextField fullWidth type={'file'} onChange={e => setPpFile([...ppFile, e.target.files[0]])} />
+            )}
           </Grid>
-          <Grid item xs={12} sm={6}>
+
+          <Grid item xs={12} md={6} sx={{ marginTop: 4.8 }}>
+            <a href={ppfileLink} target='_blank' rel='noreferrer'>
+              <img src={ppfileLink} alt="Aucun fichier n'a été téléchargé" style={{ width: '100%' }} />
+            </a>
+          </Grid>
+
+          <Grid item xs={12} sx={{ marginTop: 4.8 }}>
+            <hr />
+          </Grid>
+
+          <Grid item xs={12} md={6} sx={{ marginTop: 4.8 }}>
+            <label>Carte d'identité</label>
+            <br />
+
+            {user?.passportPicUrl ? (
+              <span>Vous avez déjà téléchargé une Carte d'identité.</span>
+            ) : (
+              <TextField fullWidth type={'file'} onChange={e => setIcFile([...icFile, e.target.files[0]])} />
+            )}
+          </Grid>
+
+          <Grid item xs={12} md={6} sx={{ marginTop: 4.8 }}>
+            <a href={icfileLink} target='_blank' rel='noreferrer'>
+              <img src={icfileLink} alt="Aucun fichier n'a été téléchargé" style={{ width: '100%' }} />
+            </a>
+          </Grid>
+
+          {/* <Grid item xs={12} sm={6}>
             <DatePickerWrapper>
               <DatePicker
                 selected={date}
@@ -108,14 +248,16 @@ const TabInfo = () => {
                 <FormControlLabel value='other' label='Other' control={<Radio />} />
               </RadioGroup>
             </FormControl>
-          </Grid>
+          </Grid> */}
+
           <Grid item xs={12}>
-            <Button variant='contained' sx={{ marginRight: 3.5 }}>
-              Save Changes
-            </Button>
-            <Button type='reset' variant='outlined' color='secondary' onClick={() => setDate(null)}>
-              Reset
-            </Button>
+            {loading ? (
+              <Loader />
+            ) : (
+              <Button variant='contained' sx={{ marginRight: 3.5 }} onClick={e => handleSubmit(e)}>
+                Sauvegarder
+              </Button>
+            )}
           </Grid>
         </Grid>
       </form>

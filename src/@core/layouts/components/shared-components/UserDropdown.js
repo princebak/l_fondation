@@ -48,10 +48,12 @@ const UserDropdown = () => {
   const handleDropdownClose = url => {
     if (url === '/login') {
       signOut()
+    } else {
+      if (url) {
+        router.push(url)
+      }
     }
-    if (url) {
-      router.push(url)
-    }
+
     setAnchorEl(null)
   }
 
@@ -149,13 +151,13 @@ const UserDropdown = () => {
             FAQ
           </Box>
         </MenuItem> */}
-      {/*   <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/profile')}>
+        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose('/profile')}>
           <Box sx={styles}>
             <CogOutline sx={{ marginRight: 2 }} />
             Profile
           </Box>
         </MenuItem>
-        <Divider /> */}
+        <Divider />
 
         <MenuItem sx={{ py: 2 }} onClick={() => handleDropdownClose('/login')}>
           <LogoutVariant sx={{ marginRight: 2, fontSize: '1.375rem', color: 'text.secondary' }} />

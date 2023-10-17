@@ -3,6 +3,10 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import { compare } from 'bcrypt'
 import User from 'src/models/User'
 import { dbConnector } from 'src/utils/dbConnector'
+import { CREATED } from 'src/utils/constant'
+import { SENDGRID_USER_KEY } from 'src/utils/constant'
+import * as sgMail from '@sendgrid/mail'
+import { generateUserPin } from 'src/utils/pinGenerator'
 
 export default NextAuth({
   providers: [
@@ -40,6 +44,24 @@ export default NextAuth({
         if (!isPasswordCorrect) {
           throw new Error('Password is incorrect')
         }
+        let userPin = null
+
+        if (user.status === CREATED) {
+          userPin = await generateUserPin()
+
+          const msg = {
+            to: user.email,
+            from: 'bakengailunga@gmail.com',
+            subject: "L-Fondation validation de l'E-mail",
+            text: 'Bienvenue chez Lingomba Fondation',
+            html: 'Bienvenue chez Lingomba Fondation, validez vorte email avec ce code : ' + userPin
+          }
+
+          sgMail.setApiKey('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') // SENDGRID_USER_KEY
+          await sgMail.send(msg)
+
+          await User.findOneAndUpdate({ _id: user._id }, { pin: userPin })
+        }
 
         return user
       }
@@ -50,7 +72,10 @@ export default NextAuth({
   },
   session: { strategy: 'jwt' },
   callbacks: {
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, user, trigger, session }) => {
+      if (trigger === 'update') {
+        user = session.user
+      }
       user && (token.user = user)
 
       return token
@@ -67,3 +92,18 @@ export default NextAuth({
   },
   secret: '*DeliveryApp@2023*' //Authentication secret
 })
+
+/*
+          const emailPayload = { email: user.email, userPin: userPin }
+
+          console.log('emailPayload >> ', emailPayload)
+
+          const response = await fetch('http://localhost:3000/api/send_code', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(emailPayload)
+          })
+          const res = await response.json()
+          console.log('User response >> ', res) */

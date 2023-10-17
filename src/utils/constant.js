@@ -30,6 +30,23 @@ export const RETRAIT = 'Retrait'
 
 export const TRANSFERT = 'Transfert'
 
+// User Status
+
+export const CREATED = 'created'
+
+export const EMAIL_VALIDATED = 'email validated'
+
+export const PROFILE_UPDATED = 'profile updated'
+
+export const PROFILE_VALIDATED = 'profile validated'
+
+export const MEMBER = 'member'
+
+export const BLOCKED = 'blocked'
+
+
 // Others
 
 export const SENDGRID_USER_KEY = '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'
+
+

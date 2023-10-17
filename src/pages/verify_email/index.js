@@ -40,6 +40,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
 import Loader from 'src/@core/components/Loader'
+import { EMAIL_VALIDATED } from 'src/utils/constant'
 
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -68,11 +69,10 @@ const VerifyEmailPage = () => {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const { data: session } = useSession()
+  const [success, setSuccess] = useState(null)
+  const { data: session, update } = useSession()
 
-  const loginMsg = {
-    invalidCode: 'Le code entrez est invalid.'
-  }
+  console.log('Current session >> ', session)
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -81,12 +81,10 @@ const VerifyEmailPage = () => {
     const validateForm = {
       email: session?.user?.email,
       code: code
-
-      // callbackUrl: `${window.location.origin}`,
     }
 
     const response = await fetch('/api/validate_code', {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -96,7 +94,19 @@ const VerifyEmailPage = () => {
     const res = await response.json()
     console.log('User response >> ', res)
 
-    res.error ? setError(res.error) : router.push('/dashboard')
+    if (res.error) {
+      setError(res.error)
+    } else {
+      setSuccess(true)
+      await update({
+        ...session,
+        user: {
+          ...session?.user,
+          status: EMAIL_VALIDATED
+        }
+      })
+      router.push('/dashboard')
+    }
 
     setLoading(false)
   }
@@ -135,9 +145,10 @@ const VerifyEmailPage = () => {
             <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
               Bienvenue à {themeConfig.templateName}! 👋🏻
             </Typography>
-            <Typography variant='body2'>Entrez le code de verification, envoye dans votre e-mail</Typography>
+            <Typography variant='body2'>Entrez le code de verification, envoyé dans votre e-mail</Typography>
           </Box>
           {error ? <p style={{ color: 'red' }}>{error}</p> : ''}
+          {success ? <p style={{ color: 'green' }}>{'Verification fait avec succès.'}</p> : ''}
 
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
             <TextField
@@ -153,7 +164,7 @@ const VerifyEmailPage = () => {
             <Box
               sx={{ mb: 4, display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' }}
             ></Box>
-            {loading ? (
+            {loading || success ? (
               <Loader />
             ) : (
               <Button

@@ -4,8 +4,8 @@
   "license": "MIT",
   "version": "1.0.0",
   "author": {
-    "name": "ThemeSelection",
-    "url": "https://themeselection.com/"
+    "name": "Steve Balifa",
+    "url": "https://l-fondation.pribakil.com/"
   },
   "bugs": {
     "url": "https://github.com/themeselection/materio-mui-react-nextjs-admin-template-free/issues"
@@ -15,24 +15,14 @@
     "type": "git",
     "url": "https://github.com/themeselection/materio-mui-react-nextjs-admin-template-free.git"
   },
-  "homepage": "https://themeselection.com/products/materio-free-mui-react-nextjs-admin-template/",
+  "homepage": "https://l-fondation.pribakil.com",
   "keywords": [
-    "react",
-    "javascript",
-    "admin",
-    "dashboard",
-    "material-design",
-    "nextjs",
-    "material-ui",
-    "admin-dashboard",
-    "free",
-    "mui",
-    "admin-template",
-    "admin-panel",
-    "freebies",
-    "nextjs-template",
-    "react-dashboard",
-    "themeselection"
+    "lingomba",
+    "credit",
+    "epargne",
+    "micro-finance",
+    "finance",
+    "fondation"
   ],
   "scripts": {
     "dev": "next dev",
@@ -55,6 +45,7 @@
     "apexcharts-clevision": "3.28.5",
     "babel-eslint": "^10.1.0",
     "bcrypt": "^5.1.1",
+    "cloudinary": "^1.41.0",
     "clsx": "^1.1.1",
     "mdi-material-ui": "^7.1.0",
     "mongodb": "^5.1.0",

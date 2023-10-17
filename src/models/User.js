@@ -53,6 +53,8 @@ const userSchema = new Schema(
       minLength: 5,
       select: false
     },
+    passportPicUrl: { type: String },
+    identityCardUrl: { type: String },
     status: {
       type: String,
       required: true,

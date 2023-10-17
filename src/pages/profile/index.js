@@ -22,6 +22,7 @@ import TabSecurity from 'src/views/account-settings/TabSecurity'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
+import { FileOutline } from 'mdi-material-ui'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
@@ -62,39 +63,39 @@ const AccountSettings = () => {
             label={
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <AccountOutline />
-                <TabName>Account</TabName>
+                <TabName>PROFILE</TabName>
               </Box>
             }
           />
           <Tab
+            value='doc'
+            label={
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <FileOutline />
+                <TabName>DOCUMENT</TabName>
+              </Box>
+            }
+          />
+        {/*   <Tab
             value='security'
             label={
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <LockOpenOutline />
-                <TabName>Security</TabName>
+                <TabName>SÉCURITÉ</TabName>
               </Box>
             }
-          />
-          <Tab
-            value='info'
-            label={
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <InformationOutline />
-                <TabName>Info</TabName>
-              </Box>
-            }
-          />
+          /> */}
         </TabList>
 
         <TabPanel sx={{ p: 0 }} value='account'>
           <TabAccount />
         </TabPanel>
-        <TabPanel sx={{ p: 0 }} value='security'>
-          <TabSecurity />
-        </TabPanel>
-        <TabPanel sx={{ p: 0 }} value='info'>
+        <TabPanel sx={{ p: 0 }} value='doc'>
           <TabInfo />
         </TabPanel>
+       {/*  <TabPanel sx={{ p: 0 }} value='security'>
+          <TabSecurity />
+        </TabPanel> */}
       </TabContext>
     </Card>
   )

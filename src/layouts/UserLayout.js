@@ -51,13 +51,6 @@ const UserLayout = ({ children }) => {
   const router = useRouter()
   const { data: session } = useSession()
 
-  useEffect(() => {
-    console.log('This session >> ', session)
-    if (!session) {
-      router.push('/login')
-    }
-  })
-
   return (
     <VerticalLayout
       hidden={hidden}
@@ -77,7 +70,8 @@ const UserLayout = ({ children }) => {
       )}
     >
       {children}
-      <UnderBuildButton />
+      {/*       <UnderBuildButton />
+       */}{' '}
     </VerticalLayout>
   )
 }
