@@ -1,4 +1,5 @@
 import { Button, Card, CardHeader, Grid, Link, Typography } from '@mui/material'
+import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 import MyModal, { AddAgentModal } from 'src/utils/Modal'
 import TableStickyHeader from 'src/views/tables/TableStickyHeader'
@@ -8,6 +9,8 @@ const Agents = () => {
   const [openModal, setOpenModal] = useState(false)
   const [success, setSuccess] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
+  const { data: session } = useSession()
+  const user = session?.user
 
   const reset = async res => {
     setOpenModal(false)
@@ -54,14 +57,18 @@ const Agents = () => {
     fetchData()
   }, [])
 
+  const actionsColumn = 'admin super admin'.includes(user?.type)
+    ? { key: 'actions', label: 'Actions', size: '170' }
+    : {}
+
   const columns = [
     { key: 'code', label: 'Code', size: '170' },
     { key: 'fullName', label: 'Nom complet', size: '170' },
     { key: 'email', label: 'E-mail', size: '170' },
-    { key: 'phone', label: 'Téléphone', size: '170' }
-
-    /*     { key: 'actions', label: 'Actions', size: '170' }
-     */
+    { key: 'phone', label: 'Téléphone', size: '170' },
+    { key: 'doc', label: 'Documents', size: '170' },
+    { key: 'status', label: 'Statut', size: '170' },
+    actionsColumn
   ]
 
   return (
@@ -86,7 +93,12 @@ const Agents = () => {
               Ajouter
             </Button>
           </div>
-          <TableStickyHeader columns={columns} rows={agents} handleDeleteUser={handleDeleteUser} />
+          <TableStickyHeader
+            columns={columns}
+            rows={agents}
+            handleDeleteUser={handleDeleteUser}
+            userType={user?.type}
+          />
         </Card>
       </Grid>
       {openModal ? <AddAgentModal reset={reset} /> : ''}

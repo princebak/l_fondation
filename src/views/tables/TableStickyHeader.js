@@ -11,11 +11,13 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TablePagination from '@mui/material/TablePagination'
 import Link from 'next/link'
+import { MEMBER } from 'src/utils/constant'
 
-const TableStickyHeader = ({ tableName, columns, rows, addReceiverAccount, handleDeleteUser }) => {
+const TableStickyHeader = ({ tableName, columns, rows, addReceiverAccount, handleValidateUser, userType }) => {
   // ** States
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
+  console.log('DATA >> ', { userType })
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
@@ -35,11 +37,15 @@ const TableStickyHeader = ({ tableName, columns, rows, addReceiverAccount, handl
           <Table stickyHeader aria-label='Clients'>
             <TableHead>
               <TableRow>
-                {columns.map(col => (
-                  <TableCell key={col.key} sx={{ minWidth: col.size }}>
-                    {col.label}
-                  </TableCell>
-                ))}
+                {columns.map(col =>
+                  col.key ? (
+                    <TableCell key={col.key} sx={{ minWidth: col.size }}>
+                      {col.label}
+                    </TableCell>
+                  ) : (
+                    ''
+                  )
+                )}
               </TableRow>
             </TableHead>
             <TableBody id='accountsTable'>
@@ -85,14 +91,42 @@ const TableStickyHeader = ({ tableName, columns, rows, addReceiverAccount, handl
                       <TableRow hover role='checkbox' tabIndex={-1} key={user._id}>
                         <TableCell key={user.code}>{user.code}</TableCell>
                         <TableCell key={user.fullName}>{user.fullName}</TableCell>
-                        <TableCell key={user.email}>{user.email}</TableCell>
+                        <TableCell key={user.email + '2023'}>{user.email}</TableCell>
                         <TableCell key={user.phone}>{user.phone}</TableCell>
+                        <TableCell key={user.code + '2023'}>
+                          {!user.passportPicUrl ? (
+                            'pas de documents soumis'
+                          ) : (
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                              <a href={user.passportPicUrl} passHref target='_blank' rel='noreferrer'>
+                                photo passeport
+                              </a>
+                              <a href={user.identityCardUrl} passHref target='_blank' rel='noreferrer'>
+                                carte d'identité
+                              </a>
+                            </div>
+                          )}
+                        </TableCell>
                         <TableCell key={user.status}>{user.status}</TableCell>
-                        {/* <TableCell key={'actions'}>
-                          <Link href={'#'} passHref onClick={async () => await handleDeleteUser(user._id)}>
-                            <span style={{ color: 'red' }}>Suprimer</span>
-                          </Link>
-                        </TableCell> */}
+
+                        {'admin super admin'.includes(userType) ? (
+                          <TableCell key={'actions'}>
+                            {user.status != MEMBER ? (
+                              <Link href={'#'} passHref>
+                                <span
+                                  style={{ color: 'blue' }}
+                                  onClick={async e => await handleValidateUser(e, user._id)}
+                                >
+                                  Valider
+                                </span>
+                              </Link>
+                            ) : (
+                              <span>{''}</span>
+                            )}
+                          </TableCell>
+                        ) : (
+                          ''
+                        )}
                       </TableRow>
                     )
                   })}

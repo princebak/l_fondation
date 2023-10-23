@@ -166,7 +166,7 @@ const TabAccount = () => {
           </Grid>
           <Grid item xs={12} sm={6}>
             <DatePicker
-              selected={user ? new Date(user.dob) : ""}
+              selected={user?.dob ? new Date(user.dob) : new Date()}
               showYearDropdown
               showMonthDropdown
               placeholderText='MM-DD-YYYY'

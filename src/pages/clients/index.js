@@ -1,4 +1,5 @@
 import { Card, CardHeader, Grid, Link, Typography } from '@mui/material'
+import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 import TableStickyHeader from 'src/views/tables/TableStickyHeader'
 
@@ -6,6 +7,8 @@ const Clients = () => {
   const [clients, setClients] = useState([])
   const [success, setSuccess] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
+  const { data: session } = useSession()
+  const user = session?.user
 
   const loadClients = async () => {
     const response = await fetch('/api/clients', {
@@ -20,18 +23,20 @@ const Clients = () => {
     setClients(clients)
   }
 
-  const handleDeleteUser = async userId => {
-    const response = await fetch(`/api/delete/${userId}`, {
-      method: 'DELETE',
+  const handleValidateUser = async (e, userId) => {
+    e.preventDefault()
+
+    const response = await fetch(`/api/validate/${userId}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       }
     })
-    const deleteRes = await response.json()
-    console.log('Delete response >> ', deleteRes)
+    const validateRes = await response.json()
+    console.log('Validate response >> ', validateRes)
     await loadClients()
     setSuccess(true)
-    setSuccessMsg(deleteRes.msg)
+    setSuccessMsg(validateRes.msg)
     setTimeout(() => setSuccess(false), 3000)
   }
 
@@ -42,14 +47,18 @@ const Clients = () => {
     fetchData()
   }, [])
 
+  const actionsColumn = 'admin super admin'.includes(user?.type)
+    ? { key: 'actions', label: 'Actions', size: '170' }
+    : {}
+
   const columns = [
     { key: 'code', label: 'Code', size: '170' },
     { key: 'fullName', label: 'Nom complet', size: '170' },
     { key: 'email', label: 'E-mail', size: '170' },
-    { key: 'phone', label: 'Téléphone', size: '170' }
-    
-    /*     { key: 'actions', label: 'Actions', size: '170' }
-     */
+    { key: 'phone', label: 'Téléphone', size: '170' },
+    { key: 'doc', label: 'Documents', size: '170' },
+    { key: 'status', label: 'Statut', size: '170' },
+    actionsColumn
   ]
 
   return (
@@ -65,7 +74,12 @@ const Clients = () => {
       <Grid item xs={12}>
         <Card>
           <CardHeader title='Clients' titleTypographyProps={{ variant: 'h6' }} />
-          <TableStickyHeader columns={columns} rows={clients} handleDeleteUser={handleDeleteUser} />
+          <TableStickyHeader
+            columns={columns}
+            rows={clients}
+            handleValidateUser={handleValidateUser}
+            userType={user?.type}
+          />
         </Card>
       </Grid>
     </Grid>

@@ -22,12 +22,13 @@ const navigation = userType => {
       title: 'Tableau de bord',
       icon: HomeOutline,
       path: '/dashboard'
-    },
-    {
-      title: 'Upload File',
-      icon: LinkBoxOutline,
-      path: '/upload'
     }
+
+    // {
+    //   title: 'Upload File',
+    //   icon: LinkBoxOutline,
+    //   path: '/upload'
+    // }
   ]
 
   const accountMenu = {
