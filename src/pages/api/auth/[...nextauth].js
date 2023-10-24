@@ -56,7 +56,6 @@ export default NextAuth({
               text: 'Bienvenue chez Lingomba Fondation',
               html: 'Bienvenue chez Lingomba Fondation, validez vorte email avec ce code : ' + userPin
             }
-            console.log('SENDGRID_USER_KEY >> ', SENDGRID_USER_KEY)
             sgMail.setApiKey(SENDGRID_USER_KEY)
             await sgMail.send(msg)
 
