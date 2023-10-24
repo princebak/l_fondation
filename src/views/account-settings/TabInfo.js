@@ -254,9 +254,11 @@ const TabInfo = () => {
             {loading ? (
               <Loader />
             ) : (
-              <Button variant='contained' sx={{ marginRight: 3.5 }} onClick={e => handleSubmit(e)}>
-                Sauvegarder
-              </Button>
+              !user?.passportPicUrl && (
+                <Button variant='contained' sx={{ marginRight: 3.5 }} onClick={e => handleSubmit(e)}>
+                  Sauvegarder
+                </Button>
+              )
             )}
           </Grid>
         </Grid>

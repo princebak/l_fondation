@@ -44,7 +44,8 @@ export default NextAuth({
         if (!isPasswordCorrect) {
           throw new Error('Password is incorrect')
         }
-        let userPin = null
+        
+      /*   let userPin = null
         try {
           if (user.status === CREATED) {
             userPin = await generateUserPin()
@@ -63,7 +64,7 @@ export default NextAuth({
           }
         } catch (error) {
           console.log('Error SG >> ', error)
-        }
+        } */
 
         return user
       }

@@ -70,14 +70,19 @@ const Dashboard = () => {
     //   router.push('/login')
     // }
 
-    if (session?.user?.status === CREATED) {
+    /* if (session?.user?.status === CREATED) {
       router.push('/verify_email')
     } else {
       const fetchData = async () => {
         await loadDashboardData()
       }
       fetchData()
-    }
+    } */
+
+     const fetchData = async () => {
+       await loadDashboardData()
+     }
+     fetchData()
   }, [])
 
   return (
