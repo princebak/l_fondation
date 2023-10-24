@@ -47,6 +47,6 @@ export const BLOCKED = 'blocked'
 
 // Others
 
-export const SENDGRID_USER_KEY = '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'
+export const SENDGRID_USER_KEY = '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'
 
 

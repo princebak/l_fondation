@@ -45,22 +45,25 @@ export default NextAuth({
           throw new Error('Password is incorrect')
         }
         let userPin = null
+        try {
+          if (user.status === CREATED) {
+            userPin = await generateUserPin()
 
-        if (user.status === CREATED) {
-          userPin = await generateUserPin()
+            const msg = {
+              to: user.email,
+              from: 'bakengailunga@gmail.com',
+              subject: "L-Fondation validation de l'E-mail",
+              text: 'Bienvenue chez Lingomba Fondation',
+              html: 'Bienvenue chez Lingomba Fondation, validez vorte email avec ce code : ' + userPin
+            }
+            console.log('SENDGRID_USER_KEY >> ', SENDGRID_USER_KEY)
+            sgMail.setApiKey(SENDGRID_USER_KEY)
+            await sgMail.send(msg)
 
-          const msg = {
-            to: user.email,
-            from: 'bakengailunga@gmail.com',
-            subject: "L-Fondation validation de l'E-mail",
-            text: 'Bienvenue chez Lingomba Fondation',
-            html: 'Bienvenue chez Lingomba Fondation, validez vorte email avec ce code : ' + userPin
+            await User.findOneAndUpdate({ _id: user._id }, { pin: userPin })
           }
-
-          sgMail.setApiKey(SENDGRID_USER_KEY)
-          await sgMail.send(msg)
-
-          await User.findOneAndUpdate({ _id: user._id }, { pin: userPin })
+        } catch (error) {
+          console.log('Error SG >> ', error)
         }
 
         return user
