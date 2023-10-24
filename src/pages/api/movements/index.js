@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     }
   } else if (req.method == 'POST') {
     const { senderAccountCode, receiverAccountCodes, amount, movementType } = req.body
-
+    console.log('Recharge Request >> ', { senderAccountCode, receiverAccountCodes, amount, movementType })
     if (receiverAccountCodes.length < 1) {
       res.status(404).json({ error: 'Vous devez selectionnez au moins un comptes bénéficiaire.' })
     }

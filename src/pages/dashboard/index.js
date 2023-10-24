@@ -64,7 +64,7 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    console.log('User Session >> ', session)
+   // console.log('User Session >> ', session?.user)
 
     // if (!session?.user?.status) {
     //   router.push('/login')

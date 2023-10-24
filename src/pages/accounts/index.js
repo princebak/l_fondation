@@ -85,23 +85,17 @@ const Accounts = () => {
         }
       })
       const loadedAccounts = await response.json()
-      console.log('Accounts response >> ', loadedAccounts)
 
       setAccounts(loadedAccounts)
       setAllAccounts(loadedAccounts)
 
       setSender(currentSender)
-      const senderAccount = loadedAccounts.filter(account => account?.owner?.code == currentSender?.code)[0]
-      setSenderAccountCode(senderAccount?.code)
-      setSenderAccountBalance(senderAccount?.balance)
 
-      setMovementType(sender?.type === 'super admin' || sender?.type === 'admin' ? 'Recharge' : 'Dépôt')
+      setSenderAccountCode(currentSender?.accounts[0].code) // The user will select the sending account when he will have many
+      setSenderAccountBalance(currentSender?.accounts[0].balance)
+
+      setMovementType(currentSender?.type === 'super admin' || currentSender?.type === 'admin' ? 'Recharge' : 'Dépôt')
     }
-
-    /*  const senderCode = accounts.filter(account => account?.owner?.code == sender?.code)[0]?.code
-    console.log('senderCode >> ', senderCode)
-    setSenderAccountCode(senderCode)
-    setMovementType(sender?.type === 'super admin' ? 'Recharge' : 'Depot') */
   }
 
   const handleSelectAll = isChecked => {

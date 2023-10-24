@@ -217,6 +217,8 @@ export function AddAgentModal({ reset }) {
 }
 
 export function RechargeModal({ reset, senderAccountCode, senderAccountBalance, receiverAccounts, movementType }) {
+  console.log('senderAccountCode >> ', senderAccountCode)
+
   const [open, setOpen] = useState(true)
   const [error, setError] = useState(false)
   const [loading, setLoading] = useState(false)

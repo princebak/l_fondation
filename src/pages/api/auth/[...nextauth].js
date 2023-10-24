@@ -7,6 +7,7 @@ import { CREATED } from 'src/utils/constant'
 import { SENDGRID_USER_KEY } from 'src/utils/constant'
 import * as sgMail from '@sendgrid/mail'
 import { generateUserPin } from 'src/utils/pinGenerator'
+import Account from 'src/models/Account'
 
 export default NextAuth({
   providers: [
@@ -44,8 +45,9 @@ export default NextAuth({
         if (!isPasswordCorrect) {
           throw new Error('Password is incorrect')
         }
-        
-      /*   let userPin = null
+        const userAccounts = await Account.find({ owner: user._id })
+
+        /*   let userPin = null
         try {
           if (user.status === CREATED) {
             userPin = await generateUserPin()
@@ -66,7 +68,7 @@ export default NextAuth({
           console.log('Error SG >> ', error)
         } */
 
-        return user
+        return { ...user._doc, accounts: userAccounts }
       }
     })
   ],
