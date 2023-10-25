@@ -1,3 +1,4 @@
+import Account from 'src/models/Account'
 import User from 'src/models/User'
 import { dbConnector } from 'src/utils/dbConnector'
 

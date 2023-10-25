@@ -76,7 +76,7 @@ const AccountSettings = () => {
               </Box>
             }
           />
-        {/*   <Tab
+          <Tab
             value='security'
             label={
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -84,7 +84,7 @@ const AccountSettings = () => {
                 <TabName>SÉCURITÉ</TabName>
               </Box>
             }
-          /> */}
+          />
         </TabList>
 
         <TabPanel sx={{ p: 0 }} value='account'>
@@ -93,9 +93,9 @@ const AccountSettings = () => {
         <TabPanel sx={{ p: 0 }} value='doc'>
           <TabInfo />
         </TabPanel>
-       {/*  <TabPanel sx={{ p: 0 }} value='security'>
+        <TabPanel sx={{ p: 0 }} value='security'>
           <TabSecurity />
-        </TabPanel> */}
+        </TabPanel>
       </TabContext>
     </Card>
   )

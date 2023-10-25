@@ -20,17 +20,26 @@ import EyeOutline from 'mdi-material-ui/EyeOutline'
 import KeyOutline from 'mdi-material-ui/KeyOutline'
 import EyeOffOutline from 'mdi-material-ui/EyeOffOutline'
 import LockOpenOutline from 'mdi-material-ui/LockOpenOutline'
+import { useSession } from 'next-auth/react'
+import Loader from 'src/@core/components/Loader'
 
 const TabSecurity = () => {
   // ** States
   const [values, setValues] = useState({
     newPassword: '',
     currentPassword: '',
-    showNewPassword: false,
     confirmNewPassword: '',
+    showNewPassword: false,
     showCurrentPassword: false,
     showConfirmNewPassword: false
   })
+
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState(false)
+
+  const { data: session } = useSession()
+  const user = session?.user
 
   // Handle Current Password
   const handleCurrentPasswordChange = prop => event => {
@@ -71,6 +80,44 @@ const TabSecurity = () => {
     event.preventDefault()
   }
 
+  const handleSubmit = async e => {
+    e.preventDefault()
+    setLoading(true)
+
+    const { currentPassword, newPassword, confirmNewPassword } = values
+    if (newPassword.length < 6) {
+      setError('Le mot de passe doit avoir au moins 6 characters.')
+    }
+    if (newPassword != confirmNewPassword) {
+      setError('Le nouveau mot de passe doit correspondre au mot de passe confirmé.')
+    }
+
+    const response = await fetch('/api/change_pw', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        currentPassword,
+        newPassword,
+        userId: user?._id
+      })
+    })
+    const res = await response.json()
+    console.log('User response >> ', res)
+
+    if (res.error) {
+      setError(res.error)
+    } else {
+      setLoading(false)
+      setSuccess(true)
+
+      setTimeout(() => {
+        setSuccess(false)
+      }, 3000)
+    }
+  }
+
   return (
     <form>
       <CardContent sx={{ paddingBottom: 0 }}>
@@ -78,6 +125,8 @@ const TabSecurity = () => {
           <Grid item xs={12} sm={6}>
             <Grid container spacing={5}>
               <Grid item xs={12} sx={{ marginTop: 4.75 }}>
+                {error ? <p style={{ color: 'red' }}>{error}</p> : ''}
+                {success ? <p style={{ color: 'green' }}>{'Mot de passe mis a jour.'}</p> : ''}
                 <FormControl fullWidth>
                   <InputLabel htmlFor='account-settings-current-password'>Mot de passe actuel</InputLabel>
                   <OutlinedInput
@@ -168,11 +217,15 @@ const TabSecurity = () => {
       </CardContent>
 
       <CardContent>
-        <Box sx={{ mt: 11 }}>
-          <Button variant='contained' sx={{ marginRight: 3.5 }} onClick={() => handleSubmit()}>
-            Sauvegarder
-          </Button>
-        </Box>
+        {!loading ? (
+          <Box sx={{ mt: 11 }}>
+            <Button variant='contained' sx={{ marginRight: 3.5 }} onClick={e => handleSubmit(e)}>
+              Sauvegarder
+            </Button>
+          </Box>
+        ) : (
+          <Loader />
+        )}
       </CardContent>
     </form>
   )

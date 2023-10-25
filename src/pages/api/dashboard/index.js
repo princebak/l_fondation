@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb'
 import Account from 'src/models/Account'
 import Movement from 'src/models/Movement'
 import { RECHARGE } from 'src/utils/constant'
@@ -10,7 +9,6 @@ export default async function handler(req, res) {
 
   if (req.method == 'GET') {
     const { userId } = req.query
-    console.log('API userId', userId)
 
     const dashboardData = {
       accountCode: '',
@@ -41,12 +39,9 @@ export default async function handler(req, res) {
         }
       }
 
-      console.log('userAccountId >> ', userAccountId)
-
       const userMovements = await Movement.find({
         $or: [{ sourceAccount: userAccountId }, { destinationAccounts: { $all: [userAccountId] } }]
       })
-      console.log('userMovements >> ', userMovements)
 
       userMovements.map(movement => {
         if (movement.sourceAccount.toString() === userAccountId.toString()) {
@@ -77,8 +72,6 @@ export default async function handler(req, res) {
         .filter(movement => movement.type === TRANSFER)
         .slice(0, 7)
         .map(movement => setMovementCategory(movement))
-
-      console.log('dashboardData >> ', dashboardData)
 
       res.status(200).json(dashboardData)
     } catch (error) {
