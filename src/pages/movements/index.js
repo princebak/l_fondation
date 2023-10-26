@@ -1,11 +1,15 @@
 import { Card, CardHeader, Grid, Link, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
+import Loader from 'src/@core/components/Loader'
 import TableStickyHeader from 'src/views/tables/TableStickyHeader'
 
 const Movements = () => {
   const [movements, setMovements] = useState([])
+  const [loading, setLoading] = useState(false)
 
   const loadMovements = async () => {
+    setLoading(true)
+
     const response = await fetch('/api/movements', {
       method: 'GET',
       headers: {
@@ -16,6 +20,8 @@ const Movements = () => {
     console.log('User response >> ', movements)
 
     setMovements(movements)
+
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -48,7 +54,7 @@ const Movements = () => {
       <Grid item xs={12}>
         <Card>
           <CardHeader title='Movements' titleTypographyProps={{ variant: 'h6' }} />
-          <TableStickyHeader tableName={'movements'} columns={columns} rows={movements} />
+          {!loading ? <TableStickyHeader tableName={'movements'} columns={columns} rows={movements} /> : <Loader />}
         </Card>
       </Grid>
     </Grid>

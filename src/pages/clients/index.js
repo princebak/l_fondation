@@ -1,16 +1,21 @@
 import { Card, CardHeader, Grid, Link, Typography } from '@mui/material'
 import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
+import Loader from 'src/@core/components/Loader'
 import TableStickyHeader from 'src/views/tables/TableStickyHeader'
 
 const Clients = () => {
   const [clients, setClients] = useState([])
   const [success, setSuccess] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
+  const [loading, setLoading] = useState(false)
+
   const { data: session } = useSession()
   const user = session?.user
 
   const loadClients = async () => {
+    setLoading(true)
+
     const response = await fetch('/api/clients', {
       method: 'GET',
       headers: {
@@ -21,6 +26,8 @@ const Clients = () => {
     console.log('User response >> ', clients)
 
     setClients(clients)
+
+    setLoading(false)
   }
 
   const handleValidateUser = async (e, userId) => {
@@ -74,12 +81,16 @@ const Clients = () => {
       <Grid item xs={12}>
         <Card>
           <CardHeader title='Clients' titleTypographyProps={{ variant: 'h6' }} />
-          <TableStickyHeader
-            columns={columns}
-            rows={clients}
-            handleValidateUser={handleValidateUser}
-            userType={user?.type}
-          />
+          {!loading ? (
+            <TableStickyHeader
+              columns={columns}
+              rows={clients}
+              handleValidateUser={handleValidateUser}
+              userType={user?.type}
+            />
+          ) : (
+            <Loader />
+          )}
         </Card>
       </Grid>
     </Grid>

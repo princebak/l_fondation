@@ -1,7 +1,8 @@
 import { Button, Card, CardHeader, Grid, Link, Typography } from '@mui/material'
 import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
-import MyModal, { AddAgentModal } from 'src/utils/Modal'
+import Loader from 'src/@core/components/Loader'
+import { AddAgentModal } from 'src/utils/Modal'
 import TableStickyHeader from 'src/views/tables/TableStickyHeader'
 
 const Agents = () => {
@@ -9,6 +10,8 @@ const Agents = () => {
   const [openModal, setOpenModal] = useState(false)
   const [success, setSuccess] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
+  const [loading, setLoading] = useState(false)
+
   const { data: session } = useSession()
   const user = session?.user
 
@@ -23,6 +26,8 @@ const Agents = () => {
   }
 
   const loadAgents = async () => {
+    setLoading(true)
+
     const response = await fetch('/api/agents', {
       method: 'GET',
       headers: {
@@ -33,6 +38,8 @@ const Agents = () => {
     console.log('User response >> ', agents)
 
     setAgents(agents)
+
+    setLoading(false)
   }
 
   const handleDeleteUser = async userId => {
@@ -93,12 +100,16 @@ const Agents = () => {
               Ajouter
             </Button>
           </div>
-          <TableStickyHeader
-            columns={columns}
-            rows={agents}
-            handleDeleteUser={handleDeleteUser}
-            userType={user?.type}
-          />
+          {!loading ? (
+            <TableStickyHeader
+              columns={columns}
+              rows={agents}
+              handleDeleteUser={handleDeleteUser}
+              userType={user?.type}
+            />
+          ) : (
+            <Loader />
+          )}
         </Card>
       </Grid>
       {openModal ? <AddAgentModal reset={reset} /> : ''}

@@ -1,7 +1,7 @@
 import { Button, Card, CardHeader, Grid, Link, Typography } from '@mui/material'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
+import Loader from 'src/@core/components/Loader'
 import { RechargeModal } from 'src/utils/Modal'
 import TableStickyHeader from 'src/views/tables/TableStickyHeader'
 
@@ -17,11 +17,9 @@ const Accounts = () => {
   const [senderAccountCode, setSenderAccountCode] = useState('')
   const [senderAccountBalance, setSenderAccountBalance] = useState(0)
   const [movementType, setMovementType] = useState(null)
-  const [sender, setSender] = useState(null)
   const [selectAll, setSelectAll] = useState(false)
   const [success, setSuccess] = useState(false)
-
-  const router = useRouter()
+  const [loading, setLoading] = useState(false)
 
   const addReceiverAccount = (accountCode, isChecked) => {
     const receiverAccount = accounts.find(account => account.code == accountCode && account.code != senderAccountCode)
@@ -70,6 +68,7 @@ const Accounts = () => {
   }
 
   const loadAccounts = async () => {
+    setLoading(true)
     if (session) {
       const currentSender = session.user
 
@@ -89,13 +88,12 @@ const Accounts = () => {
       setAccounts(loadedAccounts)
       setAllAccounts(loadedAccounts)
 
-      setSender(currentSender)
-
       setSenderAccountCode(currentSender?.accounts[0].code) // The user will select the sending account when he will have many
       setSenderAccountBalance(currentSender?.accounts[0].balance)
 
       setMovementType(currentSender?.type === 'super admin' || currentSender?.type === 'admin' ? 'Recharge' : 'Dépôt')
     }
+    setLoading(false)
   }
 
   const handleSelectAll = isChecked => {
@@ -193,12 +191,16 @@ const Accounts = () => {
               />
             </div>
           </div>
-          <TableStickyHeader
-            tableName={'accounts'}
-            columns={columns}
-            rows={accounts}
-            addReceiverAccount={addReceiverAccount}
-          />
+          {!loading ? (
+            <TableStickyHeader
+              tableName={'accounts'}
+              columns={columns}
+              rows={accounts}
+              addReceiverAccount={addReceiverAccount}
+            />
+          ) : (
+            <Loader />
+          )}
         </Card>
         {openModal ? (
           <RechargeModal
