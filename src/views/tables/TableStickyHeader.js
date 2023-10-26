@@ -95,7 +95,7 @@ const TableStickyHeader = ({ tableName, columns, rows, addReceiverAccount, handl
                         <TableCell key={user.phone}>{user.phone}</TableCell>
                         <TableCell key={user.code + '2023'}>
                           {!user.passportPicUrl ? (
-                            'pas de documents soumis'
+                            'aucun'
                           ) : (
                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                               <a href={user.passportPicUrl} passHref target='_blank' rel='noreferrer'>

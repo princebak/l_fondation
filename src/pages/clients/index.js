@@ -16,16 +16,16 @@ const Clients = () => {
   const loadClients = async () => {
     setLoading(true)
 
-    const response = await fetch('/api/clients', {
+    const response = await fetch('/api/clients?page=6&search=prince', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
-    const clients = await response.json()
-    console.log('User response >> ', clients)
+    const responseData = await response.json()
+    console.log('ResponseData >> ', responseData)
 
-    setClients(clients)
+    setClients(responseData.content)
 
     setLoading(false)
   }
