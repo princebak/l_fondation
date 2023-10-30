@@ -1,16 +1,15 @@
+import { Search } from '@mui/icons-material'
 import { Button, Card, CardHeader, Grid, Link, Typography } from '@mui/material'
 import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 import Loader from 'src/@core/components/Loader'
+import SearchZone from 'src/@core/components/SearchZone'
 import { RechargeModal } from 'src/utils/Modal'
 import TableStickyHeader from 'src/views/tables/TableStickyHeader'
 
 const Accounts = () => {
   const [accounts, setAccounts] = useState([])
-  const [allAccounts, setAllAccounts] = useState([])
 
-  const [filterKey, setFilterKey] = useState('code')
-  const [filterValue, setFilterValue] = useState('')
   const [openModal, setOpenModal] = useState(false)
   const [receiverAccounts, setReceiverAccounts] = useState([])
   const { data: session } = useSession()
@@ -20,6 +19,10 @@ const Accounts = () => {
   const [selectAll, setSelectAll] = useState(false)
   const [success, setSuccess] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [page, setPage] = useState(1)
+  const [search, setSearch] = useState('')
+  const [totElements, setTotalElements] = useState(0)
+  const [pageLimit, setPageLimit] = useState()
 
   const addReceiverAccount = (accountCode, isChecked) => {
     const receiverAccount = accounts.find(account => account.code == accountCode && account.code != senderAccountCode)
@@ -44,30 +47,13 @@ const Accounts = () => {
     setOpenModal(false)
     if (res === 'done') {
       setReceiverAccounts([])
-      setFilterKey('')
-      setFilterValue('')
       await loadAccounts()
       setSuccess(true)
       setTimeout(() => setSuccess(false), 3000)
     }
   }
 
-  const handleFilterValueChange = value => {
-    setFilterValue(value)
-    if (value.length > 2) {
-      if (filterKey == 'code') {
-        setAccounts(accounts.filter(account => account.code.toLowerCase().includes(value.toLowerCase())))
-      } else if (filterKey == 'name') {
-        setAccounts(accounts.filter(account => account.owner.fullName.toLowerCase().includes(value.toLowerCase())))
-      } else if (filterKey == 'userType') {
-        setAccounts(accounts.filter(account => account.owner.type.toLowerCase().includes(value.toLowerCase())))
-      }
-    } else {
-      setAccounts(allAccounts)
-    }
-  }
-
-  const loadAccounts = async () => {
+  const loadAccounts = async (currentPage = 1) => {
     setLoading(true)
     if (session) {
       const currentSender = session.user
@@ -77,16 +63,18 @@ const Accounts = () => {
       console.log('currentSender >> ', currentSender)
       console.log('path >> ', path)
 
-      const response = await fetch('/api/accounts' + path, {
+      const response = await fetch(`/api/accounts${path}?page=${currentPage}&search=${search}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
       })
-      const loadedAccounts = await response.json()
+      const responseData = await response.json()
+      console.log('responseData.content >> ', responseData.content)
+      setAccounts(responseData.content)
 
-      setAccounts(loadedAccounts)
-      setAllAccounts(loadedAccounts)
+      setTotalElements(responseData.totalElements)
+      setPageLimit(responseData.pageLimit)
 
       setSenderAccountCode(currentSender?.accounts[0].code) // The user will select the sending account when he will have many
       setSenderAccountBalance(currentSender?.accounts[0].balance)
@@ -102,6 +90,22 @@ const Accounts = () => {
     } else {
       setSelectAll(false)
     }
+  }
+
+  const handleChangePage = async currentPage => {
+    if (totElements != 0) {
+      const totalPages = totElements / pageLimit
+      const currentPageOk = currentPage < 1 ? 1 : currentPage > totalPages ? totalPages : currentPage
+      setPage(Math.ceil(currentPageOk))
+    } else {
+      setPage(currentPage)
+    }
+    await loadAccounts(currentPage)
+  }
+
+  const handleFilter = async () => {
+    setPage(1)
+    await loadAccounts()
   }
 
   useEffect(() => {
@@ -152,14 +156,6 @@ const Accounts = () => {
           <Typography variant='h5'>
             <Link href='#'>Liste des Comptes</Link>
           </Typography>
-          <Button
-            size='small'
-            variant='contained'
-            sx={{ height: 'fit-content', marginTop: '10px', marginRight: '10px' }}
-            onClick={() => setOpenModal(true)}
-          >
-            Recharger
-          </Button>
         </div>
 
         <Typography variant='body2'>Tous les comptes</Typography>
@@ -170,25 +166,32 @@ const Accounts = () => {
         <Card>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignContent: 'center' }}>
             <CardHeader title='Comptes' titleTypographyProps={{ variant: 'h6' }} />
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <input
+                  type='text'
+                  style={{
+                    height: 'fit-content',
+                    flex: 1,
+                    padding: '4px'
+                  }}
+                  placeholder='valeur de recherche'
+                  onChange={e => setSearch(e.target.value)}
+                  value={search}
+                />
+                <button style={{ marginRight: '8px' }} onClick={() => handleFilter()}>
+                  <Search style={{ height: '19px' }} />
+                </button>
+              </div>
 
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px', alignItems: 'center' }}>
-              <label>Filtrer par</label>
-              <select
-                style={{ height: 'fit-content', flex: 1, padding: '4px', marginRight: '5px' }}
-                onChange={e => setFilterKey(e.target.value)}
-                value={filterKey}
+              <Button
+                size='medium'
+                variant='contained'
+                sx={{ height: 'fit-content', marginTop: '10px', marginRight: '10px' }}
+                onClick={() => setOpenModal(true)}
               >
-                <option value='code'>Code</option>
-                <option value='name'>Nom</option>
-                <option value='userType'>Type d'utilisateur</option>
-              </select>
-              <input
-                type='text'
-                style={{ height: 'fit-content', flex: 1, padding: '4px', marginRight: '5px' }}
-                placeholder='valeur'
-                onChange={e => handleFilterValueChange(e.target.value)}
-                value={filterValue}
-              />
+                Recharger
+              </Button>
             </div>
           </div>
           {!loading ? (
@@ -197,6 +200,10 @@ const Accounts = () => {
               columns={columns}
               rows={accounts}
               addReceiverAccount={addReceiverAccount}
+              page={page}
+              totElements={totElements}
+              pageLimit={pageLimit}
+              handleChangePage={handleChangePage}
             />
           ) : (
             <Loader />

@@ -2,6 +2,7 @@ import { Button, Card, CardHeader, Grid, Link, Typography } from '@mui/material'
 import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 import Loader from 'src/@core/components/Loader'
+import SearchZone from 'src/@core/components/SearchZone'
 import { AddAgentModal } from 'src/utils/Modal'
 import TableStickyHeader from 'src/views/tables/TableStickyHeader'
 
@@ -11,6 +12,10 @@ const Agents = () => {
   const [success, setSuccess] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [page, setPage] = useState(1)
+  const [search, setSearch] = useState('')
+  const [totElements, setTotalElements] = useState(0)
+  const [pageLimit, setPageLimit] = useState()
 
   const { data: session } = useSession()
   const user = session?.user
@@ -25,19 +30,21 @@ const Agents = () => {
     }
   }
 
-  const loadAgents = async () => {
+  const loadAgents = async (currentPage = 1) => {
     setLoading(true)
 
-    const response = await fetch('/api/agents', {
+    const response = await fetch(`/api/agents?page=${currentPage}&search=${search}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     })
-    const agents = await response.json()
+    const responseData = await response.json()
     console.log('User response >> ', agents)
 
-    setAgents(agents)
+    setAgents(responseData.content)
+    setTotalElements(responseData.totalElements)
+    setPageLimit(responseData.pageLimit)
 
     setLoading(false)
   }
@@ -55,6 +62,22 @@ const Agents = () => {
     setSuccess(true)
     setSuccessMsg(deleteRes.msg)
     setTimeout(() => setSuccess(false), 3000)
+  }
+
+  const handleChangePage = async page => {
+    if (totElements != 0) {
+      const totalPages = totElements / pageLimit
+      const currentPage = page < 1 ? 1 : page > totalPages ? totalPages : page
+      setPage(Math.ceil(currentPage))
+    } else {
+      setPage(page)
+    }
+    await loadAgents(page)
+  }
+
+  const handleFilter = async () => {
+    setPage(1)
+    await loadAgents()
   }
 
   useEffect(() => {
@@ -91,14 +114,17 @@ const Agents = () => {
         <Card>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignContent: 'center' }}>
             <CardHeader title='Agents' titleTypographyProps={{ variant: 'h6' }} />
-            <Button
-              size='large'
-              variant='contained'
-              sx={{ height: 'fit-content', marginTop: '10px', marginRight: '10px' }}
-              onClick={() => setOpenModal(true)}
-            >
-              Ajouter
-            </Button>
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
+              <SearchZone search={search} setSearch={setSearch} handleFilter={handleFilter} />
+              <Button
+                size='medium'
+                variant='contained'
+                sx={{ height: 'fit-content', marginTop: '10px', marginRight: '10px' }}
+                onClick={() => setOpenModal(true)}
+              >
+                Ajouter
+              </Button>
+            </div>
           </div>
           {!loading ? (
             <TableStickyHeader
@@ -106,6 +132,10 @@ const Agents = () => {
               rows={agents}
               handleDeleteUser={handleDeleteUser}
               userType={user?.type}
+              page={page}
+              totElements={totElements}
+              pageLimit={pageLimit}
+              handleChangePage={handleChangePage}
             />
           ) : (
             <Loader />

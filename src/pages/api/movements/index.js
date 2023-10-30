@@ -3,12 +3,15 @@ import { dbConnector } from 'src/utils/dbConnector'
 import Account from 'src/models/Account'
 import { generateMovementCode } from 'src/utils/codeGenerator'
 import mongoose from 'mongoose'
+import { PAGE_LIMIT } from 'src/utils/constant'
 
 export default async function handler(req, res) {
   console.log('API METHOD', req.method)
+  const { page, search } = req.query
 
   if (req.method == 'GET') {
     await dbConnector()
+    const limit = PAGE_LIMIT
 
     try {
       const movements = await Movement.find().populate([
@@ -16,8 +19,67 @@ export default async function handler(req, res) {
         { path: 'destinationAccounts', populate: { path: 'owner' } }
       ])
 
-      res.status(200).json(movements)
+      // Filters
+      const filteredMovements = movements.filter(movement => {
+        const {
+          code,
+          type,
+          amount,
+          currency,
+          sourceAccount: {
+            code: saCode,
+            owner: { fullName }
+          },
+          status
+        } = movement
+
+        const slimMovement = {
+          code,
+          type,
+          amount,
+          currency,
+          sourceAccount: {
+            code: saCode,
+            owner: { fullName }
+          },
+          status
+        }
+        const regExp = new RegExp(search)
+        const myJSON = JSON.stringify(slimMovement)
+
+        return regExp.test(myJSON)
+      })
+
+      const totalPages = Math.ceil(filteredMovements.length / limit)
+
+      // Sorting
+      filteredMovements.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+
+      // Pagination
+      const pageNumber = Number.parseInt(page)
+
+      const currentPage = pageNumber < 1 ? 1 : pageNumber > totalPages ? totalPages : pageNumber
+
+      const startIndex = (currentPage - 1) * limit
+      let movementsByPage = []
+
+      let index = startIndex
+      while (index >= 0 && index < filteredMovements.length) {
+        movementsByPage.push(filteredMovements[index])
+        index++
+        if (movementsByPage.length === limit) {
+          break
+        }
+      }
+
+      res.status(200).json({
+        content: movementsByPage,
+        totalElements: filteredMovements.length,
+        pageLimit: limit,
+        currentPage: pageNumber
+      })
     } catch (error) {
+      console.log('movements error >> ', error)
       res.status(500).json({ error: error })
     }
   } else if (req.method == 'POST') {
@@ -62,14 +124,14 @@ export default async function handler(req, res) {
         const newBalance = Number.parseFloat(receiverAccount.balance) + amount
         await Account.findOneAndUpdate({ code: receiverAccountCode }, { balance: newBalance })
       })
-      const destinationAccountsIds = await Account.find({ code: { $in: receiverAccountCodes } }, '_id')
+      const destinationMovementsIds = await Account.find({ code: { $in: receiverAccountCodes } }, '_id')
 
       const movement = new Movement({
         code: await generateMovementCode(movementType.substring(0, 3).toUpperCase()),
         type: movementType,
         amount: totalAmount,
         sourceAccount: senderAccount._id,
-        destinationAccounts: destinationAccountsIds,
+        destinationMovements: destinationMovementsIds,
         note: `${amount} ${senderAccount.currency} par compte bénéficiaire`
       })
 

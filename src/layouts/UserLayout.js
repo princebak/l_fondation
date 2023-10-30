@@ -54,11 +54,11 @@ const UserLayout = ({ children }) => {
 
   console.log('Session status >> ', status)
 
- useEffect(()=>{
-   if (!session) {
-     router.push('/login')
-   }
- },[])
+  useEffect(() => {
+    if (!session) {
+      router.push('/login')
+    }
+  }, [])
 
   return (
     <VerticalLayout

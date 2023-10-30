@@ -44,11 +44,8 @@ export const MEMBER = 'member'
 
 export const BLOCKED = 'blocked'
 
-
 // Others
 
 export const SENDGRID_USER_KEY = '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'
 
-export const PAGE_LIMIT = 10
-
-
+export const PAGE_LIMIT = 20

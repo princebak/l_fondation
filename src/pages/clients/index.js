@@ -3,9 +3,16 @@ import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 import Loader from 'src/@core/components/Loader'
 import TableStickyHeader from 'src/views/tables/TableStickyHeader'
+import { TableSearch } from 'mdi-material-ui'
+import { Search } from '@mui/icons-material'
+import SearchZone from 'src/@core/components/SearchZone'
 
 const Clients = () => {
   const [clients, setClients] = useState([])
+  const [page, setPage] = useState(1)
+  const [search, setSearch] = useState('')
+  const [totElements, setTotalElements] = useState(0)
+  const [pageLimit, setPageLimit] = useState()
   const [success, setSuccess] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -13,10 +20,10 @@ const Clients = () => {
   const { data: session } = useSession()
   const user = session?.user
 
-  const loadClients = async () => {
+  const loadClients = async (currentPage = 1) => {
     setLoading(true)
 
-    const response = await fetch('/api/clients?page=6&search=prince', {
+    const response = await fetch(`/api/clients?page=${currentPage}&search=${search}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -26,6 +33,10 @@ const Clients = () => {
     console.log('ResponseData >> ', responseData)
 
     setClients(responseData.content)
+
+    // setPage(responseData.currentPage)
+    setTotalElements(responseData.totalElements)
+    setPageLimit(responseData.pageLimit)
 
     setLoading(false)
   }
@@ -45,6 +56,22 @@ const Clients = () => {
     setSuccess(true)
     setSuccessMsg(validateRes.msg)
     setTimeout(() => setSuccess(false), 3000)
+  }
+
+  const handleChangePage = async page => {
+    if (totElements != 0) {
+      const totalPages = totElements / pageLimit
+      const currentPage = page < 1 ? 1 : page > totalPages ? totalPages : page
+      setPage(Math.ceil(currentPage))
+    } else {
+      setPage(page)
+    }
+    await loadClients(page)
+  }
+
+  const handleFilter = async () => {
+    setPage(1)
+    await loadClients()
   }
 
   useEffect(() => {
@@ -80,13 +107,24 @@ const Clients = () => {
 
       <Grid item xs={12}>
         <Card>
-          <CardHeader title='Clients' titleTypographyProps={{ variant: 'h6' }} />
+          <div
+            style={{ display: 'flex', justifyContent: 'space-between', alignContent: 'center'}}
+          >
+            <CardHeader title='Clients' titleTypographyProps={{ variant: 'h6' }} />
+
+            <SearchZone search={search} setSearch={setSearch} handleFilter={handleFilter} />
+          </div>
+
           {!loading ? (
             <TableStickyHeader
               columns={columns}
               rows={clients}
-              handleValidateUser={handleValidateUser}
               userType={user?.type}
+              handleValidateUser={handleValidateUser}
+              page={page}
+              totElements={totElements}
+              pageLimit={pageLimit}
+              handleChangePage={handleChangePage}
             />
           ) : (
             <Loader />

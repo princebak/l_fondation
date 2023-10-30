@@ -9,24 +9,23 @@ import TableHead from '@mui/material/TableHead'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
-import TablePagination from '@mui/material/TablePagination'
 import Link from 'next/link'
 import { MEMBER } from 'src/utils/constant'
 
-const TableStickyHeader = ({ tableName, columns, rows, addReceiverAccount, handleValidateUser, userType }) => {
+const TableStickyHeader = ({
+  tableName,
+  columns,
+  rows,
+  addReceiverAccount,
+  handleValidateUser,
+  userType,
+  page,
+  totElements,
+  pageLimit,
+  handleChangePage
+}) => {
   // ** States
-  const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
-  console.log('DATA >> ', { userType })
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage)
-  }
-
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(+event.target.value)
-    setPage(0)
-  }
+  console.log('Row length >> ', rows?.length)
 
   if (!rows || rows?.length === 0) {
     return <h1>Pas de données</h1>
@@ -72,17 +71,19 @@ const TableStickyHeader = ({ tableName, columns, rows, addReceiverAccount, handl
                 : tableName === 'movements'
                 ? rows.map(movement => {
                     return (
-                      <TableRow hover role='checkbox' tabIndex={-1} key={movement._id}>
-                        <TableCell key={movement.code}>{movement.code}</TableCell>
-                        <TableCell key={movement.type}>{movement.type}</TableCell>
-                        <TableCell key={movement.amount}>{movement.amount}</TableCell>
-                        <TableCell key={movement.currency}>{movement.currency}</TableCell>
-                        <TableCell key={movement.sourceAccount?._id}>{movement?.sourceAccount?.code}</TableCell>
-                        <TableCell key={movement.sourceAccount?.owner?._id}>
-                          {movement.sourceAccount?.owner?.fullName}
+                      <TableRow hover role='checkbox' tabIndex={-1} key={movement?._id}>
+                        <TableCell key={movement?.code}>{movement?.code}</TableCell>
+                        <TableCell key={movement?.type}>{movement?.type}</TableCell>
+                        <TableCell key={movement?.amount}>{movement?.amount}</TableCell>
+                        <TableCell key={movement?.currency}>{movement?.currency}</TableCell>
+                        <TableCell key={movement?.sourceAccount?._id}>{movement?.sourceAccount?.code}</TableCell>
+                        <TableCell key={movement?.sourceAccount?.owner?._id}>
+                          {movement?.sourceAccount?.owner?.fullName}
                         </TableCell>
-                        <TableCell key={movement.type}>{movement.type === 'Recharge' ? 'Agents' : 'Clients'}</TableCell>
-                        <TableCell key={movement.status}>{movement.status}</TableCell>
+                        <TableCell key={movement?.type}>
+                          {movement?.type === 'Recharge' ? 'Agents' : 'Clients'}
+                        </TableCell>
+                        <TableCell key={movement?.status}>{movement?.status}</TableCell>
                       </TableRow>
                     )
                   })
@@ -133,16 +134,34 @@ const TableStickyHeader = ({ tableName, columns, rows, addReceiverAccount, handl
             </TableBody>
           </Table>
         </TableContainer>
-        {/* <TablePagination
-        rowsPerPageOptions={[10, 25, 100]}
-        component='div'
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      /> */}
-        <h3>Total : {rows.length}</h3>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignContent: 'center', padding: '10px' }}>
+          <strong>
+            Total : {rows.length} {' / '} {totElements}
+          </strong>
+          <div style={{ display: 'flex', alignContent: 'center', gap: '10px' }}>
+            <button style={{ height: 'fit-content' }} onClick={() => handleChangePage(Number.parseInt(page) - 1)}>
+              {'<'}
+            </button>
+            <span
+              style={{
+                width: '25px',
+                height: '25px',
+                border: 'solid 1px gray',
+                borderRadius: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
+              {page}
+            </span>
+            <button style={{ height: 'fit-content' }} onClick={() => handleChangePage(Number.parseInt(page) + 1)}>
+              {'>'}
+            </button>
+            {' / '}
+            <span>{Math.ceil(totElements / pageLimit)}</span>
+          </div>
+        </div>
       </Paper>
     )
   }
